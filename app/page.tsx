@@ -15,6 +15,7 @@ import Portfolio from "@/components/Portfolio"
 import HeroSection from "@/components/HeroSection"
 import FrequentlyQuestion from "@/components/FrequentlyQuestion";
 import GoogleReviews from "@/components/GoogleReviews";
+import NewHero from "@/components/NewHero";
 
 interface CartItem {
   id: string
@@ -112,8 +113,9 @@ export default function CSGraphicsMetaWebsite() {
     <div className="min-h-screen bg-white text-[#333333]">
       {/* Navigation */}
       <Header />
+      <NewHero/>
       
-      <HeroSection />
+      {/* <HeroSection /> */}
       <GoogleReviews/>
       <section>
         <div className="max-w-7xl mx-auto">
@@ -124,7 +126,7 @@ export default function CSGraphicsMetaWebsite() {
           </Link>
         </div>
       </section>
-      <section >
+      {/* <section >
         <InfiniteMovingCards items={[
           {
             image: "/BrandImages/Light/light1.png",
@@ -162,7 +164,7 @@ export default function CSGraphicsMetaWebsite() {
             title: ""
           },
         ]} />
-      </section>
+      </section> */}
 
       {/* Portfolio Showcase Section */}
       <Portfolio />

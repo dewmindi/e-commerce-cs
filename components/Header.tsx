@@ -147,7 +147,7 @@ const Header = () => {
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <div className="hidden md:flex space-x-4 items-center">
+                        <div className="hidden md:flex space-x-4 items-center gap-x-4">
                             {navItems.map((item) =>
                                 item.id === "services" ? (
                                     <div
@@ -214,7 +214,7 @@ const Header = () => {
                             )}
                             <button
                                 onClick={() => scrollToSection("contact")}
-                                className="bg-gradient-to-r from-[#bb8d03fc] to-[#e2c363fc] hover:opacity-90 text-white text-xs font-semibold px-4 py-2 rounded-sm shadow-sm transition whitespace-nowrap mr-1"
+                                className="border border-[#bb8d03fc] hover:opacity-90 text-white text-sm  px-4 py-2 rounded-sm shadow-sm transition whitespace-nowrap mr-1"
                             >
                                 Get Quote
                             </button>
@@ -222,7 +222,7 @@ const Header = () => {
                                 href={whatsappLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-[#bb8d03fc] hover:opacity-90 hover:animate-none text-white text-xs font-semibold px-3 py-2 rounded-sm shadow-sm transition flex items-center whitespace-nowrap animate-pulse duration-800"
+                                className="border border-[#bb8d03fc] hover:opacity-90 hover:animate-none text-white text-sm  px-3 py-2 rounded-sm shadow-sm transition flex items-center whitespace-nowrap animate-pulse duration-800"
                             >
                                 <span className="align-middle"><img src="https://img.icons8.com/?size=100&id=BkugfgmBwtEI&format=png&color=000000" width={20} className="mr-2"></img></span>
                                 {whatsappNumber}
