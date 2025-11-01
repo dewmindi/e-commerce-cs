@@ -78,7 +78,7 @@ const pricingPlans = [
   },
   {
     name: "Web Starter",
-    price: "400",
+    price: "490",
     period: "",
     overview: "Comprehensive web solution for a powerful online footprint.",
     featureGroups: [
@@ -137,7 +137,7 @@ const PricingPlan = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-[#bb8d03fc] mb-4 leading-tight">
-            Our Service Packages
+           Pricing
           </h2>
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
             Choose the perfect plan that fits your needs and budget. Each package is designed to deliver exceptional value and results.

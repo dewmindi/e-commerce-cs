@@ -54,14 +54,22 @@ const NewHero: FC<HeroProps> = ({
         <p className="text-4xl sm:text-5xl lg:text-5xl font-bold mb-8 opacity-0 animate-fadeInUp delay-200">
           {subtitle}
         </p>
-        <p className="bg-black/40 text-lg md:text-xl mb-8 opacity-0 animate-fadeInUp delay-200  italic">
-          {subtitle1}
-        </p>
-        <Link href={ctaHref}>
-          <button className="inline-block px-8 py-4 border border-[#fcb615] text-white font-medium rounded hover:bg-gray-100 transform transition-transform duration-300 ease-out opacity-0 animate-fadeInUp delay-400">
-            {ctaText}
-          </button>
-        </Link>
+<p className=" text-lg md:text-xl mb-8 opacity-0 animate-fadeInUp delay-200 ">
+  {subtitle1}
+</p>
+
+<button
+  onClick={() => {
+    const section = document.getElementById("pricing");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  }}
+  className="inline-block px-8 py-4 border border-[#fcb615] text-white font-medium rounded hover:bg-[#fcb615] hover:text-black transform transition-transform duration-300 ease-out opacity-0 animate-fadeInUp delay-400"
+>
+  {ctaText}
+</button>
+
       </div>
 
       {/* Left decorative image */}

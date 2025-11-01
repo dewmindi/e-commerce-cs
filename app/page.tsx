@@ -116,16 +116,8 @@ export default function CSGraphicsMetaWebsite() {
       <NewHero/>
       
       {/* <HeroSection /> */}
-      <GoogleReviews/>
-      <section>
-        <div className="max-w-7xl mx-auto">
-          <Link href='/projects' passHref>
-            <h2 className="flex justify-center items-center text-3xl sm:text-4xl font-bold text-[#333333] text-center mb-16 hover:text-[#bb8d03fc]">
-              View All Projects  <ArrowBigRight />
-            </h2>
-          </Link>
-        </div>
-      </section>
+      
+      
       {/* <section >
         <InfiniteMovingCards items={[
           {
@@ -168,7 +160,15 @@ export default function CSGraphicsMetaWebsite() {
 
       {/* Portfolio Showcase Section */}
       <Portfolio />
-
+      <section className="">
+        <div className="max-w-7xl mx-auto ">
+          <Link href='/projects' passHref>
+            <h2 className="flex justify-center items-center text-3xl sm:text-4xl font-bold text-[#333333] text-center mb-16 hover:text-[#bb8d03fc]">
+              View All Projects  
+            </h2>
+          </Link>
+        </div>
+      </section>
       {/* Pricing Section */}
       <PricingPlan />
       {/* <section className='bg-[#333333]'></section> */}
@@ -216,7 +216,7 @@ export default function CSGraphicsMetaWebsite() {
       {/* Faq Section */}
       <FrequentlyQuestion/>
       
-
+      <GoogleReviews/>
 
       {/* ContactUs Section */}
       <ContactUs />
