@@ -22,7 +22,7 @@ const NewHero: FC<HeroProps> = ({
   subtitle1 = "We always deliver more than expected",
   ctaText = "Get Started",
   ctaHref = "/contact",
-  backgroundImageUrl = "/hero-bg.jpg",
+  backgroundImageUrl = "/bg-cs-hero.jpeg",
 }) => {
   const { scrollY } = useScroll();
 
@@ -41,7 +41,7 @@ const NewHero: FC<HeroProps> = ({
     >
      <div className="absolute inset-0 flex flex-col justify-center items-center px-4 py-24 z-10">
        {/* Dark overlay */}
-      {/* <div className="absolute inset-0 bg-black/60" /> */}
+      <div className="absolute inset-0 bg-black/60" />
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-2xl px-4 py-24">
@@ -73,33 +73,33 @@ const NewHero: FC<HeroProps> = ({
       </div>
 
       {/* Left decorative image */}
-      <div className="hidden lg:block absolute left-0 top-0 h-full w-[45vw] overflow-hidden">
+      {/* <div className="hidden lg:block absolute left-0 top-0 h-full w-[45vw] overflow-hidden">
         <motion.img
           src="/shape1.jpeg"
           alt="decor shape 1"
           style={{ y: yImage1 }}
           className="h-full w-full object-cover object-left opacity-80 mix-blend-lighten"
         />
-        {/* Right-edge gradient fade */}
+       
         <div className="absolute top-0 right-0 w-40 h-full bg-gradient-to-l from-[#0a0a09] to-transparent pointer-events-none" />
-      </div>
+      </div> */}
 
       {/* Right decorative image */}
-      <div className="hidden lg:block absolute right-0 top-0 h-full w-[45vw] overflow-hidden">
+      {/* <div className="hidden lg:block absolute right-0 top-0 h-full w-[45vw] overflow-hidden">
         <motion.img
           src="/shape2.jpeg"
           alt="decor shape 2"
           style={{ y: yImage2 }}
           className="h-full w-full object-cover object-right opacity-80 mix-blend-lighten"
         />
-        {/* Left-edge gradient fade */}
+        
         <div className="absolute top-0 left-0 w-40 h-full bg-gradient-to-r from-[#0a0a09]/100 to-transparent pointer-events-none" />
-      </div>
+      </div> */}
 
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 right-0 w-full h-40 bg-gradient-to-t from-[#0a0a09] via-transparent"></div>
      </div>
-          <section className='mt-auto w-full py-4 bg-[#0a0a09]'>
+          {/* <section className='mt-auto w-full py-4 bg-[#0a0a09]'>
         <InfiniteMovingCards items={[
           {
             image: "/BrandImages/Dark/dark1.png",
@@ -137,7 +137,7 @@ const NewHero: FC<HeroProps> = ({
             title: ""
           },
         ]} />
-      </section> 
+      </section>  */}
     </section>
   );
 };

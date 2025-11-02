@@ -5,6 +5,7 @@ import NewServ from './NewServ'
 import { useInView } from 'react-intersection-observer'
 import { Input } from "@/components/ui/input"
 import SearchBar from './SearchBar'
+import { SvgNeuralNetworkBackground } from "@/components/SvgCircuitBackground"
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -41,6 +42,7 @@ const HeroSection = () => {
       id="home"
       className="py-10 px-4 sm:px-6 lg:px-8 over"
     >
+      <SvgNeuralNetworkBackground />
       {/* Removed max-w-4xl */}
       <div className="max-w-7xl mx-auto text-center">
         <motion.h1
@@ -69,7 +71,7 @@ const HeroSection = () => {
           id="services"
           className="relative max-w-7xl py-10 px-4 sm:px-6 lg:px-8 mt-4 overflow-hidden rounded-2xl"
         >
-          {/* Background Video */}
+          
           <video
             ref={videoRef}
             className="absolute inset-0 w-full h-full object-cover filter"
@@ -80,10 +82,10 @@ const HeroSection = () => {
             playsInline
           />
 
-          {/* Overlay (optional: dark tint for readability) */}
+          
           <div className="absolute inset-0 bg-black/50"></div>
 
-          {/* Foreground Content */}
+        
           <div className="relative">
             <NewServ />
           </div>
