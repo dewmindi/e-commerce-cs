@@ -22,7 +22,7 @@ const NewHero: FC<HeroProps> = ({
   subtitle1 = "We always deliver more than expected",
   ctaText = "Get Started",
   ctaHref = "/contact",
-  backgroundImageUrl = "/bg-cs-hero.jpeg",
+  backgroundImageUrl = "/bg-cs-hero1.jpeg",
 }) => {
   const { scrollY } = useScroll();
 
