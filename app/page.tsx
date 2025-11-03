@@ -113,9 +113,9 @@ export default function CSGraphicsMetaWebsite() {
     <div className=" bg-white text-[#333333]">
       {/* Navigation */}
       <Header />
-      {/* <NewHero/> */}
+      <NewHero/>
       
-      <HeroSection />
+      {/* <HeroSection /> */}
       
       
       {/* <section >
