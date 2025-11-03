@@ -10,6 +10,20 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .bg-animated-gradient {
+    background: linear-gradient(135deg, #000000 10%, #2470B8 40%, #FCB618 80%, #FFAC23 100%);
+    background-size: 200% 200%;
+    animation: gradientMove 20s ease infinite;
+  }
+
+  /* @keyframes gradientMove {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  } */
 }
 
 @layer base {

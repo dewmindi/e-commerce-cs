@@ -9,7 +9,7 @@ import localFont from 'next/font/local';
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: 'CS Meta Graphic',
+  title: 'CS Graphic Meta',
   description: 'Precision-crafted logos that deliver clarity in a complex marketplace.',
     icons: {
     icon: '/favicon.ico',

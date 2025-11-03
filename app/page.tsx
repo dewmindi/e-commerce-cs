@@ -110,12 +110,12 @@ export default function CSGraphicsMetaWebsite() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#333333]">
+    <div className=" bg-white text-[#333333]">
       {/* Navigation */}
       <Header />
-      <NewHero/>
+      {/* <NewHero/> */}
       
-      {/* <HeroSection /> */}
+      <HeroSection />
       
       
       {/* <section >

@@ -40,60 +40,68 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="py-10 px-4 sm:px-6 lg:px-8 over"
+      className="py-10 px-4 sm:px-6 lg:px-8 over min-h-screen bg-animated-gradient -mt-4"
     >
       <SvgNeuralNetworkBackground />
       {/* Removed max-w-4xl */}
-      <div className="max-w-7xl mx-auto text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl sm:text-5xl lg:text-5xl font-bold text-[#333333] mb-4 leading-tight"
-        >
-          <span>One-Stop</span>{" "}
-          <span className="text-[#bb8d03fc]">Design Solutions</span>{" "}
-          <span>For</span>
-        </motion.h1>
-        <motion.h1
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl sm:text-5xl lg:text-5xl font-bold text-[#333333] mb-6 leading-tight"
-        >
-          <span>All Your Business Branding Needs</span>
-        </motion.h1>
+       {/* Removed max-w-4xl */}
+     <div className="max-w-7xl mx-auto text-center mt-10">
+       <motion.h1
+         initial={{ opacity: 0, y: 20 }}
+         animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
+         transition={{ duration: 0.8, delay: 0.2 }}
+         className="text-4xl sm:text-5xl lg:text-5xl font-bold text-white mb-4 leading-tight"
+       >
+         <span>One-Stop</span>{" "}
+         <span className="text-[#bb8d03fc]">Design Solutions</span>{" "}
+         <span>For</span>
+       </motion.h1>
+       <motion.h1
+         initial={{ y: -50, opacity: 0 }}
+         animate={{ y: 0, opacity: 1 }}
+         transition={{ duration: 0.6 }}
+         className="text-4xl sm:text-5xl lg:text-5xl font-bold text-white mb-6 leading-tight"
+       >
+         <span>All Your Business Branding Needs</span>
+       </motion.h1>
 
-        {/* Search Section */}
-        <SearchBar />
-        {/* Services Section with Background Video */}
-        <section
-          id="services"
-          className="relative max-w-7xl py-10 px-4 sm:px-6 lg:px-8 mt-4 overflow-hidden rounded-2xl"
-        >
-          
-          <video
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover filter"
-            src="/cshero.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
 
-          
-          <div className="absolute inset-0 bg-black/50"></div>
+       {/* Search Section */}
+       <SearchBar />
+       {/* Services Section with Background Video */}
+       <section
+         id="services"
+         className="relative max-w-7xl py-10 px-4 sm:px-6 lg:px-8 mt-4 overflow-hidden rounded-2xl"
+       >
+        
+         <video
+           ref={videoRef}
+           className="absolute inset-0 w-full h-full object-cover filter"
+           src="/cshero.mp4"
+           autoPlay
+           loop
+           muted
+           playsInline
+         />
+
 
         
-          <div className="relative">
-            <NewServ />
-          </div>
-        </section>
+         <div className="absolute inset-0 bg-black/50"></div>
+
+
+      
+         <div className="relative">
+           <NewServ />
+         </div>
+       </section>
 
 
 
-      </div>
+
+
+
+     </div>
+      
     </section>
   )
 }
