@@ -137,7 +137,9 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { Header } from './Header'
+// import { Header } from './Header'
+import { Header } from '@/components/Header';
+
 
 
 const GridSVG = () => (
