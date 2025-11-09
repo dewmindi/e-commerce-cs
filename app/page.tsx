@@ -5,7 +5,7 @@ import { ArrowBigRight } from "lucide-react"
 
 import ChatBotModal from "@/components/ChatBotModal"
 import Link from 'next/link';
-import Header from "@/components/Header"
+// import Header from "@/components/Header"
 import ContactUs from "@/components/ContactUs"
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards"
 import Achievements from "@/components/Achievements"
@@ -16,6 +16,7 @@ import HeroSection from "@/components/HeroSection"
 import FrequentlyQuestion from "@/components/FrequentlyQuestion";
 import GoogleReviews from "@/components/GoogleReviews";
 import NewHero from "@/components/NewHero";
+import { Header } from "@/components/Header";
 
 interface CartItem {
   id: string
@@ -112,7 +113,7 @@ export default function CSGraphicsMetaWebsite() {
   return (
     <div className=" bg-white text-[#333333]">
       {/* Navigation */}
-      <Header />
+      
       {/* <NewHero/> */}
       
       <HeroSection />

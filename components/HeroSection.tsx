@@ -137,6 +137,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { Header } from './Header'
 
 
 const GridSVG = () => (
@@ -173,13 +174,6 @@ const HeroSection = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-//   const serviceCategoriesData = [
-//   { id: '1', category: 'Brand Identity / Logo Deisgn', services: 'Logo Design, Business Card Design, Letter Head Design, Email Signature', icons: ['/Services/logoService.png', '/Services/BusinessCard.png', '/Services/letterhead.png', '/Services/esignature.png'] },
-//   { id: '2', category: 'Web Development', services: 'E-commerce Website, Portfolio Website, Business Website, Booking Website', icons: ['/Services/webDesign.png', '/Services/webDevelopment.png', '/Services/seo.png', '/Services/webMaintenance.png'] }, // Example icons
-//   { id: '3', category: 'Social Media Service', services: 'Facebook Design, Instagram Design, Google Advertising, Other Advertising', icons: ['/Services/facebook.png', '/Services/instagram.png', '/Services/googleAd.png', '/Services/otherAd.png'] }, // Example icons
-//   { id: '4', category: 'Packaging & Label', services: 'Label Design, Packaging Design, Sticker Design, Other', icons: ['/Services/label.png', '/Services/packaging.png', '/Services/sticker.png', '/Services/other.png'] }, // Example icons
-//   { id: '5', category: 'Leaflet & Poster Design', services: 'Leaflets Design, Flyers Design, Brochures Design, Other', icons: ['/Services/posters.png', '/Services/flyers.png', '/Services/brochures.png', '/Services/other.png'] }, // Example icons
-// ];
 const serviceCategoriesData = [
   {
     category: "Brand Identity / Logo Deisgn",
@@ -195,7 +189,7 @@ const serviceCategoriesData = [
   },
     {
     category: "Packaging & Label Design",
-    services: ["Packaging Design", "Label Design", "Sticker Design","Booking Website"]
+    services: ["Packaging Design", "Label Design", "Sticker Design"]
   },
     {
     category: "Leaflet,Flyer & Poster Design",
@@ -226,6 +220,7 @@ const serviceCategoriesData = [
       id="home"
       className="relative py-10 px-4 sm:px-6 lg:px-8 min-h-screen -mt-4 overflow-hidden bg-animated-gradient"
     >
+      <Header/>
       {/* ✅ Base Left Grid */}
       <div className="absolute left-0 top-0 h-full w-auto -translate-x-1/3 opacity-80 z-0">
         <GridSVG />
