@@ -19,7 +19,7 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
-export function Header() {
+const Header = () => {
     const isMobile = useIsMobile()
     const { cart, getTotalItems, removeFromCart, getTotalPrice } = useCart()
     const [isCartOpen, setIsCartOpen] = useState(false)
@@ -248,3 +248,5 @@ function ListItem({
         </li>
     )
 }
+export default Header;
+
