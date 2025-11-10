@@ -7,7 +7,7 @@ import { FaUserFriends } from 'react-icons/fa'; // Ensure this is imported
 
 const pricingPlans = [
   {
-    name: "Standard",
+    name: "Standard (Logo)",
     price: "75",
     period: "",
     overview: "Up to 2 Super Amazing Logo Concepts",
@@ -27,7 +27,7 @@ const pricingPlans = [
     popular: false,
   },
   {
-    name: "Premium",
+    name: "Premium (Logo)",
     price: "100",
     period: "",
     overview: "Up to 3 top-notch quality Concepts With Unlimited Revisions",
@@ -110,8 +110,8 @@ const formatCurrency = (value: number) => {
   return new Intl.NumberFormat("en-AU", {
     style: "currency",
     currency: "AUD",
-    minimumFractionDigits: 0, 
-    maximumFractionDigits: 0, 
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(value);
 };
 
@@ -133,24 +133,19 @@ const PricingPlan = () => {
 
   return (
     // <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-900 to-[#333333] text-white"></section>
-    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 text-white">
+    <section id="pricing" className="py-40 px-4 sm:px-6 lg:px-8  text-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#bb8d03fc] mb-4 leading-tight">
-           Pricing
-          </h2>
+          <h1 className="text-xl   bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
+          >
+            Pricing
+          </h1>
+          {/* <h2 className="text-4xl sm:text-5xl font-extrabold text-[#bb8d03fc] mb-4 leading-tight">
+            Pricing
+          </h2> */}
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
             Choose the perfect plan that fits your needs and budget. Each package is designed to deliver exceptional value and results.
           </p>
-          <Link href='/projects' passHref>
-            <Button
-              className="px-8 py-3 rounded-full font-semibold transition-all duration-300
-                         bg-gradient-to-r from-[#bb8d03fc] to-[#e2c363fc] text-white
-                         shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
-            >
-              Explore All Projects
-            </Button>
-          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -159,34 +154,34 @@ const PricingPlan = () => {
               key={index}
               className={`relative p-8 rounded-xl shadow-lg flex flex-col justify-between
                         transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl
-                        ${plan.popular ? "bg-white text-gray-900 border-2 border-[#bb8d03fc]" : "bg-gray-800 border border-gray-700 text-white"
+                        ${plan.popular ? "bg-black text-white border-2 border-[#bb8d03fc]" : "bg-black border border-gray-700 text-white"
                 }`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-[#bb8d03fc] text-white px-5 py-2 rounded-full text-sm font-bold tracking-wide shadow-md animate-pulse">
+                  <span className="bg-[#bb8d03fc] text-white px-5 py-2 rounded-full text-sm tracking-wide shadow-md">
                     Most Popular
                   </span>
                 </div>
               )}
               <div className="text-center mb-8">
-                <h3 className={`text-3xl font-bold mb-3 ${plan.popular ? "text-[#bb8d03fc]" : "text-white"}`}>
+                <h3 className={`text-3xl mb-3 ${plan.popular ? "text-[#bb8d03fc]" : "text-white"}`}>
                   {plan.name}
                 </h3>
-                <div className={`text-5xl font-extrabold mb-2 ${plan.popular ? "text-gray-900" : "text-[#e2c363fc]"}`}>
+                <div className={`text-5xl font-extrabold mb-2 ${plan.popular ? "text-white" : "text-[#e2c363fc]"}`}>
                   A{formatCurrency(plan.price)}
-                  <span className={`text-lg font-medium ${plan.popular ? "text-gray-600" : "text-gray-400"}`}>
+                  <span className={`text-lg  ${plan.popular ? "text-gray-600" : "text-gray-400"}`}>
                     {plan.period}
                   </span>
                 </div>
-                <p className={`text-base mt-2 ${plan.popular ? "text-gray-700" : "text-gray-300"}`}>{plan.overview}</p>
+                <p className={`text-base mt-2 ${plan.popular ? "text-gray-300" : "text-gray-300"}`}>{plan.overview}</p>
               </div>
 
               {/* Feature Groups */}
               <div className="flex-grow space-y-6 mb-8">
                 {plan.featureGroups.map((group, groupIndex) => (
                   <div key={groupIndex}>
-                    <h4 className={`text-sm font-bold uppercase tracking-wider mb-3 pb-2 border-b ${plan.popular ? "text-gray-700 border-gray-200" : "text-gray-400 border-gray-600"}`}>
+                    <h4 className={`text-sm  uppercase tracking-wider mb-3 pb-2 border-b ${plan.popular ? "text-gray-400 border-gray-200" : "text-gray-400 border-gray-600"}`}>
                       {group.title}
                     </h4>
                     <ul className="space-y-3">
@@ -195,7 +190,7 @@ const PricingPlan = () => {
                           key={featureIndex}
                           className={`flex items-start text-sm ${feature.highlight
                             ? `font-semibold ${plan.popular ? "text-[#bb8d03fc]" : "text-[#e2c363fc]"}`
-                            : `${plan.popular ? "text-gray-700" : "text-gray-300"}`
+                            : `${plan.popular ? "text-gray-300" : "text-gray-300"}`
                             }`}
                         >
                           <Check className={`w-5 h-5 mr-3 flex-shrink-0 ${plan.popular ? "text-[#bb8d03fc]" : "text-[#e2c363fc]"}`} />
@@ -208,17 +203,17 @@ const PricingPlan = () => {
               </div>
               <div className='flex justify-between items-center gap-4 mt-auto'>
                 <Button
-                onClick={() => handleAddToCart(plan)}
-                  className={`flex-1 py-3 rounded-full font-bold text-sm transition-all duration-300
+                  onClick={() => handleAddToCart(plan)}
+                  className={`flex-1 py-3 rounded-full  text-lg transition-all duration-300
                              shadow-md hover:shadow-lg hover:scale-105 active:scale-95
                              ${plan.popular
-                      ? "bg-gradient-to-r from-[#bb8d03fc] to-[#e2c363fc] text-white"
-                      : "bg-gray-700 border-2 border-[#bb8d03fc] text-[#bb8d03fc] hover:bg-[#bb8d03fc] hover:text-white"
+                      ? " text-white bg-black border border-white"
+                      : "bg-black border border-white text-white "
                     }`}
                 >
                   Get Started
                 </Button>
-                <button
+                {/* <button
                   onClick={() => handleAddToCart(plan)}
                   className={`p-3 rounded-full transition-all duration-300
                              shadow-md hover:shadow-lg hover:scale-110 active:scale-90
@@ -227,14 +222,14 @@ const PricingPlan = () => {
                   aria-label="Add to cart"
                 >
                   <ShoppingCart className="w-6 h-6" />
-                </button>
+                </button> */}
               </div>
             </div>
           ))}
         </div>
 
         {/* Bottom Benefits */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 text-center">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 text-center">
           <div className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
             <FaUserFriends className="text-4xl text-[#bb8d03fc] mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Friendly Communication</h3>
@@ -250,7 +245,7 @@ const PricingPlan = () => {
             <h3 className="text-xl font-semibold text-white mb-2">100% Satisfaction</h3>
             <p className="text-gray-400 text-sm">We're committed to your complete satisfaction with our work and service.</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

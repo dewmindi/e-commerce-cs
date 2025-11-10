@@ -174,45 +174,45 @@ const HeroSection = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-const serviceCategoriesData = [
-  {
-    category: "Brand Identity / Logo Deisgn",
-    services: ["Logo Design","Cooperate Profile Design", "Business Card Design", "Letter Head Design","Email Signature"]
-  },
-  {
-    category: "Web Development",
-    services: ["E-commerce Website", "Portfolio Website", "Business Website","Booking Website"]
-  },
-  {
-    category: "Social Media Service",
-    services: ["Social Media Design", "Social Media Managment"]
-  },
+  const serviceCategoriesData = [
     {
-    category: "Packaging & Label Design",
-    services: ["Packaging Design", "Label Design", "Sticker Design"]
-  },
+      category: "Brand Identity / Logo Deisgn",
+      services: ["Logo Design", "Cooperate Profile Design", "Business Card Design", "Letter Head Design", "Email Signature"]
+    },
     {
-    category: "Leaflet,Flyer & Poster Design",
-    services: ["Leaflets Design", "Flyers Design", "Poster Design"]
-  },  
-]
+      category: "Web Development",
+      services: ["E-commerce Website", "Portfolio Website", "Business Website", "Booking Website"]
+    },
+    {
+      category: "Social Media Service",
+      services: ["Social Media Design", "Social Media Managment"]
+    },
+    {
+      category: "Packaging & Label Design",
+      services: ["Packaging Design", "Label Design", "Sticker Design"]
+    },
+    {
+      category: "Leaflet,Flyer & Poster Design",
+      services: ["Leaflets Design", "Flyers Design", "Poster Design"]
+    },
+  ]
 
   const images = [
-    "/web-ui-design2.jpg",   // your 4-square logo mockup
-    "/web-ui-design2.jpg",      // your eye-catching website design
-    "/logo-pres1.png",   // your Photoshop IDE view
-    "/logo-pres2.png", 
+    "/web-ui-design3.jpeg",   // your 4-square logo mockup
+    "/web-ui-design4.jpeg",
+    "/web-ui-design5.jpeg",
+    "/web-ui-design6.jpeg",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-    useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 4000); // change every 4 seconds
     return () => clearInterval(interval);
   }, [images.length]);
-  
+
 
 
   return (
@@ -220,7 +220,7 @@ const serviceCategoriesData = [
       id="home"
       className="relative py-10 px-4 sm:px-6 lg:px-8 min-h-screen -mt-4 overflow-hidden bg-animated-gradient"
     >
-      <Header/>
+      <Header />
       {/* ✅ Base Left Grid */}
       <div className="absolute left-0 top-0 h-full w-auto -translate-x-1/3 opacity-80 z-0">
         <GridSVG />
@@ -282,25 +282,25 @@ const serviceCategoriesData = [
           </button>
         </div>
 
-       <div className='flex justify-center mt-10 '>
-          {serviceCategoriesData.map((tab)=>(
+        <div className='sm:flex-2 md:flex   justify-center mt-10 '>
+          {serviceCategoriesData.map((tab) => (
             <HoverCard>
               <HoverCardTrigger><button className='text-white px-2'>{tab.category}</button></HoverCardTrigger>
-      <HoverCardContent className="bg-black/30 backdrop-blur-md text-white rounded-lg shadow-md p-4 w-56">
-        <ul className="c list-inside space-y-1 text-start">
-          {tab.services.map((service) => (
-            <li 
-            key={service}
-            className="transition-all duration-200 hover:underline hover:underline-offset-4 hover:text-[#bb8d03]"
-            >
-              + {service}
-            </li>
-          ))}
-        </ul>
-      </HoverCardContent>
+              <HoverCardContent className="bg-black/30 backdrop-blur-md text-white rounded-lg shadow-md p-4 w-56">
+                <ul className="c list-inside space-y-1 text-start">
+                  {tab.services.map((service) => (
+                    <li
+                      key={service}
+                      className="transition-all duration-200 hover:underline hover:underline-offset-4 hover:text-[#bb8d03]"
+                    >
+                      + {service}
+                    </li>
+                  ))}
+                </ul>
+              </HoverCardContent>
             </HoverCard>
           ))}
-       </div>
+        </div>
 
         {/* ✅ Frosted Hero Image Section */}
         <section
@@ -308,23 +308,22 @@ const serviceCategoriesData = [
           className="relative max-w-7xl py-6 px-4 sm:px-6 lg:px-6 overflow-hidden rounded-2xl mt-14 h-dvh backdrop-blur-2xl border border-white/40 shadow-lg"
           style={{
             background:
-              "linear-gradient(180deg, rgba(255, 255, 255, 0.10) 3.25%, rgba(255, 255, 255, 0.04) 96.75%), rgba(255, 255, 255, 0.25)",
+              "linear-gradient(180deg, rgba(255, 255, 255, 0.020) 3.25%, rgba(255, 255, 255, 0.04) 96.75%), rgba(255, 255, 255, 0.25)",
           }}
         >
           {/* Example placeholder for image */}
           {/* <div className="w-full h-full rounded-2xl bg-gradient-to-tr from-white/50 to-transparent border border-white/20"></div> */}
-                <div className="absolute inset-4 rounded-2xl overflow-hidden">
-        {images.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`Hero ${index}`}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-              index === currentIndex ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-      </div>
+          <div className="absolute inset-4 rounded-2xl overflow-hidden">
+            {images.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={`Hero ${index}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
+                  }`}
+              />
+            ))}
+          </div>
         </section>
       </div>
     </section>

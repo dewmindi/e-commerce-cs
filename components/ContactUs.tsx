@@ -635,7 +635,7 @@ const ContactUs = () => {
   }
 
   return (
-    <div id="contact" className="bg-white text-white flex items-center justify-center p-4 sm:p-8 font-inter">
+    <div id="contact" className=" text-white flex items-center justify-center p-4 sm:p-8 font-inter mt-10 mb-10">
       <motion.div
         ref={ref}
         initial="hidden"
@@ -666,12 +666,12 @@ const ContactUs = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col justify-center bg-[#bcbbbb]">
-          <h1 className="flex text-3xl sm:text-4xl font-bold mb-6 text-black animate-fade-in-right">
+        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col justify-center bg-[#181818] text-white">
+          <h1 className="flex text-3xl sm:text-4xl  mb-6  animate-fade-in-right">
             <AsteriskIcon />
             Contact Us
           </h1>
-          <p className="text-lg mb-8 animate-fade-in-right delay-100 text-gray-700">
+          <p className="text-lg mb-8 animate-fade-in-right delay-100">
             Reach out to us, and let's discuss how we can help.
           </p>
 
@@ -711,7 +711,7 @@ const ContactUs = () => {
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-5 py-3 bg-[#bcbbbb] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-200 disabled:opacity-50"
+                className="w-full px-5 py-3 bg-[#111111] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-200 disabled:opacity-50"
               />
             </div>
 
@@ -725,7 +725,7 @@ const ContactUs = () => {
                 value={form.phone}
                 onChange={(e) => update("phone", e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-5 py-3 bg-[#bcbbbb] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-300 disabled:opacity-50"
+                className="w-full px-5 py-3 bg-[#111111] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-300 disabled:opacity-50"
               />
             </div>
 
@@ -739,7 +739,7 @@ const ContactUs = () => {
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-5 py-3 bg-[#bcbbbb] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-300 disabled:opacity-50"
+                className="w-full px-5 py-3 bg-[#111111] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-300 disabled:opacity-50"
               />
             </div>
 
@@ -753,7 +753,7 @@ const ContactUs = () => {
                 value={form.subject}
                 onChange={(e) => update("subject", e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-5 py-3 bg-[#bcbbbb] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-300 disabled:opacity-50"
+                className="w-full px-5 py-3 bg-[#111111] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black transition-all duration-300 animate-fade-in-right delay-300 disabled:opacity-50"
               />
             </div>
 
@@ -767,7 +767,7 @@ const ContactUs = () => {
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
                 disabled={isSubmitting}
-                className="w-full px-5 py-3 bg-[#bcbbbb] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black resize-y transition-all duration-300 animate-fade-in-right delay-400 disabled:opacity-50"
+                className="w-full px-5 py-3 bg-[#111111] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-500 text-black resize-y transition-all duration-300 animate-fade-in-right delay-400 disabled:opacity-50"
               />
             </div>
 

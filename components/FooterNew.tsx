@@ -3,7 +3,7 @@ import { FaPhone, FaEnvelope, FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube,
 
 const FooterNew = () => {
   return (
-    <footer className="bg-[#333333] text-gray-300  py-20 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#0b0f16] text-gray-300  py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-16">
 
         {/* Top Section: Contact Info & Logo */}
@@ -78,7 +78,7 @@ const FooterNew = () => {
               <a href="https://www.tiktok.com/@cs.graphic.meta?_t=ZS-8xbwKygCSO8&_r=1" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
                 <FaTiktok className="text-white text-lg" />
               </a>
-              <a href="https://www.tiktok.com/@cs.graphic.meta?_t=ZS-8xbwKygCSO8&_r=1" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
+              <a href="" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
                 <FaYoutube className="text-white text-lg" />
               </a>
             </div>
@@ -91,7 +91,6 @@ const FooterNew = () => {
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Our Services</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Portfolio</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Packages</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
