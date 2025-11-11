@@ -18,7 +18,8 @@ import GoogleReviews from "@/components/GoogleReviews";
 import NewHero from "@/components/NewHero";
 import { Header } from "@/components/Header";
 import { TrustedPartners } from "@/components/TrustedPartners";
-import { Button } from "@/components/ui/button";
+
+import FeaturedProjects from "@/components/FeaturedProjects";
 
 interface CartItem {
   id: string
@@ -114,61 +115,13 @@ export default function CSGraphicsMetaWebsite() {
 
   return (
     <div className=" bg-black text-[#333333]">
-      {/* Navigation */}
-      
-      {/* <NewHero/> */}
       
       <HeroSection />
       
-      
-      {/* <section >
-        <InfiniteMovingCards items={[
-          {
-            image: "/BrandImages/Light/light1.png",
-            name: "",
-            title: ""
-          },
-          {
-            image: "/BrandImages/Light/light2.png",
-            name: "",
-            title: ""
-          },
-          {
-            image: "/BrandImages/Light/light3.png",
-            name: "",
-            title: ""
-          },
-          {
-            image: "/BrandImages/Light/light4.png",
-            name: "",
-            title: ""
-          },
-          {
-            image: "/BrandImages/Light/light5.png",
-            name: "",
-            title: ""
-          },
-          {
-            image: "/BrandImages/Light/light6.png",
-            name: "",
-            title: ""
-          },
-          {
-            image: "/BrandImages/Light/light7.png",
-            name: "",
-            title: ""
-          },
-        ]} />
-      </section> */}
-
       {/* Portfolio Showcase Section */}
       <TrustedPartners/>
       <Portfolio />
-      <section className="">
-        <div className="max-w-7xl mx-auto ">
-         <Link href='/projects' passHref className="flex justify-center"> <Button className="bg-transparent border p-5 text-lg ">Our Portfolio</Button></Link>
-        </div>
-      </section>
+      <FeaturedProjects/>
       {/* Pricing Section */}
       <PricingPlan />
       {/* <section className='bg-[#333333]'></section> */}

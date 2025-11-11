@@ -251,7 +251,7 @@ const HeroSection = () => {
       />
 
       {/* ✅ Content Container */}
-      <div className="relative max-w-7xl mx-auto text-center mt-10 z-10 font-serif">
+      <div className="relative max-w-7xl mx-auto text-center mt-10 z-10 ">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
@@ -271,20 +271,42 @@ const HeroSection = () => {
           <span>All Your Business Branding Needs</span>
         </motion.h1>
 
-        <div className="flex justify-center gap-14 text-xl text-gray-800">
+        <div className="flex justify-center gap-14 text-lg text-gray-800 font-poppins">
           <Link href="/">
-            <button className="border border-gray-400 px-5 py-2 rounded-full bg-white/50 text-black hover:bg-white shadow-md">
-              Get Started
+            <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
+              <span className="absolute inset-0 overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </span>
+              <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-1 px-4 ring-1 ring-white/10 ">
+                <span>
+                  Get Started
+                </span>
+                <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" >
+                  <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+                </svg>
+              </div>
+              <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
             </button>
           </Link>
-          <button className="border border-gray-400 px-5 py-2 rounded-full text-white  hover:bg-black">
-            View Service
+          <button className=" no-underline group cursor-pointer relative shadow-2xl rounded-full p-px text-xs  leading-6  text-white inline-block">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-transparent py-1 px-4 ring-1 ring-white/10 ">
+              <span>
+                View Services
+              </span>
+              <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" >
+                <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+              </svg>
+            </div>
+            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
           </button>
         </div>
 
         <div className='sm:flex-2 md:flex   justify-center mt-10 '>
-          {serviceCategoriesData.map((tab) => (
-            <HoverCard>
+          {serviceCategoriesData.map((tab,index) => (
+            <HoverCard key={tab.category || index}>
               <HoverCardTrigger><button className='text-white px-2'>{tab.category}</button></HoverCardTrigger>
               <HoverCardContent className="bg-black/30 backdrop-blur-md text-white rounded-lg shadow-md p-4 w-56">
                 <ul className="c list-inside space-y-1 text-start">

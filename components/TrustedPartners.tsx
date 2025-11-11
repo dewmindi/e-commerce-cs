@@ -7,7 +7,7 @@ export function TrustedPartners() {
     <div className="max-w-5xl mx-auto px-8 mt-20">
       <HoverEffect items={projects} />
       <div className="mt-10">
-        <h1 className="text-2xl text-white tracking-wider text-center">We help businesses in all around the world</h1>
+        <h1 className="text-2xl text-white text-center ">We help businesses in all around the world</h1>
         <section className=''>
                 <InfiniteMovingCards items={[
                   {

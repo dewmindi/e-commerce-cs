@@ -45,7 +45,7 @@ const Portfolio = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl text-white/50 max-w-2xl mx-auto leading-tight"
+                        className="text-xl text-white/50 max-w-2xl mx-auto "
                     >
                         Precision-crafted logos that deliver clarity in a complex
                         marketplace. Turning abstract brand values into concrete visual
@@ -77,14 +77,14 @@ const Portfolio = () => {
 
 
                     {/* Row 3 */}
-                    <div className="grid sm:grid-cols-1 md:grid-cols-6 gap-6">
+                    {/* <div className="grid sm:grid-cols-1 md:grid-cols-6 gap-6">
                         <div className="sm:col-span-1 md:col-span-2 h-[250px]">
                             {projects[5] && <ProjectCard project={projects[5]} />}
                         </div>
                         <div className="sm:col-span-1 md:col-span-4 h-[250px]">
                             {projects[6] && <ProjectCard project={projects[6]} />}
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
             </motion.div>

@@ -10,6 +10,7 @@ export const projectsData = [
             // Each tag needs to be an object with the properties expected by handleTagClick
             // You'll need to link these tags back to your categoriesData for the paths
             { name: "Logo Design", parentCategoryName: "Brand Identity", path: "/logo-design", mainPagePath: "/projects" },
+            { name: "Cooperate Profile Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/projects" },
             { name: "Business Card Design", parentCategoryName: "Brand Identity", path: "/business-card", mainPagePath: "/projects" }, // If 'Minimalist' doesn't have its own page
             { name: "Letter Head Design", parentCategoryName: "Brand Identity", path: "/letter-head-design", mainPagePath: "/projects" },
             { name: "Email Signature Design", parentCategoryName: "Brand Identity", path: "/email-signature-design", mainPagePath: "/projects" },
@@ -55,33 +56,33 @@ export const projectsData = [
     },
     {
         id: 'p5',
-        category: 'Leaflet, Flyer & Brochure Design',
+        category: 'Leaflet, Flyer & Poster Design',
         title: '',
         description: '',
         image: '/ServiceImages/leaflet.jpeg',
         tags: [
             { name: "Leaflet Design", parentCategoryName: "Leaflet, Flyer & Brochure Design", path: null, mainPagePath: "/leaflet-design" },
             { name: "Flyer Design", parentCategoryName: "Leaflet, Flyer & Brochure Design", path: null, mainPagePath: "/leaflet-design" },
-            { name: "Brochure Advertising", parentCategoryName: "Leaflet, Flyer & Brochure Design", path: null, mainPagePath: "/leaflet-design" },
+            { name: "Poster Design", parentCategoryName: "Banner, Poster & Cover Design", path: null, mainPagePath: "/banner-poster-design" },
             { name: "Other", parentCategoryName: "Leaflet, Flyer & Brochure Design", path: null, mainPagePath: "/leaflet-design" },
         ]
     },
-    {
-        id: 'p6',
-        category: 'Book & Magazine Design',
-        title: '',
-        description: '',
-        image: '/ServiceImages/book.jpeg',
-        tags: [
-            { name: "Cooperate Profile Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
-            { name: "Book Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
-            { name: "Magazine Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
-            { name: "Other", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
-        ]
-    },
+    // {
+    //     id: 'p6',
+    //     category: 'Book & Magazine Design',
+    //     title: '',
+    //     description: '',
+    //     image: '/ServiceImages/book.jpeg',
+    //     tags: [
+    //         { name: "Cooperate Profile Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
+    //         { name: "Book Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
+    //         { name: "Magazine Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
+    //         { name: "Other", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/book-magazine-design" },
+    //     ]
+    // },
     {
         id: 'p7',
-        category: 'Banner, Poster & Cover Design',
+        category: 'Banner, Poster & Poster Design',
         title: '',
         description: '',
         image: '/ServiceImages/banner.jpeg',

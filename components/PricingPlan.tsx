@@ -133,10 +133,10 @@ const PricingPlan = () => {
 
   return (
     // <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-900 to-[#333333] text-white"></section>
-    <section id="pricing" className="py-40 px-4 sm:px-6 lg:px-8  text-white">
+    <section id="pricing" className="py-10 px-4 sm:px-6 lg:px-8  text-white mb-16">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-xl   bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
+        <div className="text-center">
+          <h1 className="text-xl  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
           >
             Pricing
           </h1>

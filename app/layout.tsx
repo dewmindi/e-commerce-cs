@@ -22,10 +22,16 @@ const cursive = localFont({
   variable: '--font-cursive', // 👈 defines a CSS variable
 });
 
-const symphonie = localFont({
+const symphonie = localFont({ 
   src: '../public/fonts/SymphonieCAT.ttf',
   display: 'swap',
   variable: '--font-symphonie', // 👈 defines a CSS variable
+});
+
+const poppins = localFont({ 
+  src: '../public/fonts/PoppinsRegular.ttf',
+  display: 'swap',
+  variable: '--font-poppins', // 👈 defines a CSS variable
 });
 
 const isMaintenance = false

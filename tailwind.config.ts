@@ -65,6 +65,7 @@ const config: Config = {
 		fontFamily: {
         	cursive: ['var(--font-cursive)', 'cursive'],
 			symphonie: ['var(--font-symphonie)', 'symphonie'], // 👈 now you can use font-cursive
+			poppins: ['var(--font-poppins)', 'poppins']
       	},
   		borderRadius: {
   			lg: 'var(--radius)',
