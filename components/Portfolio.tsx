@@ -28,7 +28,7 @@ const Portfolio = () => {
 
     const projects = projectsData;
     return (
-        <section id="portfolio" className="py-20 px-4 sm:px-6 lg:px-8">
+        <section id="services" className="py-20 px-4 sm:px-6 lg:px-8">
             <motion.div
                 ref={ref1}
                 animate={inView1 ? "visible" : "hidden"}
@@ -37,7 +37,7 @@ const Portfolio = () => {
                 className="max-w-7xl mx-auto"
             >
                 <div className="text-center mb-16">
-                    <h1 className="text-xl   bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
+                    <h1 className="text-2xl md:text-4xl  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
                     >
                         Services We Offer
                     </h1>

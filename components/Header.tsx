@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { Menu, X, ShoppingCart } from "lucide-react"
+import { Menu, X, ShoppingCart, ChevronDown } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 import { loadStripe } from '@stripe/stripe-js';
@@ -29,6 +29,59 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [activeSection, setActiveSection] = useState("home")
     const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
+
+    // --- Smooth scroll to section ---
+    // Smooth scroll function
+    const scrollToSection = (sectionId: string, href?: string) => {
+        if (href) {
+            router.push(href)
+            return
+        }
+
+        if (pathname === "/") {
+            const element = document.getElementById(sectionId)
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" })
+            }
+        } else {
+            router.push(`/#${sectionId}`)
+        }
+    }
+
+    // --- Track active section on scroll ---
+    useEffect(() => {
+        if (pathname === "/") {
+            const handleScroll = () => {
+                const sections = ["home", "about", "services", "portfolio", "packages", "faq", "contact"];
+                const scrollPosition = window.scrollY + 100;
+                let currentActive = "home";
+                for (const section of sections) {
+                    const element = document.getElementById(section);
+                    if (element) {
+                        const offsetTop = element.offsetTop;
+                        const offsetHeight = element.offsetHeight;
+                        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                            currentActive = section;
+                            break;
+                        }
+                    }
+                }
+                setActiveSection(currentActive);
+            };
+            window.addEventListener("scroll", handleScroll);
+            return () => window.removeEventListener("scroll", handleScroll);
+        }
+    }, [pathname]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+                setIsCartOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -78,28 +131,50 @@ const Header = () => {
 
     return (
         <header className="w-full flex justify-center items-center  py-4  fixed top-0 z-50 ">
-            <NavigationMenu>
-                <NavigationMenuList className="flex space-x-6 bg-black rounded-md">
+            <NavigationMenu viewport={isMobile}>
+                <NavigationMenuList className="flex flex-wrap space-x-6 bg-black rounded-md">
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white">Home</NavigationMenuTrigger>
+                        <NavigationMenuTrigger
+                            className="bg-black text-white"
+                            onClick={() => scrollToSection("home")}
+                        >
+                            Home
+                        </NavigationMenuTrigger>
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white">About</NavigationMenuTrigger>
+                        <NavigationMenuTrigger
+                            className="bg-black text-white"
+                            onClick={() => scrollToSection("about", "/about")}
+                        >
+                            About
+                        </NavigationMenuTrigger>
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white">Services</NavigationMenuTrigger>
+                        <NavigationMenuTrigger
+                            className="bg-black text-white"
+                            onClick={() => scrollToSection("services")}
+                        >
+                            Services     <ChevronDown
+                                className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
+                                aria-hidden="true"
+                            />
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent className="bg-black text-white">
 
-                            <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] py-4">
+                            <ul className="grid gap-2 md:w-[400px] lg:w-[600px] lg:grid-cols-[.75fr_1fr] py-4 ">
                                 <li className="row-span-4">
                                     <NavigationMenuLink asChild>
                                         <a
                                             className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-4 no-underline outline-hidden transition-all duration-200 select-none focus:shadow-md md:p-6"
                                             href="/"
-                                        >
-                                            <div className="mb-2 text-lg font-medium sm:mt-4">Brand Identity / Logo Design</div>
+                                        >                           <img
+                            src={"/cs-logo.png"}
+
+                            className="w-40 h-40 object-fill md:object-cover"
+                        />
+                                            <div className="mb-2 text-lg font-medium sm:mt-4 hover:text-[#bb8d03]">Brand Identity / Logo Design</div>
                                             <p className="text-muted-foreground text-sm leading-tight">
                                                 Beautifully designed components built with Tailwind CSS.
                                             </p>
@@ -107,45 +182,50 @@ const Header = () => {
                                     </NavigationMenuLink>
                                 </li>
 
-                                <ListItem href="/docs" title="Web Development">
-                                    <li>E-commerce Website</li>
-                                    <li>Portfolio Website</li>
-                                    <li>Business Website</li>
-                                    <li>Booking Website</li>
+                                <ListItem href="/docs" title="Web Development" className="hover:text-[#bb8d03]">
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">E-commerce Website</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Portfolio Website</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Business Website</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Booking Website</li>
                                 </ListItem>
-                                <ListItem href="/docs/installation" title="Social Media Service">
-                                    <li>Social Media Design</li>
-                                    <li>Social Media Managment</li>
+                                <ListItem href="/docs/installation" title="Social Media Service" className="hover:text-[#bb8d03]">
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Social Media Design</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Social Media Managment</li>
                                 </ListItem>
-                                <ListItem href="/docs/primitives/typography" title="Packaging & Label Design">
-                                    <li>Packaging Design</li>
-                                    <li>Label Design</li>
-                                    <li>Sticker Design</li>
+                                <ListItem href="/docs/primitives/typography" title="Packaging & Label Design" className="hover:text-[#bb8d03]">
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Packaging Design</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Label Design</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Sticker Design</li>
                                 </ListItem>
-                                <ListItem href="/docs/primitives/typography" title="Leaflet,Flyer & Poster Design">
-                                    <li>Leaflets Design</li>
-                                    <li>Flyers Design</li>
-                                    <li>Poster Design</li>
+                                <ListItem href="/docs/primitives/typography" title="Leaflet,Flyer & Poster Design" className="hover:text-[#bb8d03]">
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Leaflets Design</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Flyers Design</li>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Poster Design</li>
                                 </ListItem>
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white">Portfolio</NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="bg-black text-white " onClick={() => scrollToSection("portfolio")}>Portfolio</NavigationMenuTrigger>
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white">Packages</NavigationMenuTrigger>
+                        <NavigationMenuTrigger
+                            className="bg-black text-white"
+                            onClick={() => scrollToSection("packages")}
+                        >
+                            Packages
+                        </NavigationMenuTrigger>
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white">FAQ</NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="bg-black text-white" onClick={() => scrollToSection("faq")}>FAQ</NavigationMenuTrigger>
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
                         <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                            <Link href="/docs" className="text-black">Contact</Link>
+                            <Link href="#contact" className="text-black" >Contact</Link>
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                 </NavigationMenuList>
@@ -239,8 +319,8 @@ function ListItem({
         <li {...props}>
             <NavigationMenuLink asChild>
                 <Link href={href}>
-                    <div className="text-sm leading-none font-medium">{title}</div>
-                    <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+                    <div className="text-sm leading-none font-medium mb-2">{title}</div>
+                    <p className="grid grid-cols-2 text-muted-foreground  text-sm leading-snug">
                         {children}
                     </p>
                 </Link>

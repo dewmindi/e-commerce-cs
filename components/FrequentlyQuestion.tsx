@@ -137,7 +137,7 @@ const FrequentlyQuestion = () => {
     // </div>
     //       </section> */}
 
-    <section className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-stretch'>
+    <section id='faq' className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-stretch px-4 sm:px-6 lg:px-0'>
       <Accordion
         type="single"
         collapsible
@@ -145,7 +145,7 @@ const FrequentlyQuestion = () => {
         defaultValue="item-1"
       >
         <div>
-          <h2 className="text-xl sm:text-xl  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text text-center">
+          <h2 className="text-xl md:text-4xl bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text text-center">
             FAQ
           </h2>
 
@@ -156,7 +156,7 @@ const FrequentlyQuestion = () => {
           </h2>
         </div>
         <AccordionItem value="item-1">
-          <AccordionTrigger>Can you work with our existing brand guidelines?</AccordionTrigger>
+          <AccordionTrigger>Can you work with  existing brand guidelines?</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
             <p>
               Absolutely! We can work within your existing brand guidelines or help you develop new ones. We're flexible and adapt to your specific needs and requirements.

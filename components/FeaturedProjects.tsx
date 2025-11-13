@@ -5,29 +5,29 @@ import Link from 'next/link'
 
 const FeaturedProjects = () => {
     return (
-        <div className='max-w-7xl mx-auto flex flex-col gap-10 py-20'>
+        <div id='portfolio' className='max-w-7xl mx-auto flex flex-col py-20'>
             <h1 className="text-2xl md:text-4xl text-center  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
             >
                 Recent Projects
             </h1>
-            <div className='sm:grid md:flex justify-center gap-10'>
-                <div >
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900">
+            <div className='sm:grid md:flex justify-center gap-10 px-8 md:px-0 mt-10 '>
+                <div>
+                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
                         <img
-                            src={`/web-ui-design1.jpg`}
+                            src={`/crystalx-ui-meta.png`}
                             alt="jordans"
                             height="400"
                             width="400"
-                            className="object-contain"
+                            className="object-contain rounded-[22px] border border-zinc-800"
                         />
-                        <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
+                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
                             Eco Spark Cleaning 
                         </p>
 
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                         <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs  dark:bg-zinc-800">
+                         <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs  dark:bg-zinc-800 border border-zinc-800">
                             <span>Web Development</span>
                             <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
                                 View
@@ -35,23 +35,23 @@ const FeaturedProjects = () => {
                         </button>
                     </BackgroundGradient>
                 </div>
-                <div >
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900">
+                <div className='mt-4 md:mt-0'>
+                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
                         <img
-                            src={`/web-ui-design2.jpg`}
+                            src={`/primes-cleaning-meta.png`}
                             alt="jordans"
                             height="400"
                             width="400"
-                            className="object-contain"
+                            className="object-contain rounded-[22px] border-zinc-800"
                         />
-                        <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
+                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
                             Primes Cleaning 
                         </p>
 
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs dark:bg-zinc-800">
+                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
                             <span>Web Development</span>
                             <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
                                 View
@@ -59,23 +59,23 @@ const FeaturedProjects = () => {
                         </button>
                     </BackgroundGradient>
                 </div>
-                <div >
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900">
+                <div className='mt-4 md:mt-0'>
+                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
                         <img
-                            src={`/web-ui-design4.jpeg`}
+                            src={`/Eco-spark-ui-meta.png`}
                             alt="jordans"
                             height="400"
                             width="400"
-                            className="object-contain"
+                            className="object-contain rounded-[22px] border-zinc-800"
                         />
-                        <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
+                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
                             Elegance Stone 
                         </p>
 
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs dark:bg-zinc-800">
+                        <button className="rounded-full  pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
                             <span>Brand Identity </span>
                             <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
                                 View
@@ -83,23 +83,23 @@ const FeaturedProjects = () => {
                         </button>
                     </BackgroundGradient>
                 </div>
-                <div >
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900">
+                <div className='mt-4 md:mt-0'>
+                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
                         <img
-                            src={`/web-ui-design5.jpeg`}
+                            src={`/cygnus-ui-meta.png`}
                             alt="jordans"
                             height="400"
                             width="400"
-                            className="object-contain"
+                            className="object-contain rounded-[22px] border-zinc-800"
                         />
-                        <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
+                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
                             Zgiri Robotics
                         </p>
 
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs dark:bg-zinc-800">
+                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
                             <span>Web Development</span>
                             <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
                                 View
@@ -109,7 +109,7 @@ const FeaturedProjects = () => {
                 </div>
             </div>
             <div className="max-w-7xl mx-auto mt-10">
-                <Link href="/">
+                <Link href="/web-development">
                     <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
                         <span className="absolute inset-0 overflow-hidden rounded-full">
                             <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

@@ -8,45 +8,7 @@ export function TrustedPartners() {
       <HoverEffect items={projects} />
       <div className="mt-10">
         <h1 className="text-2xl text-white text-center ">We help businesses in all around the world</h1>
-        <section className=''>
-                <InfiniteMovingCards items={[
-                  {
-                    image: "/BrandImages/Dark/dark1.png",
-                    name: "",
-                    title: ""
-                  },
-                  {
-                    image: "/BrandImages/Dark/dark2.png",
-                    name: "",
-                    title: ""
-                  },
-                  {
-                    image: "/BrandImages/Dark/dark3.png",
-                    name: "",
-                    title: ""
-                  },
-                  {
-                    image: "/BrandImages/Dark/dark4.png",
-                    name: "",
-                    title: ""
-                  },
-                  {
-                    image: "/BrandImages/Dark/dark5.png",
-                    name: "",
-                    title: ""
-                  },
-                  {
-                    image: "/BrandImages/Dark/dark6.png",
-                    name: "",
-                    title: ""
-                  },
-                  {
-                    image: "/BrandImages/Dark/dark7.png",
-                    name: "",
-                    title: ""
-                  },
-                ]} />
-              </section>
+        
       </div>
     </div>
   );
