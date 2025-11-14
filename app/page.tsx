@@ -20,6 +20,7 @@ import { Header } from "@/components/Header";
 import { TrustedPartners } from "@/components/TrustedPartners";
 
 import FeaturedProjects from "@/components/FeaturedProjects";
+import { MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle, Navbar, NavbarLogo, NavBody, NavItems } from "@/components/ui/resizable-navbar";
 
 interface CartItem {
   id: string
@@ -73,7 +74,7 @@ export default function CSGraphicsMetaWebsite() {
     setIsMenuOpen(false)
   }
 
-    const addToCart = (project: any) => {
+  const addToCart = (project: any) => {
     const cartItem: CartItem = {
       id: project.title.toLowerCase().replace(/\s+/g, "-"),
       title: project.title,
@@ -112,65 +113,67 @@ export default function CSGraphicsMetaWebsite() {
   const getTotalPrice = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0)
   }
+  
 
   return (
     <div className=" bg-black text-[#333333]">
       
+
       <HeroSection />
-      
+
       {/* Portfolio Showcase Section */}
-      <TrustedPartners/>
+      <TrustedPartners />
       <section className=''>
-          <InfiniteMovingCards items={[
-            {
-              image: "/BrandImages/Dark/dark1.png",
-              name: "",
-              title: ""
-            },
-            {
-              image: "/BrandImages/Dark/dark2.png",
-              name: "",
-              title: ""
-            },
-            {
-              image: "/BrandImages/Dark/dark3.png",
-              name: "",
-              title: ""
-            },
-            {
-              image: "/BrandImages/Dark/dark4.png",
-              name: "",
-              title: ""
-            },
-            {
-              image: "/BrandImages/Dark/dark5.png",
-              name: "",
-              title: ""
-            },
-            {
-              image: "/BrandImages/Dark/dark6.png",
-              name: "",
-              title: ""
-            },
-            {
-              image: "/BrandImages/Dark/dark7.png",
-              name: "",
-              title: ""
-            },
-          ]} />
-        </section>
+        <InfiniteMovingCards items={[
+          {
+            image: "/BrandImages/Dark/dark1.png",
+            name: "",
+            title: ""
+          },
+          {
+            image: "/BrandImages/Dark/dark2.png",
+            name: "",
+            title: ""
+          },
+          {
+            image: "/BrandImages/Dark/dark3.png",
+            name: "",
+            title: ""
+          },
+          {
+            image: "/BrandImages/Dark/dark4.png",
+            name: "",
+            title: ""
+          },
+          {
+            image: "/BrandImages/Dark/dark5.png",
+            name: "",
+            title: ""
+          },
+          {
+            image: "/BrandImages/Dark/dark6.png",
+            name: "",
+            title: ""
+          },
+          {
+            image: "/BrandImages/Dark/dark7.png",
+            name: "",
+            title: ""
+          },
+        ]} />
+      </section>
       <Portfolio />
-      <FeaturedProjects/>
+      <FeaturedProjects />
       {/* Pricing Section */}
       <PricingPlan />
       {/* <section className='bg-[#333333]'></section> */}
-      
+
 
 
       {/* Faq Section */}
-      <FrequentlyQuestion/>
-      
-      <GoogleReviews/>
+      <FrequentlyQuestion />
+
+      <GoogleReviews />
 
       {/* ContactUs Section */}
       <ContactUs />

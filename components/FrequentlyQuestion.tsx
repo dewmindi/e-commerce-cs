@@ -54,89 +54,50 @@ const FrequentlyQuestion = () => {
     }
   }
 
-  const { ref, inView, variants } = useInViewAnimation();
+  const faqs = [
+  {
+    question: "What branding and logo design services do you offer?",
+    answer:
+      "We provide complete brand identity solutions including custom logo design, brand guidelines, business card design, stationery design, social media branding, and full rebranding packages. Our design process ensures your brand stands out in the Australian market with a strong and memorable identity.",
+  },
+  {
+    question: "How long does a typical project take?",
+    answer:
+      "Project timelines vary depending on scope. Smaller tasks may take a few days, while full branding, web development projects require more time.",
+  },
+  {
+    question: "Do you offer revisions?",
+    answer:
+      "Yes! We offer revisions to ensure your final design meets your vision and expectations.",
+  },
+  {
+    question: "Do you offer website development services for small businesses?",
+    answer:
+      "Yes! We specialise in custom, responsive websites for Australian and world-wide small businesses, startups, and growing companies. Whether you need an e-commerce store, service-based website, or landing page, we provide modern, fast, and SEO-friendly web development solutions.",
+  },
+  {
+    question: "How much does a logo or website design cost?",
+    answer:
+      "Our pricing varies based on your requirements.Logo design packages start from budget-friendly options to premium branding bundles.Web development packages depend on the number of pages, features, and integrations.We offer transparent pricing with no hidden fees. Contact us for a custom quote based on your exact needs.",
+  },
+  {
+    question: "Can you redesign my existing logo or website?",
+    answer:
+      "Absolutely. We offer professional logo redesign and website revamp services for brands that need a modern look or improved functionality. We preserve your brand identity while enhancing clarity, aesthetic appeal, and user experience.",
+  },
+  {
+    question: "Do you provide ongoing support after completion?",
+    answer:
+      "Yes, we provide continuous support including maintenance, website updates, content changes, security monitoring, and design upgrades. You can choose from flexible monthly plans or one-time support options.",
+  },
+  {
+    question: "How do I get started with my project?",
+    answer:
+      "Simply contact us with your requirements. We'll send you a brief form to understand your vision, provide a custom quote, and start the design or development process. Our team makes it easy and hassle-free to bring your brand to life.",
+  }   
+];
+
   return (
-    // {/* <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8">
-    //         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-stretch">
-    //           {/* FAQ Section */}
-    //           <motion.div
-    //             className="w-full bg-white p-6 rounded-xl shadow-md flex flex-col md:col-span-2"
-    //           >
-    //             <h2 className="flex font-bold text-[#333333] mb-4">
-    //               <AsteriskIcon /> FAQ
-    //             </h2>
-    //             <div className="mb-16">
-    // <div>
-    //   <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] text-center">
-    //     Answer To Your Most Common
-    //   </h2>
-    // </div>
-    //               <div>
-    //                 <h2 className="text-3xl sm:text-4xl font-bold text-[#bb8d03fc] text-center mb-4 leading-tight">
-    //                   Questions
-    //                 </h2>
-    //               </div>
-    //               <CustomQuestions />
-    //             </div>
-    //           </motion.div>
-
-    //           {/* Custom Question Form Section - Now taking 1/3 of the width */}
-    // <div className="w-full md:col-span-1">
-    //   <motion.div
-    //     ref={ref}
-    //     initial="visible"
-    //     animate={inView ? "visible" : "hidden"}
-    //     variants={variants}
-    //     transition={{ duration: 0.8 }}
-    //     className="bg-white p-6 rounded-xl shadow-md h-full flex flex-col justify-between"
-    //   >
-    //     <div className="md:mt-20">
-    //       <h3 className="text-2xl sm:text-3xl font-bold text-[#333333] text-center mb-2">
-    //         Got a <span className="text-[#bb8d03fc]">Specific Question?</span>
-    //       </h3>
-    //       <p className="text-[#666666] md:-mb-20 text-center text-sm">
-    //         Can't find your answer in our FAQs? Drop us a line!
-    //       </p>
-    //     </div>
-
-    //     <form onSubmit={onSubmit} className="flex-grow flex flex-col justify-center space-y-4">
-    //       <Textarea
-    //         required
-    //         id='message'
-    //         rows={4}
-    //         placeholder="Type your custom question here..."
-    //         value={form.message}
-    //         onChange={(e)=>update("message", e.target.value)}
-    //         className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent resize-none text-sm"
-    //       />
-    //       <Input
-    //         type="text"
-    //         id='name'
-    //         placeholder="Your Name (Optional)"
-    //         value={form.name}
-    //         onChange={(e)=>update("name", e.target.value)}
-    //         className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
-    //       />
-    //       <Input
-    //         required
-    //         id='email'
-    //         type="email"
-    //         placeholder="Your Email"
-    //         value={form.email}
-    //         onChange={(e)=>update("email", e.target.value)}                  
-    //         className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
-    //       />
-    //       <div className="flex justify-center mt-4">
-    //         <Button className="w-full bg-[#bb8d03fc] hover:bg-[#b69941fc] text-white py-2 rounded-lg font-medium transition-all text-sm">
-    //           Send Question
-    //         </Button>
-    //       </div>
-    //     </form>
-    //   </motion.div>
-    // </div>
-    // </div>
-    //       </section> */}
-
     <section id='faq' className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-stretch px-4 sm:px-6 lg:px-0'>
       <Accordion
         type="single"
@@ -155,22 +116,14 @@ const FrequentlyQuestion = () => {
             Answers To Your Most Common Questions
           </h2>
         </div>
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Can you work with  existing brand guidelines?</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <p>
-              Absolutely! We can work within your existing brand guidelines or help you develop new ones. We're flexible and adapt to your specific needs and requirements.
-            </p>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger>How long does a typical project take?</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <p>
-              Project timelines vary depending on scope.
-            </p>
-          </AccordionContent>
-        </AccordionItem>
+        {faqs.map((faq, index)=>(
+          <AccordionItem key={index} value={`item-${index+1}`}>
+            <AccordionTrigger>{faq.question}</AccordionTrigger>
+            <AccordionContent className='flex flex-col gap-4 text-balance text-left'>
+              <p>{faq.answer}</p>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
       </Accordion>
       <div className="w-full md:col-span-1">
         <div

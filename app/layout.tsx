@@ -7,11 +7,12 @@ import { CartProvider } from './context/CartContext'
 import MaintenanceOverlay from '@/components/MaintenanceOverlay'
 import localFont from 'next/font/local';
 import Script from "next/script";
+import Head from 'next/head'
 
 export const metadata: Metadata = {
   title: 'CS Graphic Meta',
   description: 'Precision-crafted logos that deliver clarity in a complex marketplace.',
-    icons: {
+  icons: {
     icon: '/favicon.ico',
   },
 }
@@ -22,41 +23,19 @@ const cursive = localFont({
   variable: '--font-cursive', // 👈 defines a CSS variable
 });
 
-const symphonie = localFont({ 
+const symphonie = localFont({
   src: '../public/fonts/SymphonieCAT.ttf',
   display: 'swap',
   variable: '--font-symphonie', // 👈 defines a CSS variable
 });
 
-const poppins = localFont({ 
+const poppins = localFont({
   src: '../public/fonts/PoppinsRegular.ttf',
   display: 'swap',
   variable: '--font-poppins', // 👈 defines a CSS variable
 });
 
 const isMaintenance = false
-
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode
-// }>) {
-//   return (
-//     <html lang="en">
-//       <body>
-//         <Suspense fallback={null}>
-//           <GlobalLoader />
-//         </Suspense>
-//         <CartProvider>
-//           {children}
-//         </CartProvider>
-//         <CursorFollower />
-//       </body>
-//     </html>
-//   )
-// }
-
-// const isMaintenance = false
 
 export default function RootLayout({
   children,
@@ -65,6 +44,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <title>CS Graphic Meta</title>
+        <meta name="CS Graphic Meta" content="Precision-crafted logos that deliver clarity in a complex marketplace." />
+
+        {/* Favicon for browsers and Google */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+        <meta name="theme-color" content="#ffffff" />
+      </Head>
       <body>
         <Suspense fallback={null}>
           <GlobalLoader />
@@ -75,7 +64,7 @@ export default function RootLayout({
           </div>
           {isMaintenance && <MaintenanceOverlay />}</CartProvider>
         {/* <CursorFollower /> */}
-                {/* reCAPTCHA v3 script */}
+        {/* reCAPTCHA v3 script */}
         <Script
           src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
           strategy="afterInteractive"

@@ -457,7 +457,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
         }
     }
     return (
-        <div className="min-h-screen bg-[#F5F5F5] text-[#333333]">
+        <div className="min-h-screen bg-[#F5F5F5] text-white">
             <Header />
             <div className="py-6 inset-0 bg-pattern-dots opacity-10"></div>
             <AnimatePresence mode="wait">
@@ -494,11 +494,11 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                             </Button>
                         </div>
                     </section>
-                    <section className="bg-[#F5F5F5] py-16 px-4 sm:px-6 lg:px-8">
+                    <section className="bg-black py-16 px-4 sm:px-6 lg:px-8 ">
                         <div className="max-w-6xl mx-auto text-center">
                             {content.pricingPlans && content.pricingPlans.length > 0 ? (
                                 <>
-                                    <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-12">
+                                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-12">
                                         {content.pageTitle} Pricing Plans
                                     </h2>
 
@@ -552,12 +552,12 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                                 </>
                             ) : (
                                 <>
-                                    <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-12">
+                                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-12">
                                         Get a Quote for {content.pageTitle}
                                     </h2>
-                                    <p className='mb-12'>Our pricing is tailored to your project needs. Since design requirements can vary, the final cost will depend on your specific goals and preferences.
+                                    <p className='mb-12 text-[#666666]'>Our pricing is tailored to your project needs. Since design requirements can vary, the final cost will depend on your specific goals and preferences.
                                         Please share your basic details and a short note about your {content.pageTitle} requirements. One of our team members will reach out to discuss further and provide a personalized estimate.</p>
-                                    <form onSubmit={onSubmit} className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md space-y-6 text-left" encType="multipart/form-data">
+                                    <form onSubmit={onSubmit} className="max-w-xl mx-auto border  p-8 rounded-lg shadow-md space-y-6 text-left" encType="multipart/form-data">
                                         {/* <div>
                                             <label className="block text-sm font-medium text-[#333333]">Your Name</label>
                                             <input type="text" className="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
@@ -580,7 +580,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                                             placeholder="Your Name"
                                             value={form.name}
                                             onChange={(e) => update("name", e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
+                                            className="w-full px-3 py-2  bg-[#111111] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
                                         />
                                         <Input
                                             required
@@ -589,7 +589,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                                             placeholder="Your Email"
                                             value={form.email}
                                             onChange={(e) => update("email", e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
+                                            className="w-full px-3 py-2 bg-[#111111] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
                                         />
                                         <Input
                                             required
@@ -598,7 +598,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                                             placeholder="Contact Number"
                                             value={form.phone}
                                             onChange={(e) => update("phone", e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
+                                            className="w-full px-3 py-2 bg-[#111111] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent text-sm"
                                         />
                                         <Textarea
                                             required
@@ -607,7 +607,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                                             placeholder={`Project Note(Please briefly describe your ${content.pageTitle} requirements. We'll connect with you soon for details.)`}
                                             value={form.message}
                                             onChange={(e) => update("message", e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent resize-none text-sm"
+                                            className="w-full px-3 py-2 bg-[#111111] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#bb8d03fc] focus:border-transparent resize-none text-sm"
                                         />
                                         {/* ADDED FILE UPLOAD INPUT */}
                                         <div>
@@ -636,7 +636,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
 
                     {/* --- NEW: Optional "Process" Section (with Read More) --- */}
                     {content.processDescription && ( // Only render this section if processDescription exists
-                        <section className="bg-white py-16 px-4 sm:px-6 lg:px-8 text-center"> {/* Added text-center for consistency */}
+                        <section className=" py-16 px-4 sm:px-6 lg:px-8 text-center"> {/* Added text-center for consistency */}
                             <div className="max-w-4xl mx-auto">
                                 <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-12">
                                     {content.pageTitle} Process {/* Dynamic title */}
@@ -660,15 +660,15 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                         </section>
                     )}
                     {/* --- Dynamic Description Section --- */}
-                    <section className="bg-white py-5 px-4 sm:px-6 lg:px-8 text-center">
+                    <section className="bg-black py-5 px-4 sm:px-6 lg:px-8 text-center">
                         <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-8">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">
                                 About {content.pageTitle}
                             </h2>
                             <p className="text-lg text-[#666666] leading-relaxed">
                                 {content.aboutDescription}
                             </p>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mt-8 mb-8">What we Offer</h2>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white mt-8 mb-8">What we Offer</h2>
                             <ul className='grid justify-center text-start md:grid-cols-4 sm:grid-cols-1 text-[#666666] gap-2'>
                                 {content.benefits.map((text, id) => (
                                     <li key={id}>✅ {text}</li>
@@ -680,9 +680,9 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
 
 
                     {/* --- Projects Grid/Slider for Active Tag --- */}
-                    <section className="bg-[#F5F5F5] py-16 px-4 sm:px-6 lg:px-8">
+                    <section className="bg-black py-16 px-4 sm:px-6 lg:px-8">
                         <div className="max-w-6xl mx-auto">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] text-center mb-12">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-12">
                                 {content.pageTitle} Portfolio
                             </h2>
                             <InfiniteMovingCards
@@ -692,9 +692,9 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                     </section>
 
                     {/* --- FAQs Section --- */}
-                    <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+                    <section className="bg-black py-16 px-4 sm:px-6 lg:px-8">
                         <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] text-center mb-12">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-12">
                                 Frequently Asked Questions
                             </h2>
                             <div className="space-y-6">
@@ -717,7 +717,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
             </AnimatePresence>
 
             {/* --- Call to Action Section --- */}
-            <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#ada661] py-16 px-4 sm:px-6 lg:px-8 text-center text-white">
+            {/* <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#ada661] py-16 px-4 sm:px-6 lg:px-8 text-center text-white">
                 <div className="max-w-4xl mx-auto">
                     <h2 className="text-3xl sm:text-4xl font-bold mb-4 ">{content.callToActionTitle}</h2>
                     <p className="text-lg mb-8 opacity-90 leading-tight">
@@ -729,7 +729,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                         </Button>
                     </Link>
                 </div>
-            </section>
+            </section> */}
             <FooterNew />
         </div>
     );

@@ -30,15 +30,13 @@ export const projectsData = [
     },
     {
         id: 'p3',
-        category: 'Social Media Design',
+        category: 'Social Media Service',
         title: '',
         description: '',
         image: '/ServiceImages/social.jpeg',
         tags: [
-            { name: "Facebook Design", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
-            { name: "Instagram Design", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
-            { name: "Google Advertising", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
-            { name: "Other Advertising", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media/other-advertising" },
+            { name: "Social Media Design", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
+            { name: "Social Media Management", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
         ]
     },
     {

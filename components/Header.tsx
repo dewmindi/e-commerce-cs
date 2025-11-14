@@ -18,6 +18,9 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { Navbar, NavBody, NavbarLogo, NavItems, MobileNav, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "./ui/resizable-navbar"
+import { ServicesDropdown } from "./ServicesDropdown"
+import { link } from "fs"
 
 const Header = () => {
     const isMobile = useIsMobile()
@@ -129,107 +132,31 @@ const Header = () => {
         }
     };
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const navItems = [
+        { name: "Home", link: "/" },
+        { name: "About", link: "/about" },
+
+        {
+            customComponent: <ServicesDropdown />   // 👈 dropdown here!
+        },
+        { name: "Portfolio", link: "#portfolio" },
+        { name: "Pricing", link: "#packages" },
+        { name: "FAQ", link: "#faq" },
+        { name: "Contact", link: "#contact" },
+    ];
+
     return (
-        <header className="w-full flex justify-center items-center  py-4  fixed top-0 z-50 ">
-            <NavigationMenu viewport={isMobile}>
-                <NavigationMenuList className="flex flex-wrap space-x-6 bg-black rounded-md">
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger
-                            className="bg-black text-white"
-                            onClick={() => scrollToSection("home")}
-                        >
-                            Home
-                        </NavigationMenuTrigger>
-                    </NavigationMenuItem>
+        <Navbar className="top-0 fixed bg-black">
+            {/* DESKTOP NAV */}
+            <NavBody>
+                <NavbarLogo />
 
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger
-                            className="bg-black text-white"
-                            onClick={() => scrollToSection("about", "/about")}
-                        >
-                            About
-                        </NavigationMenuTrigger>
-                    </NavigationMenuItem>
+                <NavItems items={navItems} />
 
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger
-                            className="bg-black text-white"
-                            onClick={() => scrollToSection("services")}
-                        >
-                            Services     <ChevronDown
-                                className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
-                                aria-hidden="true"
-                            />
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="bg-black text-white">
-
-                            <ul className="grid gap-2 md:w-[400px] lg:w-[600px] lg:grid-cols-[.75fr_1fr] py-4 ">
-                                <li className="row-span-4">
-                                    <NavigationMenuLink asChild>
-                                        <a
-                                            className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-4 no-underline outline-hidden transition-all duration-200 select-none focus:shadow-md md:p-6"
-                                            href="/"
-                                        >                           <img
-                            src={"/cs-logo.png"}
-
-                            className="w-40 h-40 object-fill md:object-cover"
-                        />
-                                            <div className="mb-2 text-lg font-medium sm:mt-4 hover:text-[#bb8d03]">Brand Identity / Logo Design</div>
-                                            <p className="text-muted-foreground text-sm leading-tight">
-                                                Beautifully designed components built with Tailwind CSS.
-                                            </p>
-                                        </a>
-                                    </NavigationMenuLink>
-                                </li>
-
-                                <ListItem href="/docs" title="Web Development" className="hover:text-[#bb8d03]">
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">E-commerce Website</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Portfolio Website</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Business Website</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Booking Website</li>
-                                </ListItem>
-                                <ListItem href="/docs/installation" title="Social Media Service" className="hover:text-[#bb8d03]">
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Social Media Design</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Social Media Managment</li>
-                                </ListItem>
-                                <ListItem href="/docs/primitives/typography" title="Packaging & Label Design" className="hover:text-[#bb8d03]">
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Packaging Design</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Label Design</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Sticker Design</li>
-                                </ListItem>
-                                <ListItem href="/docs/primitives/typography" title="Leaflet,Flyer & Poster Design" className="hover:text-[#bb8d03]">
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Leaflets Design</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Flyers Design</li>
-                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Poster Design</li>
-                                </ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white " onClick={() => scrollToSection("portfolio")}>Portfolio</NavigationMenuTrigger>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger
-                            className="bg-black text-white"
-                            onClick={() => scrollToSection("packages")}
-                        >
-                            Packages
-                        </NavigationMenuTrigger>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-black text-white" onClick={() => scrollToSection("faq")}>FAQ</NavigationMenuTrigger>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                            <Link href="#contact" className="text-black" >Contact</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-                <div className="border rounded-lg ml-4">
+                {/* Example button */}
+                <div className=" bg-black text-white rounded-md">
                     <button onClick={() => setIsCartOpen(!isCartOpen)} className="relative p-2">
                         <ShoppingCart className="w-6 h-6 text-white" />
                         {getTotalItems() > 0 && (
@@ -300,32 +227,101 @@ const Header = () => {
                         </div>
                     )}
                 </div>
-            </NavigationMenu>
+            </NavBody>
 
+            {/* MOBILE NAV */}
+            <MobileNav>
+                <MobileNavHeader>
+                    <NavbarLogo />
+                    <div className="flex items-center gap-2">
+                        <div className=" border border-black text-white rounded-md">
+                            <button onClick={() => setIsCartOpen(!isCartOpen)} className="relative p-2">
+                                <ShoppingCart className="w-6 h-6 text-white" />
+                                {getTotalItems() > 0 && (
+                                    <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-2">
+                                        {getTotalItems()}
+                                    </span>
+                                )}
+                            </button>
+                            {isCartOpen && (
+                                <div ref={cartRef} className="absolute right-0 mt-3 w-80 bg-white border rounded-lg shadow-lg z-50">
+                                    <div className="p-4 border-b flex justify-between items-center">
+                                        <h3 className="text-sm font-semibold text-[#333]">Cart Summary</h3>
+                                        <button onClick={() => setIsCartOpen(false)}>
+                                            <X className="w-5 h-5 text-gray-600 hover:text-red-500" />
+                                        </button>
+                                    </div>
+                                    {cart.length === 0 ? (
+                                        <div className="p-4 text-sm text-gray-500 text-center">
+                                            Your cart is empty.
+                                        </div>
+                                    ) : (
+                                        <div className="max-h-60 overflow-y-auto">
+                                            {cart.map((item) => (
+                                                <div key={item.id} className="flex items-center justify-between px-4 py-3 border-b hover:bg-gray-50 transition">
+                                                    <div className="flex items-center space-x-3">
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.title}
+                                                            className="w-12 h-12 rounded object-cover"
+                                                        />
+                                                        <div>
+                                                            <h4 className="text-sm font-medium text-gray-800">{item.title}</h4>
+                                                            <p className="text-xs text-gray-500">
+                                                                {item.category} × {item.quantity}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-col items-end">
+                                                        <p className="text-sm font-semibold text-[#333]">
+                                                            ${(item.price * item.quantity).toFixed(2)}
+                                                        </p>
+                                                        <button
+                                                            onClick={() => removeFromCart(item.id)}
+                                                            className="text-xs text-red-500 hover:underline"
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {cart.length > 0 && (
+                                        <div className="p-4 border-t">
+                                            <div className="flex justify-between text-sm font-semibold text-[#333] mb-3">
+                                                <span>Total:</span>
+                                                <span>${getTotalPrice().toFixed(2)}</span>
+                                            </div>
+                                            <button
+                                                onClick={handleCheckout}
+                                                className="w-full bg-[#bb8d03fc] text-white text-sm font-bold py-2 rounded hover:bg-[#c59f09] transition"
+                                                disabled={isProcessingCheckout || cart.length === 0}
+                                            >
+                                                {isProcessingCheckout ? 'Processing...' : 'Checkout'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <MobileNavToggle
+                        isOpen={isOpen}
+                        onClick={() => setIsOpen(!isOpen)}
+                    />
+                    </div>
+                    
+                </MobileNavHeader>
 
+                <MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                    <a href="/" onClick={() => setIsOpen(false)}>Home</a>
+                    <a href="/about" onClick={() => setIsOpen(false)}>About</a>
+                    <a href="#services" onClick={() => setIsOpen(false)}>Services</a>
+                    <a href="#contact" onClick={() => setIsOpen(false)}>Contact</a>
+                </MobileNavMenu>
+            </MobileNav>
+        </Navbar>
 
-        </header>
-
-    )
-}
-
-function ListItem({
-    title,
-    children,
-    href,
-    ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
-    return (
-        <li {...props}>
-            <NavigationMenuLink asChild>
-                <Link href={href}>
-                    <div className="text-sm leading-none font-medium mb-2">{title}</div>
-                    <p className="grid grid-cols-2 text-muted-foreground  text-sm leading-snug">
-                        {children}
-                    </p>
-                </Link>
-            </NavigationMenuLink>
-        </li>
     )
 }
 export default Header;
