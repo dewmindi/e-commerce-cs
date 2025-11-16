@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, CalendarCheck, BadgeDollarSign, PercentDiamondIcon, PersonStanding, ShoppingCart } from 'lucide-react';
+import { Check} from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
@@ -144,7 +144,7 @@ const PricingPlan = () => {
             Pricing
           </h2> */}
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-            Choose the perfect plan that fits your needs and budget. Each package is designed to deliver exceptional value and results.
+            Select the perfect plan that fits your needs and budget. Each package is designed to deliver exceptional value and results.
           </p>
         </div>
 

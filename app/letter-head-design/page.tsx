@@ -17,7 +17,7 @@ const businessCardContent = {
     pricingPlans: [
         {
             title: 'Basic',
-            price: '$35',
+            price: '$40',
             features: [
                 { text: 'Concept - 1', type: 'feature' },
                 { text: 'Printable File', type: 'feature' },

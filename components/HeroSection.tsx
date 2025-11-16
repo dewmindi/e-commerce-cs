@@ -290,11 +290,11 @@ const HeroSection = () => {
       id="home"
       className="relative py-10 px-4 sm:px-6 lg:px-8 min-h-screen -mt-4 overflow-hidden bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: "url('/cs.png')",
+        backgroundImage: "url('/New.png')",
       }}
     >
       {/* ✅ Black overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/80 to-black/100 z-0"></div>
+      {/* <div className="absolute bg-gradient-to-b from-black/40 via-black/80 to-black/100 z-0"></div> */}
 
       {/* ✅ Left Grid */}
       <div className="absolute left-0 top-0 h-full w-auto -translate-x-1/3 opacity-80 z-0">
@@ -307,6 +307,7 @@ const HeroSection = () => {
       </div>
 
       <Header/>
+      {/* <TempHeader/> */}
 
       {/* ✅ Content */}
       <div className="relative max-w-7xl mx-auto text-center mt-10 z-10">

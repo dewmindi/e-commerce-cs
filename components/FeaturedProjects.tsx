@@ -21,42 +21,46 @@ const FeaturedProjects = () => {
                             className="object-contain rounded-[22px] border border-zinc-800"
                         />
                         <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Eco Spark Cleaning 
+                            Crystalx Auto Detailing
                         </p>
 
                         <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                         <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs  dark:bg-zinc-800 border border-zinc-800">
-                            <span>Web Development</span>
-                            <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                View
-                            </span>
-                        </button>
+                        <Link href="https://crystalxauto.com.au/" passHref target="_blank">
+                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
+                                <span>Web Development</span>
+                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
+                                    View
+                                </span>
+                            </button>
+                        </Link>
                     </BackgroundGradient>
                 </div>
                 <div className='mt-4 md:mt-0'>
                     <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
                         <img
-                            src={`/primes-cleaning-meta.png`}
+                            src={`/best-mortgage.png`}
                             alt="jordans"
                             height="400"
                             width="400"
                             className="object-contain rounded-[22px] border-zinc-800"
                         />
                         <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Primes Cleaning 
+                            Best Mortgage & Financial
                         </p>
 
                         <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
-                            <span>Web Development</span>
-                            <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                View
-                            </span>
-                        </button>
+                        <Link href="https://bmafs.com.au/" passHref target="_blank">
+                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
+                                <span>Web Development</span>
+                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
+                                    View
+                                </span>
+                            </button>
+                        </Link>
                     </BackgroundGradient>
                 </div>
                 <div className='mt-4 md:mt-0'>
@@ -69,42 +73,46 @@ const FeaturedProjects = () => {
                             className="object-contain rounded-[22px] border-zinc-800"
                         />
                         <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Elegance Stone 
+                            Eco Spark Cleaning
                         </p>
 
                         <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                        <button className="rounded-full  pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
-                            <span>Brand Identity </span>
-                            <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                View
-                            </span>
-                        </button>
+                        <Link href="https://ecosparkcco.com.au/" passHref target="_blank">
+                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
+                                <span>Web Development</span>
+                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
+                                    View
+                                </span>
+                            </button>
+                        </Link>
                     </BackgroundGradient>
                 </div>
                 <div className='mt-4 md:mt-0'>
                     <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
                         <img
-                            src={`/cygnus-ui-meta.png`}
+                            src={`/ak-pressure-ui.png`}
                             alt="jordans"
                             height="400"
                             width="400"
                             className="object-contain rounded-[22px] border-zinc-800"
                         />
                         <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Zgiri Robotics
+                            AK Pressure Washing
                         </p>
 
                         <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
                             Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
                         </p>
-                        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
-                            <span>Web Development</span>
-                            <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                View
-                            </span>
-                        </button>
+                        <Link href="https://akpressurewashing.com.au/" passHref target="_blank">
+                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
+                                <span>Web Development</span>
+                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
+                                    View
+                                </span>
+                            </button>
+                        </Link>
                     </BackgroundGradient>
                 </div>
             </div>

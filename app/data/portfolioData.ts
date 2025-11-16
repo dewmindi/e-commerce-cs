@@ -10,7 +10,7 @@ export const projectsData = [
             // Each tag needs to be an object with the properties expected by handleTagClick
             // You'll need to link these tags back to your categoriesData for the paths
             { name: "Logo Design", parentCategoryName: "Brand Identity", path: "/logo-design", mainPagePath: "/projects" },
-            { name: "Cooperate Profile Design", parentCategoryName: "Book & Magazine Design", path: null, mainPagePath: "/projects" },
+            { name: "Cooperate Profile Design", parentCategoryName: "Brand Identity", path: "/cooperate-profile-design", mainPagePath: "/projects" },
             { name: "Business Card Design", parentCategoryName: "Brand Identity", path: "/business-card", mainPagePath: "/projects" }, // If 'Minimalist' doesn't have its own page
             { name: "Letter Head Design", parentCategoryName: "Brand Identity", path: "/letter-head-design", mainPagePath: "/projects" },
             { name: "Email Signature Design", parentCategoryName: "Brand Identity", path: "/email-signature-design", mainPagePath: "/projects" },
@@ -36,7 +36,8 @@ export const projectsData = [
         image: '/ServiceImages/social.jpeg',
         tags: [
             { name: "Social Media Design", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
-            { name: "Social Media Management", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
+            { name: "Social Media Management", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media-management" },
+            { name: "Social Media Growth", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media-management" },
         ]
     },
     {

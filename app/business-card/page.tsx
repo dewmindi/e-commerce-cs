@@ -17,7 +17,7 @@ const businessCardContent = {
     pricingPlans: [
         {
             title: 'Basic',
-            price: '$35',
+            price: '$40',
             features: [
                 { text: 'Double Side Design', type: 'feature' },
                 { text: 'Concept - 1', type: 'feature' },
@@ -51,7 +51,7 @@ const businessCardContent = {
                 { text: 'Up to 3 Concepts', type: 'feature' },
                 { text: 'Printable File', type: 'feature' },
                 { text: 'Revisions - 6', type: 'feature' },
-                { text: 'For 2 Employee', type: 'feature' },
+                { text: 'For 3 Employee', type: 'feature' },
                 { text: 'Mock Up - 1', type: 'feature' },
                 { text: 'Deliver - 48 Hours', type: 'feature' },
                 { text: 'Source File', type: 'feature' },

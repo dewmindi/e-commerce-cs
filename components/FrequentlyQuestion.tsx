@@ -68,7 +68,7 @@ const FrequentlyQuestion = () => {
   {
     question: "Do you offer revisions?",
     answer:
-      "Yes! We offer revisions to ensure your final design meets your vision and expectations.",
+      "Yes! Revisions are offered depends on the project type to ensure your final design meets your vision and expectations.",
   },
   {
     question: "Do you offer website development services for small businesses?",
@@ -119,7 +119,7 @@ const FrequentlyQuestion = () => {
         {faqs.map((faq, index)=>(
           <AccordionItem key={index} value={`item-${index+1}`}>
             <AccordionTrigger>{faq.question}</AccordionTrigger>
-            <AccordionContent className='flex flex-col gap-4 text-balance text-left'>
+            <AccordionContent className='flex flex-col gap-4 text-justify'>
               <p>{faq.answer}</p>
             </AccordionContent>
           </AccordionItem>

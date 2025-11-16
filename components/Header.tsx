@@ -9,15 +9,6 @@ import { useCart } from "@/app/context/CartContext";
 import { loadStripe } from '@stripe/stripe-js';
 
 import { useIsMobile } from "@/hooks/use-mobile"
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
 import { Navbar, NavBody, NavbarLogo, NavItems, MobileNav, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "./ui/resizable-navbar"
 import { ServicesDropdown } from "./ServicesDropdown"
 import { link } from "fs"
@@ -27,6 +18,7 @@ const Header = () => {
     const { cart, getTotalItems, removeFromCart, getTotalPrice } = useCart()
     const [isCartOpen, setIsCartOpen] = useState(false)
     const cartRef = useRef(null)
+    const mobilecartRef = useRef(null)
     const router = useRouter();
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -78,23 +70,24 @@ const Header = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
-                setIsCartOpen(false);
+            const target = event.target as Node;
+
+            if (isMobile) {
+                if (mobilecartRef.current && !mobilecartRef.current.contains(target)) {
+                    setIsCartOpen(false);
+                }
+            } else {
+                if (cartRef.current && !cartRef.current.contains(target)) {
+                    setIsCartOpen(false);
+                }
             }
         };
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [isMobile]);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
-                setIsCartOpen(false)
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
+
 
     const handleCheckout = async () => {
         if (cart.length === 0) {
@@ -165,7 +158,8 @@ const Header = () => {
                             </span>
                         )}
                     </button>
-                    {isCartOpen && (
+                    {/* Desktop */}
+                    {!isMobile && isCartOpen && (
                         <div ref={cartRef} className="absolute right-0 mt-3 w-80 bg-white border rounded-lg shadow-lg z-50">
                             <div className="p-4 border-b flex justify-between items-center">
                                 <h3 className="text-sm font-semibold text-[#333]">Cart Summary</h3>
@@ -243,8 +237,9 @@ const Header = () => {
                                     </span>
                                 )}
                             </button>
-                            {isCartOpen && (
-                                <div ref={cartRef} className="absolute right-0 mt-3 w-80 bg-white border rounded-lg shadow-lg z-50">
+                            {/* Mobile */}
+                            {isMobile && isCartOpen && (
+                                <div ref={mobilecartRef} className="absolute right-0 mt-3 w-80 bg-white border rounded-lg shadow-lg z-50">
                                     <div className="p-4 border-b flex justify-between items-center">
                                         <h3 className="text-sm font-semibold text-[#333]">Cart Summary</h3>
                                         <button onClick={() => setIsCartOpen(false)}>
@@ -304,13 +299,14 @@ const Header = () => {
                                     )}
                                 </div>
                             )}
+
                         </div>
                         <MobileNavToggle
-                        isOpen={isOpen}
-                        onClick={() => setIsOpen(!isOpen)}
-                    />
+                            isOpen={isOpen}
+                            onClick={() => setIsOpen(!isOpen)}
+                        />
                     </div>
-                    
+
                 </MobileNavHeader>
 
                 <MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>

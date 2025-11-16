@@ -18,7 +18,7 @@ const businessCardContent = {
     pricingPlans: [
         {
             title: 'Basic',
-            price: '$480',
+            price: '$490',
             features: [
                 { text: 'Up to 4 pages', type: 'feature' },
                 { text: 'Responsive design (mobile-friendly)', type: 'feature' },
