@@ -1,9 +1,38 @@
 import React from 'react'
 import { BackgroundGradient } from './ui/background-gradient'
 import Link from 'next/link'
+import Image from 'next/image'
 
 
 const FeaturedProjects = () => {
+
+    const recentProjects = [
+        {
+            img: "/crystalx-ui-meta.png",
+            tittle: "Crystalx Auto Detailing",
+            desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
+            link: "https://crystalxauto.com.au/",
+        },
+        {
+            img: "/best-mortgage.png",
+            tittle: "Best Mortgage & Financial",
+            desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
+            link: "https://crystalxauto.com.au/",
+        },
+        {
+            img: "/Eco-spark-ui-meta.png",
+            tittle: "Eco Spark Cleaning",
+            desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
+            link: "https://crystalxauto.com.au/",
+        },
+        {
+            img: "/ak-pressure-ui.png",
+            tittle: "AK Pressure Washing",
+            desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
+            link: "https://crystalxauto.com.au/",
+        },                        
+    ]
+
     return (
         <div id='portfolio' className='max-w-7xl mx-auto flex flex-col py-20'>
             <h1 className="text-2xl md:text-4xl text-center  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
@@ -11,21 +40,23 @@ const FeaturedProjects = () => {
                 Recent Projects
             </h1>
             <div className='sm:grid md:flex justify-center gap-10 px-8 md:px-0 mt-10 '>
-                <div>
+                {recentProjects.map((project, index)=>(
+                <div key={index} className={`${index !== 0 ? "mt-4 md:mt-0" : ""}`}>
                     <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
-                        <img
-                            src={`/crystalx-ui-meta.png`}
-                            alt="jordans"
-                            height="400"
-                            width="400"
+                        <Image
+                            src={project.img}
+                            alt={project.tittle}
+                            height={400}
+                            width={400}
+                            priority
                             className="object-contain rounded-[22px] border border-zinc-800"
                         />
                         <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Crystalx Auto Detailing
+                            {project.tittle}
                         </p>
 
                         <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
-                            Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
+                            {project.desc}
                         </p>
                         <Link href="https://crystalxauto.com.au/" passHref target="_blank">
                             <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
@@ -37,84 +68,7 @@ const FeaturedProjects = () => {
                         </Link>
                     </BackgroundGradient>
                 </div>
-                <div className='mt-4 md:mt-0'>
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
-                        <img
-                            src={`/best-mortgage.png`}
-                            alt="jordans"
-                            height="400"
-                            width="400"
-                            className="object-contain rounded-[22px] border-zinc-800"
-                        />
-                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Best Mortgage & Financial
-                        </p>
-
-                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
-                            Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
-                        </p>
-                        <Link href="https://bmafs.com.au/" passHref target="_blank">
-                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
-                                <span>Web Development</span>
-                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                    View
-                                </span>
-                            </button>
-                        </Link>
-                    </BackgroundGradient>
-                </div>
-                <div className='mt-4 md:mt-0'>
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
-                        <img
-                            src={`/Eco-spark-ui-meta.png`}
-                            alt="jordans"
-                            height="400"
-                            width="400"
-                            className="object-contain rounded-[22px] border-zinc-800"
-                        />
-                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            Eco Spark Cleaning
-                        </p>
-
-                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
-                            Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
-                        </p>
-                        <Link href="https://ecosparkcco.com.au/" passHref target="_blank">
-                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
-                                <span>Web Development</span>
-                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                    View
-                                </span>
-                            </button>
-                        </Link>
-                    </BackgroundGradient>
-                </div>
-                <div className='mt-4 md:mt-0'>
-                    <BackgroundGradient className="rounded-[22px] max-w-sm p-2  bg-black">
-                        <img
-                            src={`/ak-pressure-ui.png`}
-                            alt="jordans"
-                            height="400"
-                            width="400"
-                            className="object-contain rounded-[22px] border-zinc-800"
-                        />
-                        <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
-                            AK Pressure Washing
-                        </p>
-
-                        <p className="text-sm px-2 text-neutral-600 dark:text-neutral-400">
-                            Modern,SEO Optimized & mobile responsive website for a australian based cleaning service.
-                        </p>
-                        <Link href="https://akpressurewashing.com.au/" passHref target="_blank">
-                            <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs border border-zinc-800">
-                                <span>Web Development</span>
-                                <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                                    View
-                                </span>
-                            </button>
-                        </Link>
-                    </BackgroundGradient>
-                </div>
+                ))}
             </div>
             <div className="max-w-7xl mx-auto mt-10">
                 <Link href="/web-development">

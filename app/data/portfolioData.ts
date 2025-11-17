@@ -5,7 +5,7 @@ export const projectsData = [
         category: 'Brand Identity / Logo Design', // This is the main category for the project
         title: '',
         description: '',
-        image: '/ServiceImages/logo.jpeg?height=400&width=600',
+        image: '/ServiceImages/logo.webp?height=400&width=600',
         tags: [
             // Each tag needs to be an object with the properties expected by handleTagClick
             // You'll need to link these tags back to your categoriesData for the paths
@@ -21,7 +21,7 @@ export const projectsData = [
         category: 'Web Development',
         title: '',
         description: '',
-        image: '/ServiceImages/web.jpeg?height=400&width=600',
+        image: '/ServiceImages/web.webp?height=400&width=600',
         tags: [
             { name: "Business Websites", parentCategoryName: "Web Development", path: null, mainPagePath: "/web-development" },
             { name: "E-Commerce Development", parentCategoryName: "Web Development", path: null, mainPagePath: "/e-commerce-websites" },
@@ -33,7 +33,7 @@ export const projectsData = [
         category: 'Social Media Service',
         title: '',
         description: '',
-        image: '/ServiceImages/social.jpeg',
+        image: '/ServiceImages/social.webp',
         tags: [
             { name: "Social Media Design", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
             { name: "Social Media Management", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media-management" },
@@ -45,7 +45,7 @@ export const projectsData = [
         category: 'Packaging & Label Design',
         title: '',
         description: '',
-        image: '/ServiceImages/packaging.jpeg',
+        image: '/ServiceImages/packaging.webp',
         tags: [
             { name: "Label Design", parentCategoryName: "Packaging & Label Design", path: null, mainPagePath: "/label-design" },
             { name: "Packaging Design", parentCategoryName: "Packaging & Label Design", path: null, mainPagePath: "/label-design" },
@@ -58,7 +58,7 @@ export const projectsData = [
         category: 'Leaflet, Flyer & Poster Design',
         title: '',
         description: '',
-        image: '/ServiceImages/leaflet.jpeg',
+        image: '/ServiceImages/leaflet.webp',
         tags: [
             { name: "Leaflet Design", parentCategoryName: "Leaflet, Flyer & Brochure Design", path: null, mainPagePath: "/leaflet-design" },
             { name: "Flyer Design", parentCategoryName: "Leaflet, Flyer & Brochure Design", path: null, mainPagePath: "/leaflet-design" },
@@ -84,7 +84,7 @@ export const projectsData = [
         category: 'Banner, Poster & Poster Design',
         title: '',
         description: '',
-        image: '/ServiceImages/banner.jpeg',
+        image: '/ServiceImages/banner.webp',
         tags: [
             { name: "Banner Design", parentCategoryName: "Banner, Poster & Cover Design", path: null, mainPagePath: "/banner-poster-design" },
             { name: "Poster Design", parentCategoryName: "Banner, Poster & Cover Design", path: null, mainPagePath: "/banner-poster-design" },

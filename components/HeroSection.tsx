@@ -1,3 +1,4 @@
+"use client"
 import { motion } from 'framer-motion'
 import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
@@ -8,6 +9,8 @@ import {
 } from "@/components/ui/hover-card"
 import Header from "@/components/Header"
 import { usePathname, useRouter } from 'next/navigation'
+import csHeroImg from '../public/new-hero-cs-img.webp'
+import Image from 'next/image'
 
 const GridSVG = () => (
   <svg
@@ -231,14 +234,13 @@ const HeroSection = () => {
 
           {/* Inner image area */}
           <div className="absolute inset-4 rounded-[20px] overflow-hidden border border-white/10 shadow-lg">
-            {images.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`Hero ${index}`}
-                className="w-full h-full object-fill md:object-cover"
-              />
-            ))}
+            <Image
+              src={csHeroImg}
+              alt="Hero Image"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
 

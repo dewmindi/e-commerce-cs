@@ -1,11 +1,6 @@
 "use client"
-
-import { useState, useEffect } from "react"
-import { ArrowBigRight } from "lucide-react"
-
+import { useState} from "react"
 import ChatBotModal from "@/components/ChatBotModal"
-import Link from 'next/link';
-// import Header from "@/components/Header"
 import ContactUs from "@/components/ContactUs"
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards"
 import Achievements from "@/components/Achievements"
@@ -15,12 +10,9 @@ import Portfolio from "@/components/Portfolio"
 import HeroSection from "@/components/HeroSection"
 import FrequentlyQuestion from "@/components/FrequentlyQuestion";
 import GoogleReviews from "@/components/GoogleReviews";
-import NewHero from "@/components/NewHero";
-import { Header } from "@/components/Header";
 import { TrustedPartners } from "@/components/TrustedPartners";
 
 import FeaturedProjects from "@/components/FeaturedProjects";
-import { MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle, Navbar, NavbarLogo, NavBody, NavItems } from "@/components/ui/resizable-navbar";
 
 interface CartItem {
   id: string
@@ -32,71 +24,11 @@ interface CartItem {
 }
 
 export default function CSGraphicsMetaWebsite() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([])
 
   const [isLoaded, setIsLoaded] = useState(false)
 
-  useEffect(() => {
-    setIsLoaded(true)
-  }, [])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "services", "portfolio", "pricing", "faq", "contact"]
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-    setIsMenuOpen(false)
-  }
-
-  const addToCart = (project: any) => {
-    const cartItem: CartItem = {
-      id: project.title.toLowerCase().replace(/\s+/g, "-"),
-      title: project.title,
-      category: project.category,
-      price: project.price,
-      image: project.image,
-      quantity: 1,
-    }
-
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === cartItem.id)
-      if (existingItem) {
-        return prevCart.map((item) => (item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item))
-      } else {
-        return [...prevCart, cartItem]
-      }
-    })
-  }
-
-  const removeFromCart = (id: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id))
-  }  
 
   return (
     <div className=" bg-black text-[#333333]">

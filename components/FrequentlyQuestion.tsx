@@ -1,12 +1,9 @@
-import { motion } from 'framer-motion'
-import { AsteriskIcon } from 'lucide-react'
+"use client";
 import { Input } from "@/components/ui/input"
-import { ref } from 'process'
 import React, { useState } from 'react'
-import CustomQuestions from './CustomQuestions'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
-import { useInViewAnimation } from '@/utils/inviewAnimation'
+
 import {
   Accordion,
   AccordionContent,

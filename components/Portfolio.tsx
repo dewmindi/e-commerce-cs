@@ -1,6 +1,4 @@
-import { Link } from 'lucide-react'
 import React, { useState } from 'react'
-import { Button } from './ui/button'
 import ProjectCard from './ProjectCard'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
@@ -74,18 +72,6 @@ const Portfolio = () => {
                             {projects[5] && <ProjectCard project={projects[4]} />}
                         </div>
                     </div>
-
-
-                    {/* Row 3 */}
-                    {/* <div className="grid sm:grid-cols-1 md:grid-cols-6 gap-6">
-                        <div className="sm:col-span-1 md:col-span-2 h-[250px]">
-                            {projects[5] && <ProjectCard project={projects[5]} />}
-                        </div>
-                        <div className="sm:col-span-1 md:col-span-4 h-[250px]">
-                            {projects[6] && <ProjectCard project={projects[6]} />}
-                        </div>
-                    </div> */}
-
                 </div>
             </motion.div>
         </section>
