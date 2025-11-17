@@ -245,24 +245,24 @@ export const MobileNavToggle = ({
     return isOpen ? (
         <X className="text-black dark:text-white" onClick={onClick} />
     ) : (
-        <Menu className="text-black dark:text-white" onClick={onClick} />
+        <Menu className="text-white dark:text-white" onClick={onClick} />
     );
 };
 
 export const NavbarLogo = () => {
     return (
-        <a
-            href="#"
-            className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
-        >
-            <img
-                src="/cs-logo.png"
-                alt="logo"
-                width={30}
-                height={30}
-            />
-            {/* <span className="font-medium text-black dark:text-white">Startup</span> */}
-        </a>
+    <a
+      href="#"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1"
+    >
+      <div className="h-10 w-auto flex items-center overflow-hidden">
+        <img
+          src="/cs-nav-logo.png"
+          alt="logo"
+          className="h-full w-auto object-contain"
+        />
+      </div>
+    </a>
     );
 };
 

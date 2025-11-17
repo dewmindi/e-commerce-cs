@@ -7,6 +7,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import Header from "@/components/Header"
+import { usePathname, useRouter } from 'next/navigation'
 
 const GridSVG = () => (
   <svg
@@ -34,6 +35,8 @@ const GridSVG = () => (
 const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (videoRef.current) videoRef.current.playbackRate = 1;
@@ -72,6 +75,18 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+    const scrollToSection = (sectionId: string, href?: string) => {
+
+        if (pathname === "/") {
+            const element = document.getElementById(sectionId)
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" })
+            }
+        } else {
+            router.push(`#${sectionId}`)
+        }
+    }
+    
 
   return (
     <section
@@ -117,8 +132,10 @@ const HeroSection = () => {
 
         {/* ✅ Buttons */}
         <div className="flex justify-center gap-14 text-lg text-gray-800 font-poppins">
-          <Link href="#packages">
-            <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
+          
+            <button 
+              onClick={() => scrollToSection("packages")}
+              className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
               <span className="absolute inset-0 overflow-hidden rounded-full">
                 <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </span>
@@ -132,10 +149,10 @@ const HeroSection = () => {
               </div>
               <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
             </button>
-          </Link>
-
-          <Link href="#services">
-            <button className="group relative shadow-2xl rounded-full p-px text-xs leading-6 text-white inline-block">
+          
+            <button 
+              onClick={() => scrollToSection("services")}
+              className="group relative shadow-2xl rounded-full p-px text-xs leading-6 text-white inline-block">
               <span className="absolute inset-0 overflow-hidden rounded-full">
                 <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </span>
@@ -152,7 +169,6 @@ const HeroSection = () => {
                 </svg>
               </div>
             </button>
-          </Link>
         </div>
 
         {/* ✅ Hover cards */}
