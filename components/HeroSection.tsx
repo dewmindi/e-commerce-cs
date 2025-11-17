@@ -52,11 +52,11 @@ const HeroSection = () => {
     },
     {
       category: "Web Development",
-      services: ["E-commerce Website", "Portfolio Website", "Business Website", "Booking Website"]
+      services: ["Business Website", "E-commerce Website","Custom Website"]
     },
     {
       category: "Social Media Service",
-      services: ["Social Media Design", "Social Media Management"]
+      services: ["Social Media Design", "Social Media Management", "Social Media Growth"]
     },
     {
       category: "Packaging & Label Design",

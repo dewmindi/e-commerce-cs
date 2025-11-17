@@ -42,7 +42,7 @@ export const projectsData = [
     },
     {
         id: 'p4',
-        category: 'Packaging & Label Design',
+        category: 'Packaging, Label & Sticker Design',
         title: '',
         description: '',
         image: '/ServiceImages/packaging.webp',

@@ -14,51 +14,8 @@ import FooterNew from '@/components/FooterNew';
 import { useCart } from '@/app/context/CartContext';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
+import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
 
-// Define the types for your data structures to ensure type safety
-interface Benefit {
-  text: string;
-}
-
-interface PricingPlanFeature {
-  text: string;
-  type: 'feature' | 'disfeature' | 'exfeature'; // To differentiate between included, excluded, and extra
-}
-
-interface PricingPlan {
-  title: string;
-  price: string;
-  features: PricingPlanFeature[];
-}
-
-interface FAQ {
-  question: string;
-  answer: string;
-}
-
-interface ProjectImage {
-  image: string;
-  name: string;
-  title: string;
-}
-
-interface CategoryPageContent {
-  pageTitle: string;
-  headerDescription: string;
-  headerImage: string;
-  aboutDescription: string;
-  benefits: string[]; // Simple array of strings for now
-  pricingPlans?: PricingPlan[];
-  portfolioImages: ProjectImage[];
-  faqs: FAQ[];
-  callToActionTitle: string;
-  callToActionDescription: string;
-  processDescription: string;
-}
-
-interface CategoryPageTemplateProps {
-  content: CategoryPageContent;
-}
 
 const socialMediaGrowthContent = () => {
   const router = useRouter();
@@ -138,24 +95,10 @@ const socialMediaGrowthContent = () => {
     }).format(value);
   };
 
-  const features = [
-    "Increase followers rapidly from 5,000 up to 100,000",
-    "Boost post engagement with 50 to 20,000 reactions",
-    "Supports Facebook, TikTok, and Instagram",
-    "Safe, secure & no login access required",
-    "Build instant trust and social proof",
-    "High-quality follower base",
-    "Achieve higher visibility and organic reach",
-    "Perfect for businesses, influencers, and personal brands",
-    "Custom growth plans available for long-term needs",
-    "Top-tier delivery & bulk discounts",
-    "Custom long-term growth support",
-  ]
-
   const pricingPlans = [
     {
-      title: "Starter",
-      price: "400",
+      title: "",
+      price: "",
       features: [
         { text: "Increase followers rapidly from 5,000 up to 100,000", type: "feature" },
         { text: "Boost post engagement with 50 to 20,000 reactions", type: "feature" },
@@ -187,7 +130,7 @@ const socialMediaGrowthContent = () => {
           className=""
         >
           {/* --- Header Section --- */}
-          <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+          <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
             <div className="absolute inset-0 z-0 opacity-20">
               {/* <Image
                                 src={content.headerImage}
@@ -206,9 +149,9 @@ const socialMediaGrowthContent = () => {
               </p>
               <Button
                 onClick={() => router.push('/projects')}
-                className="mt-3 bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105"
+                className="mt-3 bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg text-lg shadow-md transition-all duration-300 hover:scale-105"
               >
-                &larr; View All Categories
+                View All Categories
               </Button>
             </div>
           </section>
@@ -231,8 +174,11 @@ const socialMediaGrowthContent = () => {
                     whileHover={{ y: -5 }}
                   >
                     <div>
-                      <h3 className="text-2xl font-bold text-white mb-4">{plan.title}</h3>
-                      <p className="text-5xl font-extrabold text-[#e2c363fc] mb-6">A{formatCurrency(plan.price)}</p>
+                      <div className='flex justify-center mb-4 gap-4'>
+                        <div><FaFacebookF className="text-white text-4xl border rounded-full py-1" /></div>
+                        <div><FaTiktok className="text-white text-4xl border rounded-full py-1" /></div>
+                        <div><FaInstagram className="text-white text-4xl border rounded-full py-1" /></div>
+                      </div>
                       <ul className="text-left text-gray-300 mb-8 space-y-2">
                         {plan.features.map((feature, idx) => (
                           <li

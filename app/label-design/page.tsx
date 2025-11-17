@@ -4,7 +4,7 @@ import CategoryPageTemplate from '@/components/CategoryPageTemplate';
 
 // Define your specific data for the Business Card Design page
 const businessCardContent = {
-    pageTitle: 'Packaging & Label Design',
+    pageTitle: 'Packaging, Label & Sticker Design',
     headerDescription: 'Creating attractive and functional packaging and labels that stand out on shelves and speak to your audience.',
     headerImage: '/packaging/pack5.jpeg', // A relevant image for the header
     aboutDescription: "Your product deserves packaging that not only protects but also captivates. Our Packaging & Label Design services combine creativity, strategy, and functionality to craft designs that stand out on the shelf and resonate with your target audience. From bold, eye-catching labels to innovative, sustainable packaging solutions, we ensure every element reflects your brand identity while enhancing the customer experience. Whether it’s a luxury product, everyday essential, or niche item, our designs communicate quality, inspire trust, and make your brand unforgettable.",

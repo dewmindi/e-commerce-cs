@@ -1,17 +1,16 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import { Menu, X, ShoppingCart, ChevronDown } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
-import { loadStripe } from '@stripe/stripe-js';
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Navbar, NavBody, NavbarLogo, NavItems, MobileNav, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "./ui/resizable-navbar"
 import { ServicesDropdown } from "./ServicesDropdown"
-import { link } from "fs"
+
+
 
 const Header = () => {
     const isMobile = useIsMobile()
@@ -21,8 +20,6 @@ const Header = () => {
     const mobilecartRef = useRef(null)
     const router = useRouter();
     const pathname = usePathname();
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [activeSection, setActiveSection] = useState("home")
     const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
 
     // --- Smooth scroll to section ---
@@ -43,30 +40,6 @@ const Header = () => {
         }
     }
 
-    // --- Track active section on scroll ---
-    useEffect(() => {
-        if (pathname === "/") {
-            const handleScroll = () => {
-                const sections = ["home", "about", "services", "portfolio", "packages", "faq", "contact"];
-                const scrollPosition = window.scrollY + 100;
-                let currentActive = "home";
-                for (const section of sections) {
-                    const element = document.getElementById(section);
-                    if (element) {
-                        const offsetTop = element.offsetTop;
-                        const offsetHeight = element.offsetHeight;
-                        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-                            currentActive = section;
-                            break;
-                        }
-                    }
-                }
-                setActiveSection(currentActive);
-            };
-            window.addEventListener("scroll", handleScroll);
-            return () => window.removeEventListener("scroll", handleScroll);
-        }
-    }, [pathname]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -140,16 +113,26 @@ const Header = () => {
         { name: "Contact", link: "#contact" },
     ];
 
+    const handleTagClick = (tag: ProjectTag) => { // Accept the full tag object
+        // The condition should check the 'parentCategoryName' property of the tag
+        // AND ensure that the tag actually has a specific path defined
+        if (tag.parentCategoryName === "Brand Identity" && tag.path) {
+            router.push(tag.path);
+        } else {
+            router.push(tag.mainPagePath);
+        }
+    };
+
     return (
         <Navbar className="top-0 fixed bg-black">
             {/* DESKTOP NAV */}
             <NavBody>
                 <NavbarLogo />
 
-                <NavItems items={navItems} />
+                <NavItems items={navItems}  className="ml-2"/>
 
                 {/* Example button */}
-                <div className=" bg-black text-white rounded-md">
+                <div className=" border text-white rounded-md">
                     <button onClick={() => setIsCartOpen(!isCartOpen)} className="relative p-2">
                         <ShoppingCart className="w-6 h-6 text-white" />
                         {getTotalItems() > 0 && (

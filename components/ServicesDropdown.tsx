@@ -27,10 +27,10 @@ export const ServicesDropdown = () => {
                         <ul className="grid gap-2 md:w-[400px] lg:w-[600px] lg:grid-cols-[.75fr_1fr] py-4 ">
                             <li className="row-span-4">
                                 <NavigationMenuLink asChild>
-                                    <a
+                                    <div
                                         className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-4 no-underline outline-hidden transition-all duration-200 select-none focus:shadow-md md:p-6"
-                                        href="/"
-                                    >        
+
+                                    >
                                         <img
                                             src={"/cs-logo.png"}
 
@@ -42,19 +42,43 @@ export const ServicesDropdown = () => {
                                         <a href="/business-card" className="hover:text-[#bb8d03]">Business Card Design</a>
                                         <a href="/letter-head" className="hover:text-[#bb8d03]">Letter Head Design</a>
                                         <a href="/email-signature-design" className="hover:text-[#bb8d03]">Email Signature Design</a>
-                                    </a>
+                                    </div>
                                 </NavigationMenuLink>
                             </li>
 
-                            <ListItem href="/web-development" title="Web Development" className="hover:text-[#bb8d03]">
-                                <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">E-commerce Website</li>
-                                <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Portfolio Website</li>
-                                <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Business Website</li>
-                                <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Booking Website</li>
+                            <ListItem href="" title="Web Development" className="hover:text-[#bb8d03]">
+                                <Link href="/web-development" passHref>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03] cursor-pointer">
+                                        Business Website
+                                    </li>
+                                </Link>
+                                <Link href="/e-commerce-websites" passHref>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03] cursor-pointer">
+                                        E-commerce Website
+                                    </li>
+                                </Link>
+                                <Link href="/custom-web-development" passHref>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03] cursor-pointer">
+                                        Custom Website
+                                    </li>
+                                </Link>
                             </ListItem>
-                            <ListItem href="/social-media-service" title="Social Media Service" className="hover:text-[#bb8d03]">
-                                <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Social Media Design</li>
-                                <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Social Media Managment</li>
+                            <ListItem href="/social-media" title="Social Media Service" className="hover:text-[#bb8d03]">
+                                <Link href="/social-media" passHref>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03] cursor-pointer">
+                                        Social Media Design
+                                    </li>
+                                </Link>
+                                <Link href="/social-media-management" passHref>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03] cursor-pointer">
+                                        Social Media Managment
+                                    </li>
+                                </Link>
+                                <Link href="/social-media-growth" passHref>
+                                    <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03] cursor-pointer">
+                                        Social Media Growth
+                                    </li>
+                                </Link>
                             </ListItem>
                             <ListItem href="/label-design" title="Packaging & Label Design" className="hover:text-[#bb8d03]">
                                 <li className="hover:underline hover:underline-offset-4 hover:text-[#bb8d03]">Packaging Design</li>

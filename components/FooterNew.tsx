@@ -49,11 +49,11 @@ const FooterNew = () => {
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Our Top Services</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Logo Design</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Business Card Design</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Letter Head Media Design</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Label Design</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Leaflet Design</a></li>
+              <li><a href="/logo-design" className="text-gray-400 hover:text-white transition-colors">Logo Design</a></li>
+              <li><a href="/business-card" className="text-gray-400 hover:text-white transition-colors">Business Card Design</a></li>
+              <li><a href="/letter-head-design" className="text-gray-400 hover:text-white transition-colors">Letter Head Media Design</a></li>
+              <li><a href="/label-design" className="text-gray-400 hover:text-white transition-colors">Label Design</a></li>
+              <li><a href="/web-development" className="text-gray-400 hover:text-white transition-colors">Web Development</a></li>
             </ul>
           </div>
 
@@ -88,11 +88,11 @@ const FooterNew = () => {
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Quick Link</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Our Services</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Portfolio</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Packages</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+              <li><a href="/#services" className="text-gray-400 hover:text-white transition-colors">Our Services</a></li>
+              <li><a href="/#portfolio" className="text-gray-400 hover:text-white transition-colors">Portfolio</a></li>
+              <li><a href="/#packages" className="text-gray-400 hover:text-white transition-colors">Packages</a></li>
+              <li><a href="/#faq" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+              <li><a href="/#contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>
 

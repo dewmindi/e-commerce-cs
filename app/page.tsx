@@ -12,14 +12,6 @@ import { TrustedPartners } from "@/components/TrustedPartners";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import ChatModalWrapper from "@/components/ChatModalWrapper"
 
-interface CartItem {
-  id: string
-  title: string
-  category: string
-  price: number
-  image: string
-  quantity: number
-}
 
 export default function CSGraphicsMetaWebsite() {
 

@@ -13,50 +13,6 @@ import Link from 'next/link';
 
 
 // Define the types for your data structures to ensure type safety
-interface Benefit {
-    text: string;
-}
-
-interface PricingPlanFeature {
-    text: string;
-    type: 'feature' | 'disfeature' | 'exfeature'; // To differentiate between included, excluded, and extra
-}
-
-interface PricingPlan {
-    title: string;
-    price: string;
-    features: PricingPlanFeature[];
-}
-
-interface FAQ {
-    question: string;
-    answer: string;
-}
-
-interface ProjectImage {
-    image: string;
-    name: string;
-    title: string;
-}
-
-interface CategoryPageContent {
-    pageTitle: string;
-    headerDescription: string;
-    headerImage: string;
-    aboutDescription: string;
-    benefits: string[]; // Simple array of strings for now
-    pricingPlans?: PricingPlan[];
-    portfolioImages: ProjectImage[];
-    faqs: FAQ[];
-    callToActionTitle: string;
-    callToActionDescription: string;
-    processDescription: string;
-}
-
-interface CategoryPageTemplateProps {
-    content: CategoryPageContent;
-}
-
 const SocialMediaManagement = () => {
     const router = useRouter();
     const { ref, sectionVariants, variants } = useInViewAnimation();
@@ -76,59 +32,6 @@ const SocialMediaManagement = () => {
     // Correctly initialize useCart
     const { addToCart } = useCart();
 
-    const [form, setForm] = useState({
-        project: "",
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-    });
-    const [file, setFile] = useState<File | null>(null);
-
-    const [submitted, setSubmitted] = useState(false);
-
-    function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
-        setForm((f) => ({ ...f, [key]: value }));
-    }
-
-    async function onSubmit(e: React.FormEvent) {
-        e.preventDefault();
-
-        try {
-
-            const formData = new FormData();
-            Object.entries(form).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-            if (file) {
-                formData.append("file", file);
-            }
-            const res = await fetch("api/quotation", {
-                method: "POST",
-                body: formData
-            });
-
-            const data = await res.json();
-            console.log(data);
-
-            if (data.success) {
-                setSubmitted(true);
-                setForm({
-                    project: content.pageTitle,
-                    name: "",
-                    email: "",
-                    phone: "",
-                    message: "",
-                });
-                setFile(null);
-            } else {
-                alert("Failed to send email:" + data.error);
-            }
-        } catch (err: any) {
-            alert("Sending email error:" + err.message);
-        }
-    }
-
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat("en-AU", {
             style: "currency",
@@ -143,11 +46,11 @@ const SocialMediaManagement = () => {
             title: 'BASIC',
             price: '550',
             features: [
-                { text: '12 posts per month', type: 'feature' },
+                { text: '12 Social media designs including videos', type: 'feature' },
                 { text: 'Content writing for every post', type: 'feature' },
-                { text: 'Hashtag and keyword research', type: 'feature' },
+                { text: 'Hashtag & keyword research for maximum reach', type: 'feature' },
                 { text: 'Full management of Facebook, Instagram & TikTok pages', type: 'feature' },
-                { text: 'Post uploading every 2 days (up to 12 posts/month)', type: 'feature' },
+                { text: 'Social media designs uploading every 2 days (up to 12 posts/month)', type: 'feature' },
                 { text: 'Monitoring and general page management', type: 'feature' },
             ],
         },
@@ -156,11 +59,11 @@ const SocialMediaManagement = () => {
             price: '770',
             features: [
                 { text: 'All features in the Basic Package', type: 'feature' },
-                { text: '20 premium posts per month', type: 'feature' },
-                { text: 'Advanced hashtag & keyword strategy', type: 'feature' },
+                { text: '20 premium social media designs per month', type: 'feature' },
+                { text: 'Advanced Hashtag & keyword research for maximum reach', type: 'feature' },
                 { text: 'Priority scheduling and page monitoring', type: 'feature' },
-                { text: 'Monthly insights report (optional to remove/add)', type: 'feature' },
-                { text: 'Enhanced content writing and copy optimization', type: 'feature' },
+                { text: 'Daily insights overview', type: 'feature' },
+                { text: 'Enhanced content writing and optimization', type: 'feature' },
             ],
         },
     ]
@@ -193,7 +96,7 @@ const SocialMediaManagement = () => {
                     className=""
                 >
                     {/* --- Header Section --- */}
-                    <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                    <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
                         <div className="absolute inset-0 z-0 opacity-20">
                             {/* <Image
                                 src={content.headerImage}
@@ -212,9 +115,9 @@ const SocialMediaManagement = () => {
                             </p>
                             <Button
                                 onClick={() => router.push('/projects')}
-                                className="mt-3 bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105"
+                                className="mt-3 bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg text-lg shadow-md transition-all duration-300 hover:scale-105"
                             >
-                                &larr; View All Categories
+                                View All Categories
                             </Button>
                         </div>
                     </section>
