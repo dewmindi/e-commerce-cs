@@ -8,25 +8,25 @@ const FeaturedProjects = () => {
 
     const recentProjects = [
         {
-            img: "/crystalx-ui-meta.png",
+            img: "/crystalx-ui-meta.webp",
             tittle: "Crystalx Auto Detailing",
             desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
             link: "https://crystalxauto.com.au/",
         },
         {
-            img: "/best-mortgage.png",
+            img: "/best-mortgage.webp",
             tittle: "Best Mortgage & Financial",
             desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
             link: "https://crystalxauto.com.au/",
         },
         {
-            img: "/Eco-spark-ui-meta.png",
+            img: "/Eco-spark-ui-meta.webp",
             tittle: "Eco Spark Cleaning",
             desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
             link: "https://crystalxauto.com.au/",
         },
         {
-            img: "/ak-pressure-ui.png",
+            img: "/ak-pressure-ui.webp",
             tittle: "AK Pressure Washing",
             desc: "Modern, SEO Optimized & mobile responsive website for an Australian based cleaning service.",
             link: "https://crystalxauto.com.au/",
@@ -46,10 +46,11 @@ const FeaturedProjects = () => {
                         <Image
                             src={project.img}
                             alt={project.tittle}
-                            height={400}
-                            width={400}
-                            priority
-                            className="object-contain rounded-[22px] border border-zinc-800"
+                            width={264}
+                            height={141}
+                            className="w-full object-contain rounded-[22px] border border-zinc-800"
+                            loading="lazy"
+                            quality={80}
                         />
                         <p className="text-base px-2 sm:text-xl text-white mt-8 mb-2 dark:text-neutral-200">
                             {project.tittle}

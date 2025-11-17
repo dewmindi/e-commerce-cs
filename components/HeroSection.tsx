@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/hover-card"
 import Header from "@/components/Header"
 import { usePathname, useRouter } from 'next/navigation'
-import csHeroImg from '../public/new-hero-cs-img.webp'
+import csHeroImg from '../public/new-hero-cs-img.jpg'
 import Image from 'next/image'
 
 const GridSVG = () => (
@@ -67,16 +67,6 @@ const HeroSection = () => {
       services: ["Leaflets Design", "Flyers Design", "Poster Design"]
     },
   ];
-
-  const images = ["/new-hero-cs-img.jpeg"];
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex(prev => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [images.length]);
 
     const scrollToSection = (sectionId: string, href?: string) => {
 
@@ -240,6 +230,7 @@ const HeroSection = () => {
               fill
               className="object-cover"
               priority
+              quality={75}
             />
           </div>
         </div>

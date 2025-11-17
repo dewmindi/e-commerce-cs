@@ -48,8 +48,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     src={project.image || "/placeholder.svg"}
                     alt={project.title}
                     fill
-                    priority
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, 264px"
+                    quality={80}
+                    loading="lazy"
                 />
                 {/* <img
                     src={project.image || "/placeholder.svg"}
