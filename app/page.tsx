@@ -96,24 +96,7 @@ export default function CSGraphicsMetaWebsite() {
 
   const removeFromCart = (id: string) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id))
-  }
-
-  const updateQuantity = (id: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(id)
-      return
-    }
-    setCart((prevCart) => prevCart.map((item) => (item.id === id ? { ...item, quantity } : item)))
-  }
-
-  const getTotalItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0)
-  }
-
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0)
-  }
-  
+  }  
 
   return (
     <div className=" bg-black text-[#333333]">

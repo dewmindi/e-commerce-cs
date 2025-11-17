@@ -37,7 +37,7 @@ export const projectsData = [
         tags: [
             { name: "Social Media Design", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media" },
             { name: "Social Media Management", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media-management" },
-            { name: "Social Media Growth", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media-management" },
+            { name: "Social Media Growth", parentCategoryName: "Social Media Design", path: null, mainPagePath: "/social-media-growth" },
         ]
     },
     {
