@@ -274,7 +274,7 @@ const HeroSection = () => {
     },
   ];
 
-  const images = ["/web-ui-design1.jpg"];
+  const images = ["/new-hero-cs-img.jpeg"];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {

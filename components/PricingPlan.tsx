@@ -66,8 +66,9 @@ const pricingPlans = [
         ]
       },
       {
-        title: "Exclusive Brand Assets",
+        title: "Special Inclusions",
         items: [
+          { text: "Premium Logo", highlight: true },
           { text: "A Business Card Design", highlight: true },
           { text: "A Letterhead Design", highlight: true },
           { text: "Free Logo Intro Video", highlight: true },
