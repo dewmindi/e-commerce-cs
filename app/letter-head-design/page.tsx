@@ -47,11 +47,11 @@ const businessCardContent = {
             title: 'Premium',
             price: '$85',
             features: [
-                { text: 'Up to  3 Concepts', type: 'feature' },
+                { text: 'Up to  2 Concepts', type: 'feature' },
                 { text: 'Printable File', type: 'feature' },
                 { text: 'Revisions - 6', type: 'feature' },
                 { text: 'Mock Up 1', type: 'feature' },
-                { text: 'For 2 Employee', type: 'feature' },
+                { text: 'For 3 Employee', type: 'feature' },
                 { text: 'Word File', type: 'feature' },
                 { text: 'Source File', type: 'feature' }, 
                 { text: 'Deliver - 48 Hours', type: 'feature' }, 

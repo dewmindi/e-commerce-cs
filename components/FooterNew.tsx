@@ -78,7 +78,7 @@ const FooterNew = () => {
               <a href="https://www.tiktok.com/@cs.graphic.meta?_t=ZS-8xbwKygCSO8&_r=1" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
                 <FaTiktok className="text-white text-lg" />
               </a>
-              <a href="" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
+              <a href="https://www.youtube.com/@CSGraphicMeta" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
                 <FaYoutube className="text-white text-lg" />
               </a>
             </div>

@@ -271,7 +271,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                                         <Button
                                             // ADDED onClick handler here
                                             onClick={() => scrollToSection("quote")}
-                                            className="bg-black border border-[#FFC107] text-white hover:bg-[#FFC107] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105 mt-auto">
+                                            className="bg-black border border-[#FFC107] text-foreground hover:bg-[#FFC107] hover:text-black px-8 py-3 rounded-lg  text-lg shadow-md transition-all duration-300 hover:scale-105 mt-auto">
                                             Get a quote
                                         </Button>
                                     </motion.div>
@@ -285,11 +285,15 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                     </section>
 
                     <section className='bg-black py-16 px-4 sm:px-6 lg:px-8'>
-                        <h2 className="text-3xl sm:text-4xl text-white text-center mb-4">
+                        <h2 className="text-3xl sm:text-4xl text-foreground text-center mb-4">
                             Get a Quote
                         </h2>
-                        <p className=' text-[#666666] text-center text-balance mb-4'>Our pricing is tailored to your project needs. Since design requirements can vary, the final cost will depend on your specific goals and preferences.
-                            Please share your basic details and a short note about your requirements. One of our team members will reach out to discuss further and provide a personalized estimate.</p>
+                        <p className="text-lg text-[#666666] leading-relaxed mb-8 text-center text-balance">
+                            Our pricing is tailored to your project needs. Since design requirements can vary, 
+                            the final cost will depend<br/> on your specific goals and preferences.
+                            Please share your basic details and a short note about your requirements. <br/>
+                            One of our team members will reach out to discuss further and provide a personalized estimate.
+                        </p>
                         <form id='quote' onSubmit={onSubmit} className="max-w-xl mx-auto border  p-8 rounded-lg shadow-md space-y-6 text-left" encType="multipart/form-data">
                             <Input
                                 type="text"

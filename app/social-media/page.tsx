@@ -21,7 +21,7 @@ const businessCardContent = {
             features: [
                 { text: 'Concept - 1', type: 'feature' },
                 { text: 'Revisions - 2', type: 'feature' },
-                { text: 'Mock Up 1', type: 'feature' },
+                { text: 'High resolution File', type: 'feature' },
                 { text: 'Source File', type: 'disfeature' },
                 { text: 'Deliver - 72 Hours', type: 'feature' },
             ],
@@ -32,7 +32,7 @@ const businessCardContent = {
             features: [
                 { text: 'Concept - 1', type: 'feature' },
                 { text: 'Revisions - 5', type: 'feature' },
-                { text: 'Mock Up 1', type: 'feature' },
+                { text: 'High resolution File', type: 'feature' },
                 { text: 'Source File', type: 'disfeature' },
                 { text: 'Deliver - 48 Hours', type: 'feature' },
             ],
@@ -43,7 +43,7 @@ const businessCardContent = {
             features: [
                 { text: 'Concept - 1', type: 'feature' },
                 { text: 'Revisions - 5', type: 'feature' },
-                { text: 'Mock Up 1', type: 'feature' },
+                { text: 'High resolution File', type: 'feature' },
                 { text: 'Source File', type: 'feature' },
                 { text: 'Deliver - 48 Hours', type: 'feature' },
             ],
