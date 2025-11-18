@@ -101,17 +101,17 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
-        { name: "Home", link: "/" },
+        { name: "Home", section: "" },
         { name: "About", link: "/about" },
 
-        {
-            customComponent: <ServicesDropdown />   // 👈 dropdown here!
-        },
-        { name: "Portfolio", link: "#portfolio" },
-        { name: "Pricing", link: "#packages" },
-        { name: "FAQ", link: "#faq" },
-        { name: "Contact", link: "#contact" },
+        { customComponent: <ServicesDropdown /> },
+
+        { name: "Portfolio", section: "portfolio" },
+        { name: "Pricing", section: "packages" },
+        { name: "FAQ", section: "faq" },
+        { name: "Contact", section: "contact" },
     ];
+
 
     const handleTagClick = (tag: ProjectTag) => { // Accept the full tag object
         // The condition should check the 'parentCategoryName' property of the tag
@@ -123,13 +123,42 @@ const Header = () => {
         }
     };
 
+    const handleNavClick = (item: any) => {
+        if (item.link) {
+            router.push(item.link);
+            return;
+        }
+
+        const sectionId = item.section;
+
+        // If clicking Home
+        if (!sectionId) {
+            router.push("/");
+            return;
+        }
+
+        if (pathname === "/") {
+            // Already on homepage → scroll
+            const el = document.getElementById(sectionId);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+        } else {
+            // Not on homepage → navigate to homepage with hash
+            router.push(`/#${sectionId}`);
+        }
+    };
+
     return (
         <Navbar className="top-0 fixed bg-black">
             {/* DESKTOP NAV */}
             <NavBody>
                 <NavbarLogo />
 
-                <NavItems items={navItems}  className="ml-2"/>
+                <NavItems
+                    items={navItems}
+                    className="ml-2"
+                    onItemClick={(item) => handleNavClick(item)}
+                />
+
 
                 {/* Example button */}
                 <div className=" border text-white rounded-md">
@@ -291,13 +320,81 @@ const Header = () => {
                     </div>
 
                 </MobileNavHeader>
-
                 <MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                    <a href="/" onClick={() => setIsOpen(false)}>Home</a>
-                    <a href="/about" onClick={() => setIsOpen(false)}>About</a>
-                    <a href="#services" onClick={() => setIsOpen(false)}>Services</a>
-                    <a href="#contact" onClick={() => setIsOpen(false)}>Contact</a>
+                    {/* Home */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            router.push("/")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Home
+                    </button>
+
+                    {/* About */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            router.push("/about")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        About
+                    </button>                   
+
+                    {/* Services section */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            scrollToSection("services")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Services
+                    </button>
+                    {/* Portfolio section */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            scrollToSection("portfolio")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Portfolio
+                    </button> 
+                    {/* Pricing section */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            scrollToSection("packages")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Pricing
+                    </button>                     
+                    {/* FAQ section */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            scrollToSection("faq")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        FAQ
+                    </button>  
+                    {/* Contact section */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            scrollToSection("contact")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Contact
+                    </button>                                      
                 </MobileNavMenu>
+
             </MobileNav>
         </Navbar>
 

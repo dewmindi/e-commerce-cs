@@ -138,14 +138,14 @@ const PricingPlan = () => {
     <section id="packages" className="py-10 px-4 sm:px-6 lg:px-8  text-white mb-16">
       <div className="max-w-7xl mx-auto">
         <div className="text-center">
-          <h1 className="text-2xl md:text-4xl bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
+          <h1 className="text-2xl md:text-4xl text-[#bb8d03fc]"
           >
             Pricing
           </h1>
           {/* <h2 className="text-4xl sm:text-5xl font-extrabold text-[#bb8d03fc] mb-4 leading-tight">
             Pricing
           </h2> */}
-          <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto mt-10">
             Select the perfect plan that fits your needs and budget. Each package is designed to deliver exceptional value and results.
           </p>
         </div>

@@ -5,7 +5,7 @@ import Link from 'next/link'
 const GoogleReviews = () => {
   return (
     <section className='py-16 mt-10'>
-      <h2 className="flex justify-center items-center bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text text-2xl md:text-4xl mb-10">
+      <h2 className="flex justify-center items-center text-[#bb8d03fc] text-2xl md:text-4xl mb-10">
         What our customers say
       </h2>
       {/* <h2 className="text-2xl font-semibold mb-4">What our customers say</h2> */}

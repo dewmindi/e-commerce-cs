@@ -5,7 +5,6 @@ const FooterNew = () => {
   return (
     <footer className="bg-[#0b0f16] text-gray-300  py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-16">
-
         {/* Top Section: Contact Info & Logo */}
         <div className="flex flex-col md:flex-row justify-between items-center border-b border-gray-700 py-4"> {/* Changed pb-8 to py-4 */}
           {/* Phone Number */}
@@ -18,7 +17,6 @@ const FooterNew = () => {
               <p className="text-base font-semibold text-white">+61 405 455 273</p> {/* Reduced text-lg to text-base */}
             </div>
           </div>
-
           {/* Logo */}
           <div className="mb-4 md:mb-0"> {/* Reduced mb-6 to mb-4 */}
             <img
@@ -29,7 +27,6 @@ const FooterNew = () => {
               className="mx-auto" // Adjust height if needed
             />
           </div>
-
           {/* Email Address */}
           <div className="flex items-center text-center md:text-right">
             <div className="bg-gray-700 rounded-full p-2 mr-3"> {/* Reduced p-3 to p-2 and mr-4 to mr-3 */}
@@ -41,10 +38,8 @@ const FooterNew = () => {
             </div>
           </div>
         </div>
-
         {/* Middle Section: About, Quick Links, Services, Newsletter */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-12">
-
           {/* Services */}
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Our Top Services</h3>
@@ -56,7 +51,6 @@ const FooterNew = () => {
               <li><a href="/web-development" className="text-gray-400 hover:text-white transition-colors">Web Development</a></li>
             </ul>
           </div>
-
           {/* About Company */}
           <div>
             <h3 className="text-xl font-bold text-white mb-4">About Company</h3>
@@ -64,7 +58,6 @@ const FooterNew = () => {
               Creative Design Solutions For Australian Businesses. Transforming Brands With Powerful Visual Identities.<br></br>
               <span className='text-xs'>ABN74850076948</span>
             </p>
-
             <div className="flex space-x-4">
               <a href="https://www.facebook.com/share/1EDpwtJDV3/?mibextid=wwXIfr" className="bg-gray-700 rounded-full p-2 hover:bg-gray-600 transition-colors">
                 <FaFacebookF className="text-white text-lg" />
@@ -83,11 +76,11 @@ const FooterNew = () => {
               </a>
             </div>
           </div>
-
           {/* Quick Link */}
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Quick Link</h3>
             <ul className="space-y-2">
+              <li><a href="/" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
               <li><a href="/#services" className="text-gray-400 hover:text-white transition-colors">Our Services</a></li>
               <li><a href="/#portfolio" className="text-gray-400 hover:text-white transition-colors">Portfolio</a></li>
               <li><a href="/#packages" className="text-gray-400 hover:text-white transition-colors">Packages</a></li>
@@ -95,9 +88,6 @@ const FooterNew = () => {
               <li><a href="/#contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>
-
-
-
           {/* Newsletters */}
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Newsletters</h3>

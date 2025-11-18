@@ -1,7 +1,6 @@
 "use client"
 import { motion } from 'framer-motion'
 import React, { useEffect, useState, useRef } from 'react'
-import Link from 'next/link'
 import {
   HoverCard,
   HoverCardContent,
@@ -11,6 +10,7 @@ import Header from "@/components/Header"
 import { usePathname, useRouter } from 'next/navigation'
 import csHeroImg from '../public/new-hero-cs-img.jpg'
 import Image from 'next/image'
+import { ChevronDown } from "lucide-react";
 
 const GridSVG = () => (
   <svg
@@ -48,38 +48,43 @@ const HeroSection = () => {
   const serviceCategoriesData = [
     {
       category: "Brand Identity / Logo Design",
-      services: ["Logo Design", "Corporate Profile Design", "Business Card Design", "Letter Head Design", "Email Signature"]
+      services: ["Logo Design", "Corporate Profile Design", "Business Card Design", "Letter Head Design", "Email Signature"],
+      link: "services"
     },
     {
       category: "Web Development",
-      services: ["Business Website", "E-commerce Website","Custom Website"]
+      services: ["Business Website", "E-commerce Website", "Custom Website"],
+      link: "services"
     },
     {
       category: "Social Media Service",
-      services: ["Social Media Design", "Social Media Management", "Social Media Growth"]
+      services: ["Social Media Design", "Social Media Management", "Social Media Growth"],
+      link: "services"
     },
     {
       category: "Packaging & Label Design",
-      services: ["Packaging Design", "Label Design", "Sticker Design"]
+      services: ["Packaging Design", "Label Design", "Sticker Design"],
+      link: "services"
     },
     {
       category: "Leaflet, Flyer & Poster Design",
-      services: ["Leaflets Design", "Flyers Design", "Poster Design"]
+      services: ["Leaflets Design", "Flyers Design", "Poster Design"],
+      link: "services"
     },
   ];
 
-    const scrollToSection = (sectionId: string, href?: string) => {
+  const scrollToSection = (sectionId: string, href?: string) => {
 
-        if (pathname === "/") {
-            const element = document.getElementById(sectionId)
-            if (element) {
-                element.scrollIntoView({ behavior: "smooth" })
-            }
-        } else {
-            router.push(`#${sectionId}`)
-        }
+    if (pathname === "/") {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
+    } else {
+      router.push(`#${sectionId}`)
     }
-    
+  }
+
 
   return (
     <section
@@ -99,7 +104,7 @@ const HeroSection = () => {
         <GridSVG />
       </div>
 
-      <Header/>
+      <Header />
 
       {/* ✅ Content */}
       <div className="relative max-w-7xl mx-auto text-center mt-10 z-10">
@@ -125,43 +130,43 @@ const HeroSection = () => {
 
         {/* ✅ Buttons */}
         <div className="flex justify-center gap-14 text-lg text-gray-800 font-poppins">
-          
-            <button 
-              onClick={() => scrollToSection("packages")}
-              className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
-              <span className="absolute inset-0 overflow-hidden rounded-full">
-                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+          <button
+            onClick={() => scrollToSection("packages")}
+            className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-1 px-4 ring-1 ring-white/10 ">
+              <span>
+                Get Started
               </span>
-              <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-1 px-4 ring-1 ring-white/10 ">
-                <span>
-                  Get Started
-                </span>
-                <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" >
-                  <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                </svg>
-              </div>
-              <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
-            </button>
-          
-            <button 
-              onClick={() => scrollToSection("services")}
-              className="group relative shadow-2xl rounded-full p-px text-xs leading-6 text-white inline-block">
-              <span className="absolute inset-0 overflow-hidden rounded-full">
-                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              </span>
-              <div className="relative flex space-x-2 items-center z-10 rounded-full bg-transparent py-1 px-4 ring-1 ring-white/10">
-                <span>View Services</span>
-                <svg fill="none" height="16" viewBox="0 0 24 24" width="16">
-                  <path
-                    d="M10.75 8.75L14.25 12L10.75 15.25"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-              </div>
-            </button>
+              <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" >
+                <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+              </svg>
+            </div>
+            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+          </button>
+
+          <button
+            onClick={() => scrollToSection("services")}
+            className="group relative shadow-2xl rounded-full p-px text-xs leading-6 text-white inline-block">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-transparent py-1 px-4 ring-1 ring-white/10">
+              <span>View Services</span>
+              <svg fill="none" height="16" viewBox="0 0 24 24" width="16">
+                <path
+                  d="M10.75 8.75L14.25 12L10.75 15.25"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </div>
+          </button>
         </div>
 
         {/* ✅ Hover cards */}
@@ -169,7 +174,22 @@ const HeroSection = () => {
           {serviceCategoriesData.map((tab, index) => (
             <HoverCard key={tab.category || index}>
               <HoverCardTrigger>
-                <button className="text-white px-2">{tab.category}</button>
+                <button
+                  className=" text-white px-2 m-2 bg-white/20 backdrop-blur-sm  py-1 rounded-full text-xs cursor-pointer hover:bg-white/30 transition-colors duration-200"
+                  onClick={() => scrollToSection(tab.link)}
+                >
+                  <span className='flex items-center'>
+                    <span>
+                      {tab.category}
+                    </span>
+                    <span>
+                      <ChevronDown
+                        className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </span>
+                </button>
               </HoverCardTrigger>
               <HoverCardContent className="bg-black/30 backdrop-blur-md text-white rounded-lg shadow-md p-4 w-56">
                 <ul className="list-inside space-y-1 text-start">
@@ -186,55 +206,55 @@ const HeroSection = () => {
             </HoverCard>
           ))}
         </div>
-
-        <div
-          className="relative max-w-7xl mx-auto mt-14 rounded-[30px] h-[80vh] overflow-hidden shadow-xl"
-        >
-          {/* Outer frosted-glass container */}
+        <div className='hidden md:block'>
           <div
-            className="absolute inset-0 rounded-[30px] backdrop-blur-2xl border border-white/20"
-            style={{
-              background:
-                "linear-gradient(160deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)",
-            }}
-          ></div>
+            className="relative max-w-7xl mx-auto mt-14 rounded-[30px] h-[80vh] overflow-hidden shadow-xl"
+          >
+            {/* Outer frosted-glass container */}
+            <div
+              className="absolute inset-0 rounded-[30px] backdrop-blur-2xl border border-white/20"
+              style={{
+                background:
+                  "linear-gradient(160deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)",
+              }}
+            ></div>
 
-          {/* 💡 Reflection highlight at the top */}
-          <div
-            className="absolute inset-x-0 top-0 h-24 rounded-t-[30px] pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255,255,255,0.30), rgba(255,255,255,0.05), transparent)",
-              filter: "blur(12px)",
-            }}
-          ></div>
+            {/* 💡 Reflection highlight at the top */}
+            <div
+              className="absolute inset-x-0 top-0 h-24 rounded-t-[30px] pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(255,255,255,0.30), rgba(255,255,255,0.05), transparent)",
+                filter: "blur(12px)",
+              }}
+            ></div>
 
-          {/* ✨ Diagonal glass reflection */}
-          <div
-            className="absolute  pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 40%, transparent 70%)",
-              mixBlendMode: "overlay",
-            }}
-          ></div>
+            {/* ✨ Diagonal glass reflection */}
+            <div
+              className="absolute  pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 40%, transparent 70%)",
+                mixBlendMode: "overlay",
+              }}
+            ></div>
 
-          {/* Inner frosted glass padding frame */}
+            {/* Inner frosted glass padding frame */}
 
 
-          {/* Inner image area */}
-          <div className="absolute inset-4 rounded-[20px] overflow-hidden border border-white/10 shadow-lg">
-            <Image
-              src={csHeroImg}
-              alt="Hero Image"
-              fill
-              className="object-cover"
-              priority
-              quality={75}
-            />
+            {/* Inner image area */}
+            <div className="absolute inset-4 rounded-[20px] overflow-hidden border border-white/10 shadow-lg">
+              <Image
+                src={csHeroImg}
+                alt="Hero Image"
+                fill
+                className="object-cover"
+                priority
+                quality={75}
+              />
+            </div>
           </div>
         </div>
-
       </div>
     </section>
   );

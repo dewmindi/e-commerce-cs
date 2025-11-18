@@ -103,13 +103,13 @@ const FrequentlyQuestion = () => {
         defaultValue="item-1"
       >
         <div>
-          <h2 className="text-xl md:text-4xl bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text text-center">
+          <h2 className="text-xl md:text-4xl text-[#bb8d03fc] text-center">
             FAQ
           </h2>
 
         </div>
         <div>
-          <h2 className="text-3xl sm:text-4xl  text-[#757474] text-center">
+          <h2 className="text-3xl sm:text-4xl  text-[#757474] text-center mt-10">
             Answers To Your Most Common Questions
           </h2>
         </div>

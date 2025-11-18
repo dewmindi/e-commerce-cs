@@ -189,16 +189,6 @@ const ProjectsPage = () => {
     },
   };
 
-  // const handleAdd = (project: any) => {
-  //   addToCart({
-  //     id: project.title.toLowerCase().replace(/\s+/g, "-"),
-  //     title: project.title,
-  //     category: project.category,
-  //     price: project.price,
-  //     image: project.imageUrl,
-  //     quantity: 1,
-  //   })
-  // }
 
   // --- MODIFIED handleAdd function to accept different types of items ---
   const handleAdd = (item: CartItemSource) => {
@@ -237,7 +227,7 @@ const ProjectsPage = () => {
   const currentCategoryNameForTitle = categories.find(cat => cat.slug === activeCategory)?.name;
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5] text-[#333333]">
+    <div className="min-h-screen text-[#333333]">
       <Header />
 
       {/* Hero Section - Eye-catching Banner */}
@@ -277,17 +267,17 @@ const ProjectsPage = () => {
       </section>
 
       {/* Categories / Filters sticky top-0 z-20 */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white shadow-sm ">
+      <section className="py-12 px-4 sm:px-6 lg:px-8  shadow-sm bg-foreground">
         <div className="max-w-6xl mx-auto flex flex-wrap  justify-center gap-3">
           {categories.map((category) => (
             <Button
               key={category.slug}
               onClick={() => setActiveCategory(category.slug)}
               className={`
-                  px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200
+                  px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 bg-black
                   ${activeCategory === category.slug
-                  ? 'bg-[#bb8d03fc] text-white shadow-md'
-                  : 'bg-[#F5F5F5] text-[#666666] hover:bg-[#E0E0E0] hover:text-[#333333]'
+                  ? 'border border-[#bb8d03fc] text-white shadow-md'
+                  : ' border text-white hover:text-[#bb8d03fc]'
                 }
                 `}
             >
@@ -298,7 +288,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-foreground">
         <div className="max-w-6xl mx-auto">
           {displayedProjects.length === 0 ? (
             <div className="text-center text-[#666666] text-xl py-20">No projects found for this category.</div>
@@ -315,20 +305,17 @@ const ProjectsPage = () => {
                   className="bg-white rounded-lg shadow-lg overflow-hidden group cursor-pointer relative"
                   variants={itemVariants}
                 >
-                  <div className="relative w-full h-64 overflow-hidden">
+                  <div className="relative w-full h-64 overflow-hidden border rounded-lg">
                     <Image
                       src={project.imageUrl}
                       alt={project.title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 group-hover:scale-110"
+                      fill={true}
+                      className="object-fill transition-transform duration-300 group-hover:scale-110"
                     />
                     {/* Overlay on hover */}
                     <div className="absolute inset-0 bg-opacity-70 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <h3 className="text-xl font-bold mb-2 text-center px-4">{project.title}</h3>
                       <p className="text-sm italic">{project.category}</p>
-                      {/* Optional: View Details Button */}
-                      {/* <Button className="mt-4 bg-[#FFC107] text-[#333333] hover:bg-[#FFA000]">View Details</Button> */}
                     </div>
                   </div>
                 </motion.div>
@@ -354,8 +341,8 @@ const ProjectsPage = () => {
                   className={`
                       w-10 h-10 rounded-full font-medium
                       ${currentPage === i + 1
-                      ? 'bg-[#666666] text-white shadow-md'
-                      : 'bg-white text-[#666666] hover:bg-[#E0E0E0]'
+                      ? ' text-white shadow-md border border-[#bb8d03fc]'
+                      : ' text-white hover:bg-[#E0E0E0]'
                     }
                     `}
                 >
@@ -376,7 +363,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* --- NEW: Pricing Section --- */}
-      {currentPricingPlans && currentPricingPlans.length > 0 && activeCategory !== 'all' && ( // Only show if plans exist and it's not "All Projects"
+      {/* {currentPricingPlans && currentPricingPlans.length > 0 && activeCategory !== 'all' && ( 
         <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-12">
@@ -414,27 +401,24 @@ const ProjectsPage = () => {
                       </li>
                     ))}
                   </ul>
-                  {/* --- ADD TO CART BUTTON FOR PRICING PLANS --- */}
+                  
                   <Button
                     onClick={() => handleAdd({
                       type: 'pricingPlan',
                       title: plan.title,
                       price: plan.price,
-                      categoryName: currentCategoryNameForTitle || '', // Pass the display name of the category
+                      categoryName: currentCategoryNameForTitle || '', 
                     })}
                     className="bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105"
                   >
                     Add to Cart
                   </Button>
-                  {/* <Button className="bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105">
-                    Select Plan
-                  </Button> */}
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
-      )}
+      )} */}
 
       {/* Call to Action Section (Optional, but good for conversion) */}
       <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#ada661] py-16 px-4 sm:px-6 lg:px-8 text-center text-white">

@@ -9,10 +9,10 @@ const Achievements = () => {
                     {/* <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">
                         Awards & Achievements
                     </h2> */}
-                    <h2 className="flex justify-center items-center text-xl bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text">
+                    <h2 className="flex justify-center items-center text-2xl sm:text-4xl text-[#bb8d03fc]">
                         Awards & Achievements
                     </h2>
-                    <p className="text-lg text-[#666666] max-w-2xl mx-auto">
+                    <p className="text-lg text-[#666666] max-w-2xl mx-auto mt-10">
                         Recognition and certifications that demonstrate our commitment to
                         excellence and professional growth
                     </p>

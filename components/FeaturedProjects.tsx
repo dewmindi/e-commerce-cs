@@ -35,7 +35,7 @@ const FeaturedProjects = () => {
 
     return (
         <div id='portfolio' className='max-w-7xl mx-auto flex flex-col py-20'>
-            <h1 className="text-2xl md:text-4xl text-center  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
+            <h1 className="text-2xl md:text-4xl text-center  text-[#bb8d03fc]"
             >
                 Recent Projects
             </h1>

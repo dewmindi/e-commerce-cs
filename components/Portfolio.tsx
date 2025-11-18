@@ -36,7 +36,7 @@ const Portfolio = () => {
                 className="max-w-7xl mx-auto"
             >
                 <div className="text-center mb-16">
-                    <h1 className="text-2xl md:text-4xl  bg-gradient-to-r from-black via-[#bb8d03fc] to-white text-transparent bg-clip-text"
+                    <h1 className="text-2xl md:text-4xl  text-[#bb8d03fc]"
                     >
                         Services We Offer
                     </h1>

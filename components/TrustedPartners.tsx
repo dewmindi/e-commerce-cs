@@ -4,7 +4,7 @@ import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
 
 export function TrustedPartners() {
   return (
-    <div className="max-w-5xl mx-auto px-8 mt-20">
+    <div className="max-w-5xl mx-auto px-8 -mt-60 md:mt-0 ">
       <HoverEffect items={projects} />
       <div className="mt-10">
         <h1 className="text-2xl text-white text-center ">We help businesses in all around the world</h1>
