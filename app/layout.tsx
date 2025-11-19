@@ -8,6 +8,7 @@ import MaintenanceOverlay from '@/components/MaintenanceOverlay'
 import localFont from 'next/font/local';
 import Script from "next/script";
 import Head from 'next/head'
+import NonBlockingCSS from '@/components/NonBlockingCSS'
 
 export const metadata: Metadata = {
   title: 'CS Graphic Meta',
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  themeColor: '#ffffff',
 }
 
 const cursive = localFont({
@@ -44,17 +46,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        <title>CS Graphic Meta</title>
-        <meta name="CS Graphic Meta" content="Precision-crafted logos that deliver clarity in a complex marketplace." />
-
-        {/* Favicon for browsers and Google */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
-        <meta name="theme-color" content="#ffffff" />
-      </Head>
       <body>
+        <NonBlockingCSS />
         <Suspense fallback={null}>
           <GlobalLoader />
         </Suspense>
@@ -67,7 +60,7 @@ export default function RootLayout({
         {/* reCAPTCHA v3 script */}
         <Script
           src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>
