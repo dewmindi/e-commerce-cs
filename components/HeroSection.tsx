@@ -129,7 +129,7 @@ const HeroSection = () => {
         </motion.h1>
 
         {/* ✅ Buttons */}
-        <div className="flex justify-center gap-14 text-lg text-gray-800 font-poppins">
+        <div className="flex justify-center gap-14 text-lg text-gray-800 ">
 
           <button
             onClick={() => scrollToSection("packages")}
