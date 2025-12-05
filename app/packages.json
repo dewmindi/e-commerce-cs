@@ -1,0 +1,488 @@
+[
+    {
+        "_id": "logo_standard",
+        "subcategory_id": "logo_design",
+        "name": "Standard",
+        "price": 75,
+        "overview": "Up to 2 Amazing Logo Concepts",
+        "features": [
+            {
+                "title": "Key Deliverables",
+                "items": [
+                    {
+                        "text": "Transparency File (PNG)",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Printable File (PDF)",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Revisions - 6 Rounds",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Raster Based File Sets (JPG, PNG)",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Vector Based File Sets (AI, EPS)",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Mock-ups - 2",
+                        "highlight": false
+                    }
+                ]
+            }
+        ],
+        "popular": false,
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "logo_premium",
+        "subcategory_id": "logo_design",
+        "name": "Premium",
+        "price": 100,
+        "overview": "Full branding experience",
+        "features": [
+            {
+                "title": "Key Deliverables",
+                "items": [
+                    {
+                        "text": "Transparency File (PNG)",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Printable File",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Unlimited Revisions",
+                        "highlight": true
+                    },
+                    {
+                        "text": "Raster Based File Sets",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Vector Based File Sets",
+                        "highlight": false
+                    },
+                    {
+                        "text": "3D Mock Ups - 2",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Source File",
+                        "highlight": false
+                    }
+                ]
+            }
+        ],
+        "popular": false,
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "cooperative",
+        "subcategory_id": "logo_design",
+        "name": "Cooperative",
+        "price": 175,
+        "overview": "Full branding experience",
+        "features": [
+            {
+                "title": "Core Deliverables",
+                "items": [
+                    {
+                        "text": "Transparency File (PNG)",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Printable File",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Unlimited Revisions ",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Raster Based File Sets",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Vector Based File Sets",
+                        "highlight": false
+                    },
+                    {
+                        "text": "3D Mock Ups - 2",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Source File",
+                        "highlight": false
+                    }
+                ]
+            },
+            {
+                "title": "Special Inclusions",
+                "items": [
+                    {
+                        "text": "Premium Logo",
+                        "highlight": true
+                    },
+                    {
+                        "text": "A Business Card Design",
+                        "highlight": true
+                    },
+                    {
+                        "text": "A Letterhead Design",
+                        "highlight": true
+                    },
+                    {
+                        "text": "Free Logo Intro Video",
+                        "highlight": true
+                    }
+                ]
+            }
+        ],
+        "popular": true,
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "website_basic",
+        "subcategory_id": "website_design",
+        "name": "Basic",
+        "price": 490,
+        "overview": "Simple website design",
+        "features": [
+            {
+                "title": "Web Features",
+                "items": [
+                    {
+                        "text": "1 Year Free Hosting",
+                        "highlight": false
+                    },
+                    {
+                        "text": "5 Custom Web Pages",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Full Ownership Rights",
+                        "highlight": false
+                    },
+                    {
+                        "text": "SEO Friendly",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Responsive Design",
+                        "highlight": false
+                    },
+                    {
+                        "text": "CMS Integration (Basic)",
+                        "highlight": false
+                    }
+                ]
+            },
+            {
+                "title": "Guarantees & Support",
+                "items": [
+                    {
+                        "text": "100% Satisfaction Guarantee",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Zero Hidden Fees",
+                        "highlight": false
+                    },
+                    {
+                        "text": "Basic Maintenance (1 month)",
+                        "highlight": false
+                    }
+                ]
+            }
+        ],
+        "popular": false,
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "website_standard",
+        "subcategory_id": "website_design",
+        "name": "Standard",
+        "price": 590,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Up to 7 pages",
+                "value": true
+            },
+            {
+                "name": "Responsive design",
+                "value": true
+            },
+            {
+                "name": "Contact form",
+                "value": true
+            },
+            {
+                "name": "Basic SEO setup",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "website_premium",
+        "subcategory_id": "website_design",
+        "name": "Premium",
+        "price": 790,
+        "overview": "Full-featured website",
+        "features": [
+            {
+                "name": "Up to 12 pages",
+                "value": true
+            },
+            {
+                "name": "Responsive design",
+                "value": true
+            },
+            {
+                "name": "Advanced animations & custom UI",
+                "value": true
+            },
+            {
+                "name": "Advance SEO + Analytics",
+                "value": true
+            },
+            {
+                "name": "Admin panel",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "business_basic",
+        "subcategory_id": "business_card",
+        "name": "Basic",
+        "price": 40,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Double Side Design",
+                "value": true
+            },
+            {
+                "name": "Concept -1",
+                "value": true
+            },
+            {
+                "name": "Printable File",
+                "value": true
+            },
+            {
+                "name": "Revisions - 2",
+                "value": true
+            },
+            {
+                "name": "For 1 Employee",
+                "value": true
+            },
+            {
+                "name": "Mock Up - 1",
+                "value": true
+            },
+            {
+                "name": "Deliver - 72 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "business_standard",
+        "subcategory_id": "business_card",
+        "name": "Standard",
+        "price": 60,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Double Side Design",
+                "value": true
+            },
+            {
+                "name": "Concepts -2",
+                "value": true
+            },
+            {
+                "name": "Printable File",
+                "value": true
+            },
+            {
+                "name": "Revisions - 4",
+                "value": true
+            },
+            {
+                "name": "For 2 Employee",
+                "value": true
+            },
+            {
+                "name": "Mock Up - 1",
+                "value": true
+            },
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "business_premium",
+        "subcategory_id": "business_card",
+        "name": "Premium",
+        "price": 85,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Double Side Design",
+                "value": true
+            },
+            {
+                "name": "Concepts -2",
+                "value": true
+            },
+            {
+                "name": "Printable File",
+                "value": true
+            },
+            {
+                "name": "Revisions - 4",
+                "value": true
+            },
+            {
+                "name": "For 2 Employee",
+                "value": true
+            },
+            {
+                "name": "Mock Up - 1",
+                "value": true
+            },
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    },
+    {
+        "_id": "letterHead_premium",
+        "subcategory_id": "business_card",
+        "name": "Premium",
+        "price": 85,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Double Side Design",
+                "value": true
+            },
+            {
+                "name": "Concepts -2",
+                "value": true
+            },
+            {
+                "name": "Printable File",
+                "value": true
+            },
+            {
+                "name": "Revisions - 4",
+                "value": true
+            },
+            {
+                "name": "For 2 Employee",
+                "value": true
+            },
+            {
+                "name": "Mock Up - 1",
+                "value": true
+            },
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-01T00:00:00Z"
+        }
+    }
+]
