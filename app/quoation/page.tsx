@@ -192,12 +192,12 @@ const PackagesSidebar: React.FC<PackagesSidebarProps> = ({
               key={cat._id}
               className={`p-3 border rounded-lg cursor-pointer transition-all ${
                 isSelected
-                  ? "border-purple-600 ring-2 ring-purple-300"
-                  : "border-gray-300 hover:border-purple-400"
+                  ? "border-[#a87f03] ring-2 ring-purple-300"
+                  : "border-gray-300 hover:border-stone-950"
               }`}
               onClick={() => setSelectedCategory(cat._id)}
             >
-              <p className="font-semibold text-purple-700">{cat.name}</p>
+              <p className="font-semibold text-[#a87f03]">{cat.name}</p>
               <p className="text-sm text-gray-500 truncate">{cat.description}</p>
 
               {selected ? (
@@ -279,7 +279,7 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
                   key={sub._id}
                   className={`px-3 py-2 rounded-full text-sm font-medium transition ${
                     active
-                      ? "bg-purple-700 text-white"
+                      ? "bg-[#a87f03] text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                   onClick={() => setSelectedSubcategoryId(sub._id)}
@@ -297,7 +297,7 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
         <input
           type="text"
           placeholder="Search products..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-black focus:border-black"
           // You can wire up search state if you'd like; kept simple for now
         />
       </div>
@@ -319,7 +319,7 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
               <div
                 key={product.id}
                 className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all ${
-                  isSelected ? "bg-purple-50 border-purple-600" : "hover:bg-gray-50"
+                  isSelected ? "bg-purple-50 border-black" : "hover:bg-gray-50"
                 }`}
                 onClick={() => selectProduct(product)}
               >
@@ -334,7 +334,7 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
                   </p>
                   {product.overview && <p className="text-sm text-gray-500">{product.overview}</p>}
                   <div className="flex items-center mt-1">
-                    <span className="text-lg font-bold text-purple-700 mr-4">LKR {product.price.toLocaleString()}</span>
+                    <span className="text-lg font-bold text-black mr-4">LKR {product.price.toLocaleString()}</span>
                     <span
                       className={`text-xs px-2 py-0.5 rounded ${product.inStock > 0 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
                     >
@@ -509,7 +509,7 @@ const PCBuilder: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white p-8">
-      <h1 className="text-3xl font-bold mb-6 text-purple-800">Build Your PC Quote</h1>
+      {/* <h1 className="text-3xl font-bold mb-6 text-purple-800">Build Your PC Quote</h1> */}
       <div className="flex">
         {/* Sidebar */}
         <div className="w-1/4">
