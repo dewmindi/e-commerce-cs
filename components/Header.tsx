@@ -110,6 +110,7 @@ const Header = () => {
         { name: "Pricing", section: "packages" },
         { name: "FAQ", section: "faq" },
         { name: "Contact", section: "contact" },
+        { name: "Get Quote", link: "/quoation" },
     ];
 
 

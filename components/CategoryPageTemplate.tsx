@@ -13,8 +13,6 @@ import { Textarea } from './ui/textarea'
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import FooterNew from '@/components/FooterNew';
 import { useCart } from '@/app/context/CartContext';
-import Link from 'next/link';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@radix-ui/react-accordion';
 
 // Define the types for your data structures to ensure type safety
 interface Benefit {
