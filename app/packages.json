@@ -168,7 +168,7 @@
     },
     {
         "_id": "website_basic",
-        "subcategory_id": "website_design",
+        "subcategory_id": "basic_website_dev",
         "name": "Basic",
         "price": 490,
         "overview": "Simple website design",
@@ -231,7 +231,7 @@
     },
     {
         "_id": "website_standard",
-        "subcategory_id": "website_design",
+        "subcategory_id": "basic_website_dev",
         "name": "Standard",
         "price": 590,
         "overview": "Professional website design",
@@ -263,7 +263,7 @@
     },
     {
         "_id": "website_premium",
-        "subcategory_id": "website_design",
+        "subcategory_id": "basic_website_dev",
         "name": "Premium",
         "price": 790,
         "overview": "Full-featured website",
@@ -297,6 +297,260 @@
             "$date": "2025-12-05T00:00:00Z"
         }
     },
+{
+        "_id": "ecommerce_basic",
+        "subcategory_id": "ecommerce_web_dev",
+        "name": "Basic",
+        "price": 750,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Up to 10 products",
+                "value": true
+            },
+            {
+                "name": "Shopping cart & checkout",
+                "value": true
+            },
+            {
+                "name": "Payment gateway integration",
+                "value": true
+            },
+            {
+                "name": "Basic product filter & search",
+                "value": true
+            },
+            {
+                "name": "Mobile-friendly design",
+                "value": true
+            }            
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+    {
+        "_id": "ecommerce_standard",
+        "subcategory_id": "ecommerce_web_dev",
+        "name": "Standard",
+        "price": 990,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Up to 30 products",
+                "value": true
+            },
+            {
+                "name": "Shopping cart & checkout",
+                "value": true
+            },
+            {
+                "name": "Payment gateway integration",
+                "value": true
+            },
+            {
+                "name": "Basic product filter & search",
+                "value": true
+            },
+            {
+                "name": "Mobile-friendly design",
+                "value": true
+            },
+             {
+                "name": "Advanced product filters & search",
+                "value": true
+            },
+                         {
+                "name": "Discount codes & coupons",
+                "value": true
+            },
+                                    {
+                "name": "Customer account creation",
+                "value": true
+            },
+                                    {
+                "name": "Multi-currency support",
+                "value": true
+            }                  
+                          
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "ecommerce_premium",
+        "subcategory_id": "ecommerce_web_dev",
+        "name": "Premium",
+        "price": 1300,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Up to 60 products",
+                "value": true
+            },
+            {
+                "name": "Shopping cart & checkout",
+                "value": true
+            },
+            {
+                "name": "Payment gateway integration",
+                "value": true
+            },
+            {
+                "name": "Basic product filter & search",
+                "value": true
+            },
+            {
+                "name": "Mobile-friendly design",
+                "value": true
+            },
+             {
+                "name": "Advanced product filters & search",
+                "value": true
+            },
+                         {
+                "name": "Discount codes & coupons",
+                "value": true
+            },
+                                    {
+                "name": "Customer account creation",
+                "value": true
+            },
+                                    {
+                "name": "Multi-currency support",
+                "value": true
+            },
+                                               {
+                "name": "Advanced analytics & reporting",
+                "value": true
+            }                   
+                          
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "customweb_baisc",
+        "subcategory_id": "custom_web_dev",
+        "name": "Basic",
+        "price": 1500,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Core features development",
+                "value": true
+            },
+            {
+                "name": "User authentication system",
+                "value": true
+            },
+            {
+                "name": "Admin dashboard",
+                "value": true
+            },
+            {
+                "name": "Database setup (MySQL/MongoDB)",
+                "value": true
+            },
+            {
+                "name": "API integration",
+                "value": true
+            }                                          
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },   
+{
+        "_id": "customweb_standard",
+        "subcategory_id": "custom_web_dev",
+        "name": "Standard",
+        "price": 2500,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Full-scale Saas features",
+                "value": true
+            },
+            {
+                "name": "Payment gateway integration",
+                "value": true
+            },
+            {
+                "name": "Role-based access control",
+                "value": true
+            },
+            {
+                "name": "Real-time notifications",
+                "value": true
+            },
+            {
+                "name": "Performance optimization",
+                "value": true
+            }                                          
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },  
+{
+        "_id": "customweb_premium",
+        "subcategory_id": "custom_web_dev",
+        "name": "Premium",
+        "price": 3500,
+        "overview": "Professional website design",
+        "features": [
+            {
+                "name": "Advance scalable architecture",
+                "value": true
+            },
+            {
+                "name": "AI/ML integration",
+                "value": true
+            },
+            {
+                "name": "Third party service integrations",
+                "value": true
+            },
+            {
+                "name": "Custom API Integration",
+                "value": true
+            },
+            {
+                "name": "PDedicated support & maintenance",
+                "value": true
+            }                                          
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },                      
     {
         "_id": "business_basic",
         "subcategory_id": "business_card",
@@ -438,16 +692,60 @@
         }
     },
     {
-        "_id": "letterHead_premium",
-        "subcategory_id": "business_card",
-        "name": "Premium",
-        "price": 85,
+        "_id": "letterHead_basic",
+        "subcategory_id": "letter_head_design",
+        "name": "Basic",
+        "price": 40,
         "overview": "Content for social media",
         "features": [
             {
-                "name": "Double Side Design",
+                "name": "Concepts -1",
                 "value": true
             },
+            {
+                "name": "Printable File",
+                "value": true
+            },
+            {
+                "name": "Revisions - 2",
+                "value": true
+            },
+            {
+                "name": "For 1 Employee",
+                "value": true
+            },
+            {
+                "name": "Mock Up - 1",
+                "value": true
+            },
+            {
+                "name": "Word File",
+                "value": false
+            },
+            {
+                "name": "Source File",
+                "value": false
+            },
+            {
+                "name": "Deliver - 72 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+    {
+        "_id": "letterHead_standard",
+        "subcategory_id": "letter_head_design",
+        "name": "Standard",
+        "price": 60,
+        "overview": "Content for social media",
+        "features": [
             {
                 "name": "Concepts -2",
                 "value": true
@@ -457,11 +755,59 @@
                 "value": true
             },
             {
-                "name": "Revisions - 4",
+                "name": "Revisions - 3",
                 "value": true
             },
             {
-                "name": "For 2 Employee",
+                "name": "For 3 Employee",
+                "value": true
+            },
+            {
+                "name": "Mock Up - 1",
+                "value": true
+            },
+            {
+                "name": "Word File",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": true
+            },
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+    {
+        "_id": "letterHead_premium",
+        "subcategory_id": "letter_head_design",
+        "name": "Premium",
+        "price": 85,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concepts -2",
+                "value": true
+            },
+            {
+                "name": "Printable File",
+                "value": true
+            },
+            {
+                "name": "Revisions - 6",
+                "value": true
+            },
+            {
+                "name": "For 3 Employee",
                 "value": true
             },
             {
@@ -484,5 +830,390 @@
         "updated_at": {
             "$date": "2025-12-05T00:00:00Z"
         }
-    }
+    },
+    {
+        "_id": "emailsign_basic",
+        "subcategory_id": "email_sign_design",
+        "name": "Baisc",
+        "price": 40,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concepts -1",
+                "value": true
+            },
+            {
+                "name": "Revisions - 2",
+                "value": true
+            },
+            {
+                "name": "For 1 Employee",
+                "value": true
+            },
+
+            {
+                "name": "Deliver - 72 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "emailsign_standard",
+        "subcategory_id": "email_sign_design",
+        "name": "Standard",
+        "price": 60,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concepts -2",
+                "value": true
+            },
+            {
+                "name": "Revisions - 2",
+                "value": true
+            },
+            {
+                "name": "For 2 Employee",
+                "value": true
+            },
+
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    }, 
+{
+        "_id": "emailsign_premium",
+        "subcategory_id": "email_sign_design",
+        "name": "Premium",
+        "price": 85,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concepts -2",
+                "value": true
+            },
+            {
+                "name": "Revisions - 2",
+                "value": true
+            },
+            {
+                "name": "For 3 Employee",
+                "value": true
+            },
+
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "cooperate_with_content",
+        "subcategory_id": "business_card",
+        "name": "With Content Writing",
+        "price": 80,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Full content writing",
+                "value": true
+            },
+            {
+                "name": "Page structuring",
+                "value": true
+            },
+            {
+                "name": "Premium layout design",
+                "value": true
+            },
+            {
+                "name": "Brand-aligned tone & messaging",
+                "value": true
+            },
+            {
+                "name": "JPG Kit",
+                "value": true
+            },
+            {
+                "name": "PDF Document (for sharing digitally)",
+                "value": true
+            },
+            {
+                "name": "Print-Ready File (with bleed & high resolution)",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },   
+{
+        "_id": "cooperate_without_content",
+        "subcategory_id": "business_card",
+        "name": "Without Content Writing",
+        "price": 70,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Modern layout design",
+                "value": true
+            },
+            {
+                "name": "Typography & color styling",
+                "value": true
+            },
+            {
+                "name": "Placement of client-provided content & visuals",
+                "value": true
+            },
+            {
+                "name": "JPG Kit",
+                "value": true
+            },
+            {
+                "name": "PDF Document (for sharing digitally)",
+                "value": true
+            },
+            {
+                "name": "Print-Ready File (with bleed & high resolution)",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "sm_design_basic",
+        "subcategory_id": "social_media_design",
+        "name": "Basic",
+        "price": 50,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concept -1",
+                "value": true
+            },
+            {
+                "name": "Revisions - 2",
+                "value": true
+            },
+            {
+                "name": "High resulution file",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": false
+            },
+            {
+                "name": "Deliver - 72 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "sm_design_standard",
+        "subcategory_id": "social_media_design",
+        "name": "Standard",
+        "price": 70,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concept -1",
+                "value": true
+            },
+            {
+                "name": "Revisions - 5",
+                "value": true
+            },
+            {
+                "name": "High resulution file",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": false
+            },
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "sm_design_premium",
+        "subcategory_id": "social_media_design",
+        "name": "Premium",
+        "price": 90,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "Concept -1",
+                "value": true
+            },
+            {
+                "name": "Revisions - 5",
+                "value": true
+            },
+            {
+                "name": "High resulution file",
+                "value": true
+            },
+            {
+                "name": "Source File",
+                "value": true
+            },
+            {
+                "name": "Deliver - 48 Hours",
+                "value": true
+            }
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "sm_managing_basic",
+        "subcategory_id": "social_media_management",
+        "name": "Basic",
+        "price": 550,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "12 Social media designs including videos",
+                "value": true
+            },
+            {
+                "name": "Content writing for every post",
+                "value": true
+            },
+            {
+                "name": "Hashtag & keyword research for maximum reach",
+                "value": true
+            },
+            {
+                "name": "Full management of Facebook, Instagram & TikTok pages",
+                "value": true
+            },
+            {
+                "name": "Social media designs uploading every 2 days (up to 12 posts/month)",
+                "value": true
+            },
+            {
+                "name": "Monitoring and general page management",
+                "value": true
+            }            
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    },
+{
+        "_id": "sm_managing_premium",
+        "subcategory_id": "social_media_management",
+        "name": "Premium",
+        "price": 770,
+        "overview": "Content for social media",
+        "features": [
+            {
+                "name": "All features in the Basic Package",
+                "value": true
+            },
+            {
+                "name": "20 premium social media designs per month",
+                "value": true
+            },
+            {
+                "name": "Advanced Hashtag & keyword research for maximum reach",
+                "value": true
+            },
+            {
+                "name": "Priority scheduling and page monitoring",
+                "value": true
+            },
+            {
+                "name": "Daily insights overview",
+                "value": true
+            },
+            {
+                "name": "Enhanced content writing and optimization",
+                "value": true
+            }            
+        ],
+        "is_active": true,
+        "created_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        },
+        "updated_at": {
+            "$date": "2025-12-05T00:00:00Z"
+        }
+    }                                                 
+    
 ]
+
+
+
+
+
+db.packages.insertMany(
+
+);
+
+
+
+
+

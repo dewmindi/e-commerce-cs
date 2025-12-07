@@ -1,100 +1,6 @@
 "use client";
-// import {
-//     PackageCategory,
-//     Product,
-//     SelectedProduct,
-//     DUMMY_PRODUCTS,
-// } from '@/types/quoate';
-// import React, { useState, useMemo, useEffect } from 'react';
-// import PackagesSidebar from '@/components/Quoatation/packages-side-bar';
-// import PackageDetailArea from '@/components/Quoatation/package-detials-area';
-// import QuoteButtons from '@/components/Quoatation/quote-buttons';
-// import Header from '@/components/Header';
-// import { Button } from '@/components/ui/button';
-// import FooterNew from '@/components/FooterNew';
-// import { log } from 'console';
 
-
-// const PCBuilder: React.FC = () => {
-//     const [selectedCategory, setSelectedCategory] = useState<PackageCategory | null>(null);
-//     const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
-//     const [categories, setCategories] = useState<PackageCategory[]>([]);
-
-//     // Handlers
-//     const selectProduct = (product: Product) => {
-//         const newSelection: SelectedProduct = {
-//             category: product.category,
-//             productId: product.id,
-//             productName: product.name,
-//             price: product.price,
-//         };
-
-//         setSelectedProducts((prev) => {
-//             // Remove existing product for this category, then add the new one
-//             const filtered = prev.filter((p) => p.category !== product.category);
-//             return [...filtered, newSelection];
-//         });
-//     };
-
-//     const removeSelectedProduct = (category: PackageCategory) => {
-//         setSelectedProducts((prev) =>
-//             prev.filter((p) => p.category !== category)
-//         );
-//     };
-
-//     // Calculations
-//     const totalPrice = useMemo(() => {
-//         return selectedProducts.reduce((sum, product) => sum + product.price, 0);
-//     }, [selectedProducts]);
-
-
-
-//     return (
-//         <div className="max-w-full mx-auto min-h-screen bg-white mt-14">
-//             <Header/>
-//             <section className="max-w-full bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-background py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-//                         <div className="absolute inset-0 z-0 opacity-20">
-//                         </div>
-//                         <div className="max-w-4xl mx-auto text-center relative z-10">
-//                             <h2 className="text-4xl sm:text-4xl font-extrabold mb-2 drop-shadow-md">
-//                                 Get Your Customized Quote Today!
-//                             </h2>
-//                             <p className="text-lg sm:text-xl max-w-2xl mx-auto opacity-90 drop-shadow-sm">
-//                                 Explore our wide range of packages. Select your preferred packages, see real-time pricing, and get a detailed quote tailored to your needs.
-//                             </p>
-//                         </div>
-//                     </section>
-//             <div className="flex p-8">
-//                 {/* 1. Packages Side Bar */}
-//                 <PackagesSidebar
-//                     selectedCategory={selectedCategory}
-//                     setSelectedCategory={setSelectedCategory}
-//                     selectedProducts={selectedProducts}
-//                     removeSelectedProduct={removeSelectedProduct}
-//                 />
-
-//                 {/* 2. Package Detail Area */}
-//                 <div className="flex-1 min-h-[600px] ml-6">
-//                     <PackageDetailArea
-//                         selectedCategory={selectedCategory}
-//                         products={DUMMY_PRODUCTS}
-//                         selectProduct={selectProduct}
-//                         selectedProducts={selectedProducts}
-//                     />
-//                 </div>
-//             </div>
-
-//             {/* 3. Buttons */}
-//             <QuoteButtons totalPrice={totalPrice} />
-
-//             <FooterNew/>
-//         </div>
-//     );
-// };
-
-// export default PCBuilder;
-
-
+import Header from "@/components/Header";
 // components/PCBuilder.tsx
 import React, { useEffect, useMemo, useState } from "react";
 
@@ -192,16 +98,16 @@ const PackagesSidebar: React.FC<PackagesSidebarProps> = ({
               key={cat._id}
               className={`p-3 border rounded-lg cursor-pointer transition-all ${
                 isSelected
-                  ? "border-[#a87f03] ring-2 ring-purple-300"
+                  ? "border-[#a87f03]  ring-gray-700"
                   : "border-gray-300 hover:border-stone-950"
               }`}
               onClick={() => setSelectedCategory(cat._id)}
             >
               <p className="font-semibold text-[#a87f03]">{cat.name}</p>
-              <p className="text-sm text-gray-500 truncate">{cat.description}</p>
+              <p className="text-sm text-white truncate">{cat.description}</p>
 
               {selected ? (
-                <div className="flex items-center justify-between mt-2 p-1 bg-purple-100 rounded text-sm">
+                <div className="flex items-center justify-between mt-2 p-1 bg-[#e1cf9a] rounded text-sm">
                   <span className="truncate pr-2">{selected.productName}</span>
                   <button
                     className="w-6 h-6 flex items-center justify-center text-sm font-bold text-white bg-red-500 rounded-full hover:bg-red-700 transition"
@@ -292,16 +198,6 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
         </div>
       </div>
 
-      {/* Search */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-black focus:border-black"
-          // You can wire up search state if you'd like; kept simple for now
-        />
-      </div>
-
       {/* Packages List */}
       <div className="space-y-3">
         {loadingPackages ? (
@@ -319,7 +215,7 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
               <div
                 key={product.id}
                 className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all ${
-                  isSelected ? "bg-purple-50 border-black" : "hover:bg-gray-50"
+                  isSelected ? "bg-[#e1cf9a] border-black" : "hover:bg-gray-50"
                 }`}
                 onClick={() => selectProduct(product)}
               >
@@ -329,25 +225,25 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
                 </div>
 
                 <div className="flex-1">
-                  <p className={`font-medium ${isSelected ? "text-purple-800" : "text-gray-800"}`}>
+                  <p className={`font-medium ${isSelected ? "text-[#cc9b07]" : "text-[#cc9b07]"}`}>
                     {product.name}
                   </p>
                   {product.overview && <p className="text-sm text-gray-500">{product.overview}</p>}
                   <div className="flex items-center mt-1">
-                    <span className="text-lg font-bold text-black mr-4">LKR {product.price.toLocaleString()}</span>
-                    <span
+                    <span className="text-lg font-bold text-[#cc9b07] mr-4">AUD {product.price.toLocaleString()}</span>
+                    {/* <span
                       className={`text-xs px-2 py-0.5 rounded ${product.inStock > 0 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
                     >
                       {product.inStock > 0 ? `In Stock (${product.inStock})` : "Out of Stock"}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
 
-                {isCompatible && (
+                {/* {isCompatible && (
                   <span className="text-xs text-green-600 font-semibold border border-green-300 px-2 py-1 rounded-full ml-4">
                     Compatible
                   </span>
-                )}
+                )} */}
               </div>
             );
           })
@@ -367,11 +263,11 @@ interface ButtonsProps {
 const Buttons: React.FC<ButtonsProps> = ({ totalPrice }) => {
   return (
     <div className="flex justify-end items-center mt-8 pt-4 border-t border-gray-200">
-      <span className="mr-6 text-xl font-bold">LKR {totalPrice.toLocaleString()}</span>
-      <button className="px-6 py-3 mr-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition">
+      <span className="mr-6 text-xl font-bold">AUD {totalPrice.toLocaleString()}</span>
+      <button className="px-6 py-3 mr-3 font-semibold text-white bg-[#a87f03] rounded-lg hover:bg-black hover:border  transition">
         Download Quotation
       </button>
-      <button className="px-6 py-3 font-semibold text-white bg-purple-800 rounded-lg hover:bg-purple-900 transition">
+      <button className="px-6 py-3 font-semibold text-white bg-[#a87f03] rounded-lg hover:bg-black hover:border transition">
         Add All to Cart
       </button>
     </div>
@@ -485,10 +381,14 @@ const PCBuilder: React.FC = () => {
       return;
     }
 
+      // Find the subcategory name
+  const subcategory = subcategories.find(sub => sub._id === product.subcategoryId);
+  const subcategoryName = subcategory ? subcategory.name : "";
+
     const newSelection: SelectedProduct = {
       category: selectedCategory,
       productId: product.id,
-      productName: product.name,
+      productName: `${subcategoryName} - ${product.name}`,
       price: product.price,
     };
 
@@ -508,9 +408,10 @@ const PCBuilder: React.FC = () => {
   }, [selectedProducts]);
 
   return (
-    <div className="min-h-screen bg-white p-8">
+    <div className="min-h-screen bg-foreground p-8">
+      <Header/>
       {/* <h1 className="text-3xl font-bold mb-6 text-purple-800">Build Your PC Quote</h1> */}
-      <div className="flex">
+      <div className="flex mt-20">
         {/* Sidebar */}
         <div className="w-1/4">
           <PackagesSidebar
