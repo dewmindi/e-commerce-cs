@@ -1,59 +1,67 @@
-"use client";
-import {
-    PackageCategory,
-    CATEGORY_ORDER,
-    CategoryDisplayNames,
-    PackagesSidebarProps,
-} from '@/types/quoate';
-import React from 'react';
+import { Product, SelectedProduct,PackageCategory, Category, PackageFromDB } from "@/types/quoate";
 
+interface PackagesSidebarProps {
+  categories: Category[];
+  selectedCategory: PackageCategory | null;
+  setSelectedCategory: (cat: PackageCategory | null) => void;
+  selectedProducts: SelectedProduct[];
+  removeSelectedProduct: (category: PackageCategory) => void;
+}
 
 const PackagesSidebar: React.FC<PackagesSidebarProps> = ({
-    selectedCategory,
-    setSelectedCategory,
-    selectedProducts,
-    removeSelectedProduct,
+  categories,
+  selectedCategory,
+  setSelectedCategory,
+  selectedProducts,
+  removeSelectedProduct,
 }) => {
-    const getSelectedProduct = (category: PackageCategory) =>
-        selectedProducts.find((p) => p.category === category);
+  const getSelectedProduct = (category: PackageCategory | null) =>
+    selectedProducts.find((p) => p.category === category);
 
-    return (
-        <div className="w-full max-w-sm pr-4 space-y-2">
-            {CATEGORY_ORDER.map((category) => {
-                const selected = getSelectedProduct(category);
-                const isSelected = selectedCategory === category;
+  return (
+    <div className="w-full max-w-sm pr-4 space-y-2">
+      {categories.length === 0 ? (
+        <div className="p-3 border rounded-lg text-gray-500">Loading categories...</div>
+      ) : (
+        categories.map((cat) => {
+          const selected = getSelectedProduct(cat._id);
+          const isSelected = selectedCategory === cat._id;
 
-                return (
-                    <div
-                        key={category}
-                        className={`p-3 border rounded-lg cursor-pointer transition-all ${isSelected ? 'border-purple-600 ring-2 ring-purple-300' : 'border-gray-300 hover:border-purple-400'
-                            }`}
-                        onClick={() => setSelectedCategory(category)}
-                    >
-                        <p className="font-semibold text-purple-700">
-                            {CategoryDisplayNames[category]}
-                        </p>
-                        {selected ? (
-                            <div className="flex items-center justify-between mt-1 p-1 bg-purple-100 rounded text-sm">
-                                <span className="truncate pr-2">{selected.productName}</span>
-                                <button
-                                    className="w-5 h-5 flex items-center justify-center text-xs font-bold text-white bg-red-500 rounded-full hover:bg-red-700 transition"
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // Prevent opening/selecting the category
-                                        removeSelectedProduct(category);
-                                    }}
-                                >
-                                    &times;
-                                </button>
-                            </div>
-                        ) : (
-                            <p className="text-sm text-gray-500">Click to choose</p>
-                        )}
-                    </div>
-                );
-            })}
-        </div>
-    );
+          return (
+            <div
+              key={cat._id}
+              className={`p-3 border rounded-lg cursor-pointer transition-all ${isSelected
+                  ? "border-[#a87f03]  ring-gray-700"
+                  : "border-gray-300 hover:border-stone-950"
+                }`}
+              onClick={() => setSelectedCategory(cat._id)}
+            >
+              <p className="font-semibold text-[#a87f03]">{cat.name}</p>
+              <p className="text-sm text-white truncate">{cat.description}</p>
+
+              {selected ? (
+                <div className="flex items-center justify-between mt-2 p-1 bg-[#e1cf9a] rounded text-sm">
+                  <span className="truncate pr-2">{selected.productName}</span>
+                  <button
+                    className="w-6 h-6 flex items-center justify-center text-sm font-bold text-white bg-red-500 rounded-full hover:bg-red-700 transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeSelectedProduct(cat._id);
+                    }}
+                    aria-label={`Remove selected product for ${cat.name}`}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500 mt-2">Click to choose</p>
+              )}
+            </div>
+          );
+        })
+      )}
+    </div>
+  );
 };
 
 export default PackagesSidebar;
