@@ -80,7 +80,7 @@ const pricingPlans = [
   },
   {
     name: "Web Starter",
-    price: "490",
+    price: "550",
     period: "",
     overview: "Comprehensive web solution for a powerful online footprint.",
     featureGroups: [

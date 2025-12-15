@@ -18,7 +18,7 @@ const businessCardContent = {
     pricingPlans: [
         {
             title: 'Basic',
-            price: '$490',
+            price: '$550',
             features: [
                 { text: 'Up to 4 pages', type: 'feature' },
                 { text: 'Responsive design (mobile-friendly)', type: 'feature' },
@@ -31,7 +31,7 @@ const businessCardContent = {
         },
         {
             title: 'Standard',
-            price: '$590',
+            price: '$650',
             features: [
                 { text: 'Up to 7 - 10 pages', type: 'feature' },
                 { text: 'Responsive design (mobile-friendly)', type: 'feature' },
@@ -48,7 +48,7 @@ const businessCardContent = {
         },
         {
             title: 'Premium',
-            price: '$750',
+            price: '$890',
             features: [
                 { text: 'Up to 15 pages', type: 'feature' },
                 { text: 'Responsive design (mobile-friendly)', type: 'feature' },

@@ -18,7 +18,7 @@ const ecomWebDevContent = {
     pricingPlans: [
         {
             title: 'Basic',
-            price: '$750',
+            price: '$900',
             features: [
                 { text: 'Up to 10 products', type: 'feature' },
                 { text: 'Shopping cart & checkout', type: 'feature' },
@@ -29,7 +29,7 @@ const ecomWebDevContent = {
         },
         {
             title: 'Standard',
-            price: '$990',
+            price: '$1300',
             features: [
                 { text: 'Up to 30 products', type: 'feature' },
                 { text: 'Shopping cart & checkout', type: 'feature' },
@@ -45,7 +45,7 @@ const ecomWebDevContent = {
         },
         {
             title: 'Premium',
-            price: '$1300',
+            price: '$1600',
             features: [
                 { text: 'Up to 60 products', type: 'feature' },
                 { text: 'Shopping cart & checkout', type: 'feature' },
