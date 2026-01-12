@@ -39,7 +39,7 @@ const businessCardContent = {
             ],
         },
         {
-            title: 'Standard',
+            title: 'Premium',
             price: '$100',
             features: [
                 { text: 'Transparency File (png)', type: 'feature' },
