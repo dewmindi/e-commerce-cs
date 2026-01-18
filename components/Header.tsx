@@ -110,7 +110,7 @@ const Header = () => {
         { name: "Pricing", section: "packages" },
         { name: "FAQ", section: "faq" },
         { name: "Contact", section: "contact" },
-        { name: "Get Quote", link: "/quoation" },
+        { name: "Get Quote", link: "/quotation" },
     ];
 
 
@@ -342,7 +342,7 @@ const Header = () => {
                         className="py-2 text-left w-full"
                     >
                         About
-                    </button>                   
+                    </button>
 
                     {/* Services section */}
                     <button
@@ -363,7 +363,7 @@ const Header = () => {
                         className="py-2 text-left w-full"
                     >
                         Portfolio
-                    </button> 
+                    </button>
                     {/* Pricing section */}
                     <button
                         onClick={() => {
@@ -373,7 +373,7 @@ const Header = () => {
                         className="py-2 text-left w-full"
                     >
                         Pricing
-                    </button>                     
+                    </button>
                     {/* FAQ section */}
                     <button
                         onClick={() => {
@@ -383,7 +383,7 @@ const Header = () => {
                         className="py-2 text-left w-full"
                     >
                         FAQ
-                    </button>  
+                    </button>
                     {/* Contact section */}
                     <button
                         onClick={() => {
@@ -393,7 +393,17 @@ const Header = () => {
                         className="py-2 text-left w-full"
                     >
                         Contact
-                    </button>                                      
+                    </button>
+                    {/* Quotation Page */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            router.push("/quotation")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Get Quote
+                    </button>
                 </MobileNavMenu>
 
             </MobileNav>
@@ -402,4 +412,3 @@ const Header = () => {
     )
 }
 export default Header;
-

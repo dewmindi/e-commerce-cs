@@ -161,13 +161,18 @@ const PCBuilder: React.FC = () => {
     return selectedProducts.reduce((sum, p) => sum + p.price, 0);
   }, [selectedProducts]);
 
-  return (
-    <div className="min-h-screen bg-foreground p-8">
+ return (
+    <div className="min-h-screen bg-foreground px-4 py-6 md:p-8">
       <Header />
-      {/* <h1 className="text-3xl font-bold mb-6 text-purple-800">Build Your PC Quote</h1> */}
-      <div className="flex mt-20">
-        {/* Sidebar */}
-        <div className="w-1/4">
+
+      {/* Responsive Container:
+        - Mobile: Single column (Vertical stack)
+        - Desktop: Sidebar | Main Area | Summary
+      */}
+      <div className="mt-16 lg:mt-24 flex flex-col lg:flex-row lg:items-start gap-6">
+        
+        {/* LEFT: CATEGORIES (Sidebar) */}
+        <div className="w-full lg:w-1/4 shrink-0">
           <PackagesSidebar
             categories={categories}
             selectedCategory={selectedCategory}
@@ -177,8 +182,8 @@ const PCBuilder: React.FC = () => {
           />
         </div>
 
-        {/* Main area */}
-        <div className="flex-1 min-h-[600px] ml-6">
+        {/* MIDDLE: PRODUCTS (Detail Area) */}
+        <div className="flex-1 min-w-0 min-h-[400px]">
           <PackageDetailArea
             selectedCategory={selectedCategory}
             products={products}
@@ -191,17 +196,22 @@ const PCBuilder: React.FC = () => {
             packagesError={packagesError}
           />
         </div>
-        {/* RIGHT COLUMN: SUMMARY CARD */}
-        <div className="w-96 ml-6">
+
+        {/* RIGHT: SUMMARY (Only visible on Desktop or at bottom on mobile) */}
+        {/* You might want to hide this on mobile if QuoteButtons handles it */}
+        <div className="w-full lg:w-80 xl:w-96">
           <SummaryCard
             selectedProducts={selectedProducts}
-            onCheckout={() => console.log("Checkout clicked!")} // replace with your checkout function
+            onCheckout={() => console.log("Checkout clicked!")}
           />
         </div>
       </div>
 
-      {/* Buttons */}
-      <QuoteButtons totalPrice={totalPrice} selectedProducts={selectedProducts} />
+      {/* FIXED FOOTER BUTTONS */}
+      <QuoteButtons 
+        totalPrice={totalPrice} 
+        selectedProducts={selectedProducts} 
+      />
     </div>
   );
 };
