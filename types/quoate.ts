@@ -41,9 +41,18 @@ export type Product = {
 
 export type PackageCategory = string; // category _id
 
-export type SelectedProduct = {
-  category: PackageCategory;
+// export type SelectedProduct = {
+//   category: PackageCategory;
+//   productId: string;
+//   productName: string;
+//   price: number;
+// };
+
+export interface SelectedProduct {
+  categoryId: PackageCategory;     // Brand Identity
+  subcategoryId: string;           // Logo Design / Business Card
+  subcategoryName: string;
   productId: string;
   productName: string;
   price: number;
-};
+}

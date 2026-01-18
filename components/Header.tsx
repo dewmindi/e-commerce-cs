@@ -156,7 +156,7 @@ const Header = () => {
 
                 <NavItems
                     items={navItems}
-                    className="ml-2"
+                    className="gap-2"
                     onItemClick={(item) => handleNavClick(item)}
                 />
 

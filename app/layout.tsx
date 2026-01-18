@@ -57,10 +57,6 @@ export default function RootLayout({
           {isMaintenance && <MaintenanceOverlay />}</CartProvider>
         {/* <CursorFollower /> */}
         {/* reCAPTCHA v3 script */}
-        <Script
-          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   )

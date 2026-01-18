@@ -2,12 +2,13 @@
 
 import Header from "@/components/Header";
 import React, { useEffect, useMemo, useState } from "react";
-import { Product, SelectedProduct,PackageCategory, Category, PackageFromDB,Subcategory } from "@/types/quoate";
+import { Product, SelectedProduct, PackageCategory, Category, PackageFromDB, Subcategory } from "@/types/quoate";
 
 
 import QuoteButtons from "@/components/Quoatation/quote-buttons";
 import PackagesSidebar from "@/components/Quoatation/packages-side-bar";
 import PackageDetailArea from "@/components/Quoatation/package-detials-area";
+import SummaryCard from "@/components/Quoatation/summary-card";
 
 function mapPackageToProduct(p: PackageFromDB): Product {
   return {
@@ -20,9 +21,7 @@ function mapPackageToProduct(p: PackageFromDB): Product {
     features: p.features || [],
   };
 }
-/**
- * Main PCBuilder Component
- */
+
 const PCBuilder: React.FC = () => {
   // Data
   const [categories, setCategories] = useState<Category[]>([]);
@@ -58,7 +57,7 @@ const PCBuilder: React.FC = () => {
       }
     }
 
-    
+
     loadCategories();
     return () => { mounted = false; };
   }, []);
@@ -124,36 +123,39 @@ const PCBuilder: React.FC = () => {
 
   // Selection handlers
   const selectProduct = (product: Product) => {
-    if (!selectedCategory) {
-      // Defensive: require a category selected (shouldn't happen; UI disables)
-      return;
-    }
+    if (!selectedCategory) return;
 
-    // Find the subcategory name
-    const subcategory = subcategories.find(sub => sub._id === product.subcategoryId);
-    const subcategoryName = subcategory ? subcategory.name : "";
+    const subcategory = subcategories.find(
+      (sub) => sub._id === product.subcategoryId
+    );
 
-    const feat = subcategories.find(sub => sub._id === product.features[0]?.title);
-
-    console.log("Selecting product:", product.name, "for category:", selectedCategory);
+    if (!subcategory) return;
 
     const newSelection: SelectedProduct = {
-      category: selectedCategory,
+      categoryId: selectedCategory,
+      subcategoryId: subcategory._id,
+      subcategoryName: subcategory.name,
       productId: product.id,
-      productName: `${subcategoryName} - ${product.name}`,
+      productName: product.name,
       price: product.price,
     };
 
     setSelectedProducts((prev) => {
-      // Replace existing selection for this category
-      const filtered = prev.filter((p) => p.category !== selectedCategory);
+      // ✅ Replace ONLY the same subcategory
+      const filtered = prev.filter(
+        (p) => p.subcategoryId !== subcategory._id
+      );
       return [...filtered, newSelection];
     });
   };
 
-  const removeSelectedProduct = (category: PackageCategory) => {
-    setSelectedProducts((prev) => prev.filter((p) => p.category !== category));
+
+  const removeSelectedProduct = (subcategoryId: string) => {
+    setSelectedProducts((prev) =>
+      prev.filter((p) => p.subcategoryId !== subcategoryId)
+    );
   };
+
 
   const totalPrice = useMemo(() => {
     return selectedProducts.reduce((sum, p) => sum + p.price, 0);
@@ -187,6 +189,13 @@ const PCBuilder: React.FC = () => {
             selectedProducts={selectedProducts}
             loadingPackages={loadingPackages}
             packagesError={packagesError}
+          />
+        </div>
+        {/* RIGHT COLUMN: SUMMARY CARD */}
+        <div className="w-96 ml-6">
+          <SummaryCard
+            selectedProducts={selectedProducts}
+            onCheckout={() => console.log("Checkout clicked!")} // replace with your checkout function
           />
         </div>
       </div>

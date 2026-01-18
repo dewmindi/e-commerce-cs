@@ -180,11 +180,18 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
                       )}
 
                       {/* TYPE B (simple name/value features) */}
-                      {"name" in section && (
+                      {/* {"name" in section && (
                         <ul className="pl-4 list-disc space-y-1">
                           <li className="text-sm text-gray-300">{section.name}</li>
                         </ul>
+                      )} */}
+
+                      {"name" in section && (
+                        <ul className="pl-4 list-disc space-y-1">
+                          <li className="text-sm text-gray-300">{(section as { name: string }).name}</li>
+                        </ul>
                       )}
+
                     </div>
                   ))}
                 </div>
