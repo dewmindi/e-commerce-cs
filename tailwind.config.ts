@@ -41,6 +41,7 @@ const config: Config = {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
+			primarytext: 'hsl(var(--primary-text))',
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
@@ -65,6 +66,7 @@ const config: Config = {
 		fontFamily: {
         	cursive: ['var(--font-cursive)', 'cursive'],
 			symphonie: ['var(--font-symphonie)', 'symphonie'], // 👈 now you can use font-cursive
+			poppins: ['var(--font-poppins)', 'poppins']
       	},
   		borderRadius: {
   			lg: 'var(--radius)',

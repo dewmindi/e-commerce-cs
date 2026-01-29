@@ -1,6 +1,5 @@
-import { Link } from 'lucide-react'
+"use client"
 import React, { useState } from 'react'
-import { Button } from './ui/button'
 import ProjectCard from './ProjectCard'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
@@ -28,7 +27,7 @@ const Portfolio = () => {
 
     const projects = projectsData;
     return (
-        <section id="portfolio" className="py-20 px-4 sm:px-6 lg:px-8">
+        <section id="services" className="py-20 px-4 sm:px-6 lg:px-8">
             <motion.div
                 ref={ref1}
                 animate={inView1 ? "visible" : "hidden"}
@@ -37,14 +36,15 @@ const Portfolio = () => {
                 className="max-w-7xl mx-auto"
             >
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">
-                        Beyond Logos: Complete Brand Stories
-                    </h2>
+                    <h1 className="text-2xl md:text-4xl  text-[#bb8d03fc]"
+                    >
+                        Services We Offer
+                    </h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-lg text-[#bb8d03fc] max-w-2xl mx-auto leading-tight"
+                        className="text-xl text-white/50 max-w-2xl mx-auto "
                     >
                         Precision-crafted logos that deliver clarity in a complex
                         marketplace. Turning abstract brand values into concrete visual
@@ -73,18 +73,6 @@ const Portfolio = () => {
                             {projects[5] && <ProjectCard project={projects[4]} />}
                         </div>
                     </div>
-                    
-
-                    {/* Row 3 */}
-                    <div className="grid sm:grid-cols-1 md:grid-cols-6 gap-6">
-                        <div className="sm:col-span-1 md:col-span-2 h-[250px]">
-                            {projects[5] && <ProjectCard project={projects[5]} />}
-                        </div>
-                        <div className="sm:col-span-1 md:col-span-4 h-[250px]">
-                            {projects[6] && <ProjectCard project={projects[6]} />}
-                        </div>
-                    </div>
-
                 </div>
             </motion.div>
         </section>

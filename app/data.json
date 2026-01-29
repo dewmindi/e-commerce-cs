@@ -1,0 +1,435 @@
+[
+  {
+    "_id": "standard-logo",
+    "title": "Standard (Logo)",
+    "name": "Standard (Logo)",
+    "price": "75",
+    "period": "",
+    "overview": "Up to 2 Super Amazing Logo Concepts",
+    "featureGroups": [
+      {
+        "title": "Key Deliverables",
+        "items": [
+          { "text": "Transparency File (PNG)", "highlight": false },
+          { "text": "Printable File (PDF)", "highlight": false },
+          { "text": "Revisions - 6 Rounds", "highlight": false },
+          { "text": "Raster Based File Sets (JPG, PNG)", "highlight": false },
+          { "text": "Vector Based File Sets (AI, EPS)", "highlight": false },
+          { "text": "Mock-ups - 2", "highlight": false }
+        ]
+      }
+    ],
+    "popular": false,
+    "category": "brand-identity",
+    "subCategory": "logo-design",
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "premium-logo",
+    "title": "Premium (Logo)",
+    "name": "Premium (Logo)",
+    "price": "100",
+    "period": "",
+    "overview": "Up to 3 top-notch quality Concepts With Unlimited Revisions",
+    "featureGroups": [
+      {
+        "title": "Key Deliverables",
+        "items": [
+          { "text": "Transparency File (PNG)", "highlight": false },
+          { "text": "Printable File", "highlight": false },
+          { "text": "Unlimited Revisions", "highlight": true },
+          { "text": "Raster Based File Sets", "highlight": false },
+          { "text": "Vector Based File Sets", "highlight": false },
+          { "text": "3D Mock Ups - 2", "highlight": false },
+          { "text": "Source File", "highlight": false }
+        ]
+      }
+    ],
+    "popular": false,
+    "category": "brand-identity",
+    "subCategory": "logo-design",
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "cooperative-logo",
+    "title": "Cooperative",
+    "name": "Cooperative",
+    "price": "175",
+    "period": "",
+    "overview": "Up to 3 top-notch quality Logo Concepts",
+    "featureGroups": [
+      {
+        "title": "Core Deliverables",
+        "items": [
+          { "text": "Transparency File (PNG)", "highlight": false },
+          { "text": "Printable File", "highlight": false },
+          { "text": "Unlimited Revisions ", "highlight": false },
+          { "text": "Raster Based File Sets", "highlight": false },
+          { "text": "Vector Based File Sets", "highlight": false },
+          { "text": "3D Mock Ups - 2", "highlight": false },
+          { "text": "Source File", "highlight": false }
+        ]
+      },
+      {
+        "title": "Special Inclusions",
+        "items": [
+          { "text": "Premium Logo", "highlight": true },
+          { "text": "A Business Card Design", "highlight": true },
+          { "text": "A Letterhead Design", "highlight": true },
+          { "text": "Free Logo Intro Video", "highlight": true }
+        ]
+      }
+    ],
+    "popular": true,
+    "category": "brand-identity",
+    "subCategory": "logo-design",
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "web-starter",
+    "title": "Web Starter",
+    "name": "Web Starter",
+    "price": "490",
+    "period": "",
+    "overview": "Comprehensive web solution for a powerful online footprint.",
+    "featureGroups": [
+      {
+        "title": "Web Features",
+        "items": [
+          { "text": "1 Year Free Hosting", "highlight": false },
+          { "text": "5 Custom Web Pages", "highlight": false },
+          { "text": "Full Ownership Rights", "highlight": false },
+          { "text": "SEO Friendly", "highlight": false },
+          { "text": "Responsive Design", "highlight": false },
+          { "text": "CMS Integration (Basic)", "highlight": false }
+        ]
+      },
+      {
+        "title": "Guarantees & Support",
+        "items": [
+          { "text": "100% Satisfaction Guarantee", "highlight": false },
+          { "text": "Zero Hidden Fees", "highlight": false },
+          { "text": "Basic Maintenance (1 month)", "highlight": false }
+        ]
+      }
+    ],
+    "popular": false,
+    "category": "web-design",
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "standard-web-design",
+    "title": "Standard Web Design",
+    "description": "A complete website for small businesses.",
+    "category": "web-design",
+    "price": 590,
+    "currency": "AUD",
+    "features": [
+      { "name": "Up to 7 pages", "value": true },
+      { "name": "Responsive design", "value": true },
+      { "name": "Contact form", "value": true },
+      { "name": "Basic SEO setup", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "premium-web-design",
+    "title": "Premium Web Design",
+    "description": "Feature-rich website for growing businesses.",
+    "category": "web-design",
+    "price": 750,
+    "currency": "AUD",
+    "features": [
+      { "name": "Up to 12 pages", "value": true },
+      { "name": "Responsive design", "value": true },
+      { "name": "Advanced animations & custom UI", "value": true },
+      { "name": "Advance SEO + Analytics", "value": true },
+      { "name": "Admin panel", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "basic-business-card-design",
+    "title": "Basic",
+    "description": "",
+    "category": "brand-identity",
+    "price": 40,
+    "currency": "AUD",
+    "features": [
+      { "name": "Double Side Design", "value": true },
+      { "name": "Concept -1", "value": true },
+      { "name": "Printable File", "value": true },
+      { "name": "Revisions - 2", "value": true },
+      { "name": "For 1 Employee", "value": true },
+      { "name": "Mock Up - 1", "value": true },
+      { "name": "Deliver - 72 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "standard-business-card-design",
+    "title": "Standard",
+    "description": "",
+    "category": "brand-identity",
+    "price": 60,
+    "currency": "AUD",
+    "features": [
+      { "name": "Double Side Design", "value": true },
+      { "name": "Concepts -2", "value": true },
+      { "name": "Printable File", "value": true },
+      { "name": "Revisions - 4", "value": true },
+      { "name": "For 2 Employee", "value": true },
+      { "name": "Mock Up - 1", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true },
+      { "name": "Source File", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "premium-business-card-design",
+    "title": "Premium",
+    "description": "",
+    "category": "brand-identity",
+    "price": 85,
+    "currency": "AUD",
+    "features": [
+      { "name": "Double Side Design", "value": true },
+      { "name": "Concepts -3", "value": true },
+      { "name": "Printable File", "value": true },
+      { "name": "Revisions - 6", "value": true },
+      { "name": "For 3 Employee", "value": true },
+      { "name": "Mock Up - 1", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true },
+      { "name": "Source File", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "basic-letter-head-design",
+    "title": "Basic",
+    "description": "",
+    "category": "brand-identity",
+    "price": 40,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 1", "value": true },
+      { "name": "Printable File", "value": true },
+      { "name": "Revisions - 2", "value": true },
+      { "name": "For 1 Employee", "value": true },
+      { "name": "Deliver - 72 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },  
+  {
+    "_id": "standard-letter-head-design",
+    "title": "Standard",
+    "description": "",
+    "category": "brand-identity",
+    "price": 60,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 2", "value": true },
+      { "name": "Printable File", "value": true },
+      { "name": "Revisions - 3", "value": true },
+      { "name": "For 2 Employee", "value": true },
+      { "name": "Word File", "value": true },
+      { "name": "Source File", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  }, 
+  {
+    "_id": "premium-letter-head-design",
+    "title": "Premium",
+    "description": "",
+    "category": "brand-identity",
+    "price": 85,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 2", "value": true },
+      { "name": "Printable File", "value": true },
+      { "name": "Revisions - 6", "value": true },
+      { "name": "For 3 Employee", "value": true },
+      { "name": "Word File", "value": true },
+      { "name": "Source File", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  }, 
+  {
+    "_id": "basic-email-sign-design",
+    "title": "Basic",
+    "description": "",
+    "category": "brand-identity",
+    "price": 40,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 1", "value": true },
+      { "name": "Revisions - 2", "value": true },
+      { "name": "For 1 Employee", "value": true },
+      { "name": "Deliver - 72 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "standard-email-sign-design",
+    "title": "Standard",
+    "description": "",
+    "category": "brand-identity",
+    "price": 60,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 1", "value": true },
+      { "name": "Revisions - 2", "value": true },
+      { "name": "For 2 Employee", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  }, 
+  {
+    "_id": "premium-email-sign-design",
+    "title": "Premium",
+    "description": "",
+    "category": "brand-identity",
+    "price": 85,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 2", "value": true },
+      { "name": "Revisions - 2", "value": true },
+      { "name": "For 3 Employee", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },   
+  {
+    "_id": "basic-social-media-design",
+    "title": "Basic",
+    "description": "",
+    "category": "social-media-design",
+    "price": 50,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 2", "value": true },
+      { "name": "Revisions - 2", "value": true },
+      { "name": "High resolution File", "value": true },
+      { "name": "Deliver - 72 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "standard-social-media-design",
+    "title": "Standard",
+    "description": "",
+    "category": "social-media-design",
+    "price": 50,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 1", "value": true },
+      { "name": "Revisions - 5", "value": true },
+      { "name": "High resolution File", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },  
+  {
+    "_id": "premium-social-media-design",
+    "title": "Premium",
+    "description": "",
+    "category": "social-media-design",
+    "price": 50,
+    "currency": "AUD",
+    "features": [
+      { "name": "Concept - 1", "value": true },
+      { "name": "Revisions - 5", "value": true },
+      { "name": "High resolution File", "value": true },
+      { "name": "Source File", "value": true },
+      { "name": "Deliver - 48 Hours", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },  
+  {
+    "_id": "ecommerce-web-design",
+    "title": "E-Commerce Web Design",
+    "description": "Professional online store with essential features.",
+    "category": "web-design",
+    "price": 899,
+    "currency": "USD",
+    "features": [
+      { "name": "Products", "value": "Up to 20" },
+      { "name": "Payment integration", "value": true },
+      { "name": "Cart system", "value": true },
+      { "name": "Dashboard", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "portfolio-web-design",
+    "title": "Portfolio Web Design",
+    "description": "Clean & modern portfolio for individuals.",
+    "category": "web-design",
+    "price": 299,
+    "currency": "USD",
+    "features": [
+      { "name": "Portfolio gallery", "value": true },
+      { "name": "Contact form", "value": true },
+      { "name": "Custom layout", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+  {
+    "_id": "landing-page-design",
+    "title": "Landing Page Design",
+    "description": "High-converting landing page with modern design.",
+    "category": "web-design",
+    "price": 149,
+    "currency": "USD",
+    "features": [
+      { "name": "Single page", "value": true },
+      { "name": "Custom graphics", "value": true },
+      { "name": "Marketing optimized", "value": true }
+    ],
+    "is_active": true,
+    "created_at": { "$date": "2025-12-01T00:00:00Z" },
+    "updated_at": { "$date": "2025-12-01T00:00:00Z" }
+  },
+]

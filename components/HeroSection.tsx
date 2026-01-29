@@ -1,143 +1,16 @@
-// import { motion } from 'framer-motion'
-// import { Search } from 'lucide-react'
-// import React, { useEffect, useState, useRef } from 'react'
-// import NewServ from './NewServ'
-// import { useInView } from 'react-intersection-observer'
-// import { Input } from "@/components/ui/input"
-// import SearchBar from './SearchBar'
-// import { SvgNeuralNetworkBackground } from "@/components/SvgCircuitBackground"
-// import Link from 'next/link'
-
-// const HeroSection = () => {
-//   const videoRef = useRef<HTMLVideoElement>(null);
-
-//   useEffect(() => {
-//     if (videoRef.current) {
-//       videoRef.current.playbackRate = 1; // 0.5x speed = slow motion
-//     }
-//   }, []);
-
-//   const [isLoaded, setIsLoaded] = useState(false)
-
-//   const searchServices = [
-//     "Logo Design", "Web Development", "Business Profile", "Letter Head Deisgn", "Graphic Design"
-//   ]
-
-//   const [ref, inView] = useInView({
-//     triggerOnce: false,
-//     threshold: 0.4,
-//   });
-
-//   const [ref1, inView1] = useInView({
-//     triggerOnce: false,
-//     threshold: 0.2,
-//   });
-
-
-//   const variants = {
-//     hidden: { opacity: 0, y: 50 },
-//     visible: { opacity: 1, y: 0 },
-//   };
-//   return (
-//     <section
-//       id="home"
-//       className="py-10 px-4 sm:px-6 lg:px-8 over min-h-screen bg-animated-gradient -mt-4"
-//     >
-//       {/* <SvgNeuralNetworkBackground /> */}
-//       {/* Removed max-w-4xl */}
-//       {/* Removed max-w-4xl */}
-//       <div className="max-w-7xl mx-auto text-center mt-10">
-// <motion.h1
-//   initial={{ opacity: 0, y: 20 }}
-//   animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
-//   transition={{ duration: 0.8, delay: 0.2 }}
-//   className="text-4xl sm:text-5xl lg:text-6xl  text-white mb-4 leading-tight mt-44 "
-// >
-//   <span>One-Stop</span>{" "}
-//   <span className="text-[#bb8d03fc]">Design Solutions</span>{" "}
-//   <span>For</span>
-// </motion.h1>
-// <motion.h1
-//   initial={{ y: -50, opacity: 0 }}
-//   animate={{ y: 0, opacity: 1 }}
-//   transition={{ duration: 0.6 }}
-//   className="text-4xl sm:text-5xl lg:text-6xl  text-white mb-6 leading-tight"
-// >
-//   <span>All Your Business Branding Needs</span>
-// </motion.h1>
-
-
-//         {/* Search Section */}
-//         {/* <SearchBar /> */}
-//         {/* Services Section with Background Video */}
-//         <div className='flex justify-center gap-14 text-2xl text-white'>
-//           <div>
-//             <Link href="/">
-//               <button className='border px-5 py-2 rounded-full bg-black'>Get Started</button>
-//             </Link>
-//           </div>
-//           <div className='border px-5 py-2 rounded-full'>View Service</div>
-//         </div>
-
-//         <section id='Hero-image' className='relative max-w-7xl py-6 px-4 sm:px-6 lg:px-6 overflow-hidden rounded-2xl mt-14 h-dvh z-10'
-//           style={{
-//             background:
-//               "linear-gradient(180deg, rgba(255, 255, 255, 0.10) 3.25%, rgba(255, 255, 255, 0.04) 96.75%), rgba(255, 255, 255, 0.3)",
-//           }}
-
-//         >
-//           <div className=' bg-white h-full rounded-2xl'>
-
-//           </div>
-//         </section>
-//         {/* <section
-//           id="services"
-//           className="relative max-w-7xl py-10 px-4 sm:px-6 lg:px-8 mt-4 overflow-hidden rounded-2xl"
-//         >
-
-//           <video
-//             ref={videoRef}
-//             className="absolute inset-0 w-full h-full object-cover filter"
-//             src="/cshero.mp4"
-//             autoPlay
-//             loop
-//             muted
-//             playsInline
-//           />
-
-
-
-//           <div className="absolute inset-0 bg-black/50"></div>
-
-
-
-//           <div className="relative">
-//             <NewServ />
-//           </div>
-//         </section> */}
-//       </div>
-//     </section>
-//   )
-// }
-
-// export default HeroSection
-
-
+"use client"
 import { motion } from 'framer-motion'
-import { Search } from 'lucide-react'
 import React, { useEffect, useState, useRef } from 'react'
-import NewServ from './NewServ'
-import { useInView } from 'react-intersection-observer'
-import { Input } from "@/components/ui/input"
-import SearchBar from './SearchBar'
-import { SvgNeuralNetworkBackground } from "@/components/SvgCircuitBackground"
-import Link from 'next/link'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-
+import Header from "@/components/Header"
+import { usePathname, useRouter } from 'next/navigation'
+import csHeroImg from '../public/new-hero-cs-img.jpg'
+import Image from 'next/image'
+import { ChevronDown } from "lucide-react";
 
 const GridSVG = () => (
   <svg
@@ -146,7 +19,7 @@ const GridSVG = () => (
     height="800"
     viewBox="0 0 500 800"
     fill="none"
-    className="opacity-100"
+    className="opacity-50"
   >
     <defs>
       <pattern id="smallGrid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -163,178 +36,228 @@ const GridSVG = () => (
 );
 
 const HeroSection = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 1;
-    }
+    if (videoRef.current) videoRef.current.playbackRate = 1;
   }, []);
 
-  const [isLoaded, setIsLoaded] = useState(false);
-
-//   const serviceCategoriesData = [
-//   { id: '1', category: 'Brand Identity / Logo Deisgn', services: 'Logo Design, Business Card Design, Letter Head Design, Email Signature', icons: ['/Services/logoService.png', '/Services/BusinessCard.png', '/Services/letterhead.png', '/Services/esignature.png'] },
-//   { id: '2', category: 'Web Development', services: 'E-commerce Website, Portfolio Website, Business Website, Booking Website', icons: ['/Services/webDesign.png', '/Services/webDevelopment.png', '/Services/seo.png', '/Services/webMaintenance.png'] }, // Example icons
-//   { id: '3', category: 'Social Media Service', services: 'Facebook Design, Instagram Design, Google Advertising, Other Advertising', icons: ['/Services/facebook.png', '/Services/instagram.png', '/Services/googleAd.png', '/Services/otherAd.png'] }, // Example icons
-//   { id: '4', category: 'Packaging & Label', services: 'Label Design, Packaging Design, Sticker Design, Other', icons: ['/Services/label.png', '/Services/packaging.png', '/Services/sticker.png', '/Services/other.png'] }, // Example icons
-//   { id: '5', category: 'Leaflet & Poster Design', services: 'Leaflets Design, Flyers Design, Brochures Design, Other', icons: ['/Services/posters.png', '/Services/flyers.png', '/Services/brochures.png', '/Services/other.png'] }, // Example icons
-// ];
-const serviceCategoriesData = [
-  {
-    category: "Brand Identity / Logo Deisgn",
-    services: ["Logo Design","Cooperate Profile Design", "Business Card Design", "Letter Head Design","Email Signature"]
-  },
-  {
-    category: "Web Development",
-    services: ["E-commerce Website", "Portfolio Website", "Business Website","Booking Website"]
-  },
-  {
-    category: "Social Media Service",
-    services: ["Social Media Design", "Social Media Managment"]
-  },
+  const serviceCategoriesData = [
     {
-    category: "Packaging & Label Design",
-    services: ["Packaging Design", "Label Design", "Sticker Design","Booking Website"]
-  },
+      category: "Brand Identity / Logo Design",
+      services: ["Logo Design", "Corporate Profile Design", "Business Card Design", "Letter Head Design", "Email Signature"],
+      link: "services"
+    },
     {
-    category: "Leaflet,Flyer & Poster Design",
-    services: ["Leaflets Design", "Flyers Design", "Poster Design"]
-  },  
-]
-
-  const images = [
-    "/web-ui-design2.jpg",   // your 4-square logo mockup
-    "/web-ui-design2.jpg",      // your eye-catching website design
-    "/logo-pres1.png",   // your Photoshop IDE view
-    "/logo-pres2.png", 
+      category: "Web Development",
+      services: ["Business Website", "E-commerce Website", "Custom Website"],
+      link: "services"
+    },
+    {
+      category: "Social Media Service",
+      services: ["Social Media Design", "Social Media Management", "Social Media Growth"],
+      link: "services"
+    },
+    {
+      category: "Packaging & Label Design",
+      services: ["Packaging Design", "Label Design", "Sticker Design"],
+      link: "services"
+    },
+    {
+      category: "Leaflet, Flyer & Poster Design",
+      services: ["Leaflets Design", "Flyers Design", "Poster Design"],
+      link: "services"
+    },
   ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollToSection = (sectionId: string, href?: string) => {
 
-    useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 4000); // change every 4 seconds
-    return () => clearInterval(interval);
-  }, [images.length]);
-  
+    if (pathname === "/") {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
+    } else {
+      router.push(`#${sectionId}`)
+    }
+  }
 
 
   return (
     <section
       id="home"
-      className="relative py-10 px-4 sm:px-6 lg:px-8 min-h-screen -mt-4 overflow-hidden bg-animated-gradient"
+      className="relative py-10 px-4 sm:px-6 lg:px-8 min-h-screen -mt-4 overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/New.png')",
+      }}
     >
-      {/* ✅ Base Left Grid */}
+      {/* ✅ Left Grid */}
       <div className="absolute left-0 top-0 h-full w-auto -translate-x-1/3 opacity-80 z-0">
         <GridSVG />
       </div>
 
-      {/* ✅ Base Right Grid (Mirrored) */}
+      {/* ✅ Right Grid (mirrored) */}
       <div className="absolute right-0 top-0 h-full w-auto translate-x-1/3 opacity-80 z-0 scale-x-[-1]">
         <GridSVG />
       </div>
 
-      {/* ✅ Angled Left Grid */}
-      {/* <div className="absolute left-0 top-0 h-full w-auto -translate-x-1/3 opacity-60 z-0  rotate-45">
-        <GridSVG />
-      </div> */}
+      <Header />
 
-      {/* ✅ Angled Right Grid (Mirrored) */}
-      {/* <div className="absolute right-0 top-0 h-full w-auto translate-x-1/3 opacity-60 z-0 -rotate-45 scale-x-[-1]">
-        <GridSVG />
-      </div> */}
-
-
-
-
-      <img
-        src="/grid.svg"
-        alt="Right Grid"
-        className="absolute right-0 top-0 h-full w-auto translate-x-1/3 opacity-40 pointer-events-none select-none z-0"
-      />
-
-      {/* ✅ Content Container */}
-      <div className="relative max-w-7xl mx-auto text-center mt-10 z-10 font-serif">
+      {/* ✅ Content */}
+      <div className="relative max-w-7xl mx-auto text-center mt-10 z-10">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl sm:text-5xl lg:text-6xl  text-white mb-4 leading-tight mt-20 "
+          className="text-4xl sm:text-5xl lg:text-6xl text-white mb-4 leading-tight mt-20"
         >
           <span>One-Stop</span>{" "}
-          <span className="text-[#bb8d03fc] ">Design Solutions</span>{" "}
+          <span className="text-[#bb8d03fc]">Design Solutions</span>{" "}
           <span>For</span>
         </motion.h1>
+
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl sm:text-5xl lg:text-6xl  text-white mb-6 leading-tight"
+          className="text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight"
         >
           <span>All Your Business Branding Needs</span>
         </motion.h1>
 
-        <div className="flex justify-center gap-14 text-xl text-gray-800">
-          <Link href="/">
-            <button className="border border-gray-400 px-5 py-2 rounded-full bg-white/50 text-black hover:bg-white shadow-md">
-              Get Started
-            </button>
-          </Link>
-          <button className="border border-gray-400 px-5 py-2 rounded-full text-white  hover:bg-black">
-            View Service
+        {/* ✅ Buttons */}
+        <div className="flex justify-center gap-14 text-lg text-gray-800 ">
+
+          <button
+            onClick={() => scrollToSection("packages")}
+            className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-1 px-4 ring-1 ring-white/10 ">
+              <span>
+                Get Started
+              </span>
+              <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" >
+                <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+              </svg>
+            </div>
+            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+          </button>
+
+          <button
+            onClick={() => scrollToSection("services")}
+            className="group relative shadow-2xl rounded-full p-px text-xs leading-6 text-white inline-block">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-transparent py-1 px-4 ring-1 ring-white/10">
+              <span>View Services</span>
+              <svg fill="none" height="16" viewBox="0 0 24 24" width="16">
+                <path
+                  d="M10.75 8.75L14.25 12L10.75 15.25"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </div>
           </button>
         </div>
 
-       <div className='flex justify-center mt-10 '>
-          {serviceCategoriesData.map((tab)=>(
-            <HoverCard>
-              <HoverCardTrigger><button className='text-white px-2'>{tab.category}</button></HoverCardTrigger>
-      <HoverCardContent className="bg-black/30 backdrop-blur-md text-white rounded-lg shadow-md p-4 w-56">
-        <ul className="c list-inside space-y-1 text-start">
-          {tab.services.map((service) => (
-            <li 
-            key={service}
-            className="transition-all duration-200 hover:underline hover:underline-offset-4 hover:text-[#bb8d03]"
-            >
-              + {service}
-            </li>
-          ))}
-        </ul>
-      </HoverCardContent>
+        {/* ✅ Hover cards */}
+        <div className="sm:flex-2 md:flex justify-center mt-10">
+          {serviceCategoriesData.map((tab, index) => (
+            <HoverCard key={tab.category || index}>
+              <HoverCardTrigger>
+                <button
+                  className=" text-white px-2 m-2 bg-white/20 backdrop-blur-sm  py-1 rounded-full text-xs cursor-pointer hover:bg-white/30 transition-colors duration-200"
+                  onClick={() => scrollToSection(tab.link)}
+                >
+                  <span className='flex items-center'>
+                    <span>
+                      {tab.category}
+                    </span>
+                    <span>
+                      <ChevronDown
+                        className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </span>
+                </button>
+              </HoverCardTrigger>
+              <HoverCardContent className="bg-black/30 backdrop-blur-md text-white rounded-lg shadow-md p-4 w-56">
+                <ul className="list-inside space-y-1 text-start">
+                  {tab.services.map((service) => (
+                    <li
+                      key={service}
+                      className="transition-all duration-200 hover:underline hover:underline-offset-4 hover:text-[#bb8d03]"
+                    >
+                      + {service}
+                    </li>
+                  ))}
+                </ul>
+              </HoverCardContent>
             </HoverCard>
           ))}
-       </div>
+        </div>
+        <div className='hidden md:block'>
+          <div
+            className="relative max-w-7xl mx-auto mt-14 rounded-[30px] h-[80vh] overflow-hidden shadow-xl"
+          >
+            {/* Outer frosted-glass container */}
+            <div
+              className="absolute inset-0 rounded-[30px] backdrop-blur-2xl border border-white/20"
+              style={{
+                background:
+                  "linear-gradient(160deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)",
+              }}
+            ></div>
 
-        {/* ✅ Frosted Hero Image Section */}
-        <section
-          id="Hero-image"
-          className="relative max-w-7xl py-6 px-4 sm:px-6 lg:px-6 overflow-hidden rounded-2xl mt-14 h-dvh backdrop-blur-2xl border border-white/40 shadow-lg"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255, 255, 255, 0.10) 3.25%, rgba(255, 255, 255, 0.04) 96.75%), rgba(255, 255, 255, 0.25)",
-          }}
-        >
-          {/* Example placeholder for image */}
-          {/* <div className="w-full h-full rounded-2xl bg-gradient-to-tr from-white/50 to-transparent border border-white/20"></div> */}
-                <div className="absolute inset-4 rounded-2xl overflow-hidden">
-        {images.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`Hero ${index}`}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-              index === currentIndex ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-      </div>
-        </section>
+            {/* 💡 Reflection highlight at the top */}
+            <div
+              className="absolute inset-x-0 top-0 h-24 rounded-t-[30px] pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(255,255,255,0.30), rgba(255,255,255,0.05), transparent)",
+                filter: "blur(12px)",
+              }}
+            ></div>
+
+            {/* ✨ Diagonal glass reflection */}
+            <div
+              className="absolute  pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 40%, transparent 70%)",
+                mixBlendMode: "overlay",
+              }}
+            ></div>
+
+            {/* Inner frosted glass padding frame */}
+
+
+            {/* Inner image area */}
+            <div className="absolute inset-4 rounded-[20px] overflow-hidden border border-white/10 shadow-lg">
+              <Image
+                src={csHeroImg}
+                alt="Hero Image"
+                fill
+                className="object-cover"
+                priority
+                quality={75}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
-
 };
 
 export default HeroSection;

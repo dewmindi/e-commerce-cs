@@ -21,16 +21,16 @@ import Link from "next/link"
 
 export default function AboutUsPage() {
   return (
-    <div id="about" className="min-h-screen bg-white text-[#333333]">
+    <div id="about" className="min-h-screen bg-foreground ">
       {/* Header */}
       <Header />
 
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F5F5F5] to-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-[#333333] mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold text-background mb-6 leading-tight">
                 About CS Graphics Meta
               </h1>
               <p className="text-xl text-[#666666] mb-8 leading-relaxed">
@@ -38,24 +38,24 @@ export default function AboutUsPage() {
                 masterpieces. Our journey began with a simple belief: great design has the power to change the world.
               </p>
               <div className="flex flex-wrap gap-4">
-                <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm">
+                <div className="flex items-center space-x-2 border px-4 py-2 rounded-full shadow-sm">
                   <Award className="w-5 h-5 text-[#bb8d03fc]" />
-                  <span className="text-sm font-medium text-[#333333]">Award Winning</span>
+                  <span className="text-sm font-medium text-white">Award Winning</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm">
+                <div className="flex items-center space-x-2 border px-4 py-2 rounded-full shadow-sm">
                   <Users className="w-5 h-5 text-[#bb8d03fc]" />
-                  <span className="text-sm font-medium text-[#333333]">Expert Team</span>
+                  <span className="text-sm font-medium text-white">Expert Team</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm">
+                <div className="flex items-center space-x-2 border px-4 py-2 rounded-full shadow-sm">
                   <Star className="w-5 h-5 text-[#bb8d03fc]" />
-                  <span className="text-sm font-medium text-[#333333]">5-Star Rated</span>
+                  <span className="text-sm font-medium text-white">5-Star Rated</span>
                 </div>
               </div>
             </div>
 
             {/* Image Placeholder */}
             <div className="relative">
-              <div className="aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden shadow-lg">
+              <div className="aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d393.00228765297805!2d145.26176955573314!3d-38.000033591793766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad617941d407e2d%3A0x41fa6a629caa06ea!2sCS%20Graphic%20Meta!5e0!3m2!1sen!2slk!4v1758567534999!5m2!1sen!2slk"
                   width="100%"
@@ -77,10 +77,10 @@ export default function AboutUsPage() {
       </section>
 
       {/* Vision & Mission Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">Our Vision & Mission</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-background mb-4">Our Vision & Mission</h2>
             <p className="text-lg text-[#666666] max-w-2xl mx-auto">
               Driven by purpose, guided by creativity, and committed to excellence in everything we do.
             </p>
@@ -149,10 +149,10 @@ export default function AboutUsPage() {
       </section>
 
       {/* Our Values Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F5F5]">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">Our Core Values</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-background mb-4">Our Core Values</h2>
             <p className="text-lg text-[#666666] max-w-2xl mx-auto">
               The principles that guide our work and define our commitment to excellence.
             </p>
@@ -205,10 +205,10 @@ export default function AboutUsPage() {
       </section>
 
       {/* Our Expertise Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">Our Expertise</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-background mb-4">Our Expertise</h2>
             <p className="text-lg text-[#666666] max-w-2xl mx-auto">
               Specialized skills and comprehensive services that drive your business forward.
             </p>

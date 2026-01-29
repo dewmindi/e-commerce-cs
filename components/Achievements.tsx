@@ -3,13 +3,16 @@ import React from 'react'
 
 const Achievements = () => {
     return (
-        <section className=" mx-auto py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className=" mx-auto py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">
+                    {/* <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-4">
+                        Awards & Achievements
+                    </h2> */}
+                    <h2 className="flex justify-center items-center text-2xl sm:text-4xl text-[#bb8d03fc]">
                         Awards & Achievements
                     </h2>
-                    <p className="text-lg text-[#666666] max-w-2xl mx-auto">
+                    <p className="text-lg text-[#666666] max-w-2xl mx-auto mt-10">
                         Recognition and certifications that demonstrate our commitment to
                         excellence and professional growth
                     </p>
@@ -49,7 +52,7 @@ const Achievements = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-16 pt-12 border-t border-gray-200">
+                {/* <div className="mt-16 pt-12 border-t border-gray-200">
                     <div className="flex justify-center items-center  space-y-8 md:space-y-0 gap-5 ">
                         <img
                             src="/GeminiMeta.png" // Path to your Meta Verified logo
@@ -63,7 +66,7 @@ const Achievements = () => {
                         />
 
                     </div>
-                </div>
+                </div> */}
             </div>
         </section>
     );

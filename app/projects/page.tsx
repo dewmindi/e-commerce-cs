@@ -5,12 +5,7 @@ import Image from 'next/image'; // For optimized images
 import { motion } from 'framer-motion'; // For smooth animations/transitions
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { useCart } from '../context/CartContext';
-import { pricingData } from '../data/pricing';
-import { PlusIcon } from 'lucide-react';
 import FooterNew from '@/components/FooterNew';
-import { count } from 'console';
 import Link from 'next/link';
 
 // Dummy Project Data (Replace with your actual data fetching)
@@ -150,7 +145,6 @@ const ProjectsPage = () => {
   const [displayedProjects, setDisplayedProjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 12; // Adjust as needed, common for galleries
-  const { addToCart } = useCart()
 
   useEffect(() => {
     let filtered = allProjectsData;
@@ -189,55 +183,11 @@ const ProjectsPage = () => {
     },
   };
 
-  // const handleAdd = (project: any) => {
-  //   addToCart({
-  //     id: project.title.toLowerCase().replace(/\s+/g, "-"),
-  //     title: project.title,
-  //     category: project.category,
-  //     price: project.price,
-  //     image: project.imageUrl,
-  //     quantity: 1,
-  //   })
-  // }
 
-  // --- MODIFIED handleAdd function to accept different types of items ---
-  const handleAdd = (item: CartItemSource) => {
-        let numericPrice: number;
-
-        if (typeof item.price === 'string') {
-            // Remove "$" and parse as float, handle potential commas if any
-            numericPrice = parseFloat(item.price.replace(/[$,]/g, ''));
-        } else {
-            numericPrice = item.price;
-        }
-
-        // Ensure numericPrice is a valid number before adding to cart
-        if (isNaN(numericPrice)) {
-            console.error("Attempted to add item with invalid price to cart:", item);
-            alert("Could not add item to cart due to invalid price. Please try again.");
-            return; // Exit if price is not a number
-        }
-
-    if (item.type === 'pricingPlan') {
-      const currentCategoryName = categories.find(cat => cat.slug === activeCategory)?.name || 'Unknown Category';
-      addToCart({
-        // Generate a unique ID for the plan in the cart, e.g., "logo-designs-basic-package"
-        id: `${activeCategory}-${item.title.toLowerCase().replace(/\s+/g, '-')}`,
-        title: item.title, // e.g., "Basic Logo Package"
-        category: currentCategoryName, // e.g., "Logo Designs"
-        price: numericPrice, // e.g., "$150"
-        image: `/logo-designs/logoDesign1.jpeg`, // You might want a generic icon for plans, or map it.
-        quantity: 1,
-      });
-    }
-    console.log("Added to cart:", item); // For debugging
-  };
-
-  const currentPricingPlans = pricingData[activeCategory];
   const currentCategoryNameForTitle = categories.find(cat => cat.slug === activeCategory)?.name;
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5] text-[#333333]">
+    <div className="min-h-screen text-[#333333]">
       <Header />
 
       {/* Hero Section - Eye-catching Banner */}
@@ -277,17 +227,17 @@ const ProjectsPage = () => {
       </section>
 
       {/* Categories / Filters sticky top-0 z-20 */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white shadow-sm ">
+      <section className="py-12 px-4 sm:px-6 lg:px-8  shadow-sm bg-foreground">
         <div className="max-w-6xl mx-auto flex flex-wrap  justify-center gap-3">
           {categories.map((category) => (
             <Button
               key={category.slug}
               onClick={() => setActiveCategory(category.slug)}
               className={`
-                  px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200
+                  px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 bg-black
                   ${activeCategory === category.slug
-                  ? 'bg-[#bb8d03fc] text-white shadow-md'
-                  : 'bg-[#F5F5F5] text-[#666666] hover:bg-[#E0E0E0] hover:text-[#333333]'
+                  ? 'border border-[#bb8d03fc] text-white shadow-md'
+                  : ' border text-white hover:text-[#bb8d03fc]'
                 }
                 `}
             >
@@ -298,7 +248,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-foreground">
         <div className="max-w-6xl mx-auto">
           {displayedProjects.length === 0 ? (
             <div className="text-center text-[#666666] text-xl py-20">No projects found for this category.</div>
@@ -315,20 +265,17 @@ const ProjectsPage = () => {
                   className="bg-white rounded-lg shadow-lg overflow-hidden group cursor-pointer relative"
                   variants={itemVariants}
                 >
-                  <div className="relative w-full h-64 overflow-hidden">
+                  <div className="relative w-full h-64 overflow-hidden border rounded-lg">
                     <Image
                       src={project.imageUrl}
                       alt={project.title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 group-hover:scale-110"
+                      fill={true}
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     {/* Overlay on hover */}
                     <div className="absolute inset-0 bg-opacity-70 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <h3 className="text-xl font-bold mb-2 text-center px-4">{project.title}</h3>
                       <p className="text-sm italic">{project.category}</p>
-                      {/* Optional: View Details Button */}
-                      {/* <Button className="mt-4 bg-[#FFC107] text-[#333333] hover:bg-[#FFA000]">View Details</Button> */}
                     </div>
                   </div>
                 </motion.div>
@@ -354,8 +301,8 @@ const ProjectsPage = () => {
                   className={`
                       w-10 h-10 rounded-full font-medium
                       ${currentPage === i + 1
-                      ? 'bg-[#666666] text-white shadow-md'
-                      : 'bg-white text-[#666666] hover:bg-[#E0E0E0]'
+                      ? ' text-white shadow-md border border-[#bb8d03fc]'
+                      : ' text-white hover:bg-[#E0E0E0]'
                     }
                     `}
                 >
@@ -374,67 +321,6 @@ const ProjectsPage = () => {
           )}
         </div>
       </section>
-
-      {/* --- NEW: Pricing Section --- */}
-      {currentPricingPlans && currentPricingPlans.length > 0 && activeCategory !== 'all' && ( // Only show if plans exist and it's not "All Projects"
-        <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#333333] mb-12">
-              {categories.find(cat => cat.slug === activeCategory)?.name} Pricing Plans
-            </h2>
-            <div className=" justify-center grid grid-cols-3 flex-wrap gap-8">
-              {currentPricingPlans.map((plan, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-[#F5F5F5] rounded-lg p-8 shadow-md hover:shadow-xl transition-shadow duration-300 border-t-4 border-[#bb8d03fc] w-full "
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  whileHover={{ y: -5 }}
-                >
-                  <h3 className="text-2xl font-bold text-[#333333] mb-4">{plan.title}</h3>
-                  <p className="text-5xl font-extrabold text-[#bb8d03fc] mb-6">{plan.price}</p>
-                  <ul className="text-left text-[#666666] mb-8 space-y-2">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className={`flex items-start ${feature.type === 'disfeature' ? 'text-gray-500 line-through' : ''}`}>
-                        {feature.type === 'feature' && (
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#bb8d03fc] mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                        )}
-                        {feature.type === 'disfeature' && (
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#7f7e7dfc] mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                        )}
-                        {feature.type === 'exfeature' && (
-                          <PlusIcon className='text-[#bb8d03fc] mr-2 flex-shrink-0' size={20} />
-                        )}
-                        {feature.text}
-                      </li>
-                    ))}
-                  </ul>
-                  {/* --- ADD TO CART BUTTON FOR PRICING PLANS --- */}
-                  <Button
-                    onClick={() => handleAdd({
-                      type: 'pricingPlan',
-                      title: plan.title,
-                      price: plan.price,
-                      categoryName: currentCategoryNameForTitle || '', // Pass the display name of the category
-                    })}
-                    className="bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105"
-                  >
-                    Add to Cart
-                  </Button>
-                  {/* <Button className="bg-[#FFC107] hover:bg-[#FFA000] text-[#333333] px-8 py-3 rounded-lg font-bold text-lg shadow-md transition-all duration-300 hover:scale-105">
-                    Select Plan
-                  </Button> */}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Call to Action Section (Optional, but good for conversion) */}
       <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#ada661] py-16 px-4 sm:px-6 lg:px-8 text-center text-white">

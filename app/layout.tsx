@@ -7,11 +7,13 @@ import { CartProvider } from './context/CartContext'
 import MaintenanceOverlay from '@/components/MaintenanceOverlay'
 import localFont from 'next/font/local';
 import Script from "next/script";
+import Head from 'next/head'
+import NonBlockingCSS from '@/components/NonBlockingCSS'
 
 export const metadata: Metadata = {
   title: 'CS Graphic Meta',
   description: 'Precision-crafted logos that deliver clarity in a complex marketplace.',
-    icons: {
+  icons: {
     icon: '/favicon.ico',
   },
 }
@@ -28,29 +30,13 @@ const symphonie = localFont({
   variable: '--font-symphonie', // 👈 defines a CSS variable
 });
 
+const poppins = localFont({
+  src: '../public/fonts/PoppinsRegular.ttf',
+  display: 'swap',
+  variable: '--font-poppins', // 👈 defines a CSS variable
+});
+
 const isMaintenance = false
-
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode
-// }>) {
-//   return (
-//     <html lang="en">
-//       <body>
-//         <Suspense fallback={null}>
-//           <GlobalLoader />
-//         </Suspense>
-//         <CartProvider>
-//           {children}
-//         </CartProvider>
-//         <CursorFollower />
-//       </body>
-//     </html>
-//   )
-// }
-
-// const isMaintenance = false
 
 export default function RootLayout({
   children,
@@ -60,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <NonBlockingCSS />
         <Suspense fallback={null}>
           <GlobalLoader />
         </Suspense>
@@ -69,11 +56,7 @@ export default function RootLayout({
           </div>
           {isMaintenance && <MaintenanceOverlay />}</CartProvider>
         {/* <CursorFollower /> */}
-                {/* reCAPTCHA v3 script */}
-        <Script
-          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="afterInteractive"
-        />
+        {/* reCAPTCHA v3 script */}
       </body>
     </html>
   )
