@@ -138,10 +138,10 @@ const PCBuilder: React.FC = () => {
       productId: product.id,
       productName: product.name,
       price: product.price,
+      features: product.features,
     };
 
     setSelectedProducts((prev) => {
-      // ✅ Replace ONLY the same subcategory
       const filtered = prev.filter(
         (p) => p.subcategoryId !== subcategory._id
       );
@@ -161,16 +161,11 @@ const PCBuilder: React.FC = () => {
     return selectedProducts.reduce((sum, p) => sum + p.price, 0);
   }, [selectedProducts]);
 
- return (
+  return (
     <div className="min-h-screen bg-foreground px-4 py-6 md:p-8">
       <Header />
-
-      {/* Responsive Container:
-        - Mobile: Single column (Vertical stack)
-        - Desktop: Sidebar | Main Area | Summary
-      */}
       <div className="mt-16 lg:mt-24 flex flex-col lg:flex-row lg:items-start gap-6">
-        
+
         {/* LEFT: CATEGORIES (Sidebar) */}
         <div className="w-full lg:w-1/4 shrink-0">
           <PackagesSidebar
@@ -197,8 +192,6 @@ const PCBuilder: React.FC = () => {
           />
         </div>
 
-        {/* RIGHT: SUMMARY (Only visible on Desktop or at bottom on mobile) */}
-        {/* You might want to hide this on mobile if QuoteButtons handles it */}
         <div className="w-full lg:w-80 xl:w-96">
           <SummaryCard
             selectedProducts={selectedProducts}
@@ -208,9 +201,9 @@ const PCBuilder: React.FC = () => {
       </div>
 
       {/* FIXED FOOTER BUTTONS */}
-      <QuoteButtons 
-        totalPrice={totalPrice} 
-        selectedProducts={selectedProducts} 
+      <QuoteButtons
+        totalPrice={totalPrice}
+        selectedProducts={selectedProducts}
       />
     </div>
   );

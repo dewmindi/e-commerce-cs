@@ -6,18 +6,7 @@ import { AsteriskIcon } from "lucide-react";
 import contactImg from "../public/contactUs.jpeg"
 import Image from "next/image";
 
-// Global grecaptcha type declaration
-declare global {
-  interface Window {
-    grecaptcha: {
-      ready: (callback: () => void) => void;
-      execute: (siteKey: string, options: { action: string }) => Promise<string>;
-    };
-  }
-}
-
 const ContactUs = () => {
-  const [recaptchaReady, setRecaptchaReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -35,83 +24,6 @@ const ContactUs = () => {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
-  // ✅ Load reCAPTCHA script and initialize
-  useEffect(() => {
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-    
-    if (!siteKey) {
-      console.error("NEXT_PUBLIC_RECAPTCHA_SITE_KEY is not defined");
-      return;
-    }
-
-    const loadRecaptcha = () => {
-      if (typeof window !== "undefined" && window.grecaptcha) {
-        window.grecaptcha.ready(() => {
-          console.log("reCAPTCHA is ready");
-          setRecaptchaReady(true);
-        });
-      }
-    };
-
-    // Check if script is already loaded
-    if (document.querySelector("#recaptcha-script")) {
-      loadRecaptcha();
-      return;
-    }
-
-    // Load reCAPTCHA script
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
-    script.id = "recaptcha-script";
-    script.async = true;
-    script.defer = true;
-    
-    script.onload = () => {
-      console.log("reCAPTCHA script loaded");
-      loadRecaptcha();
-    };
-    
-    script.onerror = () => {
-      console.error("Failed to load reCAPTCHA script");
-      setError("Failed to load reCAPTCHA. Please refresh the page.");
-    };
-
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup function
-      const existingScript = document.querySelector("#recaptcha-script");
-      if (existingScript) {
-        existingScript.remove();
-      }
-    };
-  }, []);
-
-  // ✅ Generate fresh token just before submission
-  const generateRecaptchaToken = async (): Promise<string | null> => {
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-    
-    if (!siteKey) {
-      console.error("Site key not found");
-      return null;
-    }
-
-    if (!window.grecaptcha || !recaptchaReady) {
-      console.error("reCAPTCHA not ready");
-      return null;
-    }
-
-    try {
-      console.log("Generating reCAPTCHA token...");
-      const token = await window.grecaptcha.execute(siteKey, { action: "contact_form" });
-      console.log("reCAPTCHA token generated successfully:", token ? "✓" : "✗");
-      return token;
-    } catch (error) {
-      console.error("Error generating reCAPTCHA token:", error);
-      return null;
-    }
-  };
-
   // ✅ Submit handler with fresh token generation
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -119,19 +31,10 @@ const ContactUs = () => {
     setError("");
 
     try {
-      // Generate fresh token right before submission
-      const token = await generateRecaptchaToken();
-      
-      if (!token) {
-        throw new Error("Failed to generate reCAPTCHA token. Please try again.");
-      }
-
-      console.log("Submitting form with token...");
-
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, token }),
+        body: JSON.stringify({ ...form }),
       });
 
       const data = await res.json();
@@ -148,7 +51,6 @@ const ContactUs = () => {
           company: "",
         });
         console.log("Form submitted successfully!");
-        console.log("reCAPTCHA Details:", data.recaptcha);
       } else {
         
         throw new Error(data.error || "Failed to send email");
@@ -160,19 +62,11 @@ const ContactUs = () => {
       setIsSubmitting(false);
     }
   }
-
-  const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.4 });
-  const variants = { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } };
-
   // Show success message
   if (submitted) {
     return (
-      <div id="contact" className="bg-white text-white flex items-center justify-center p-4 sm:p-8 font-inter">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={variants}
-          transition={{ duration: 0.8 }}
+      <div id="contact" className="bg-black text-white flex items-center justify-center p-4 sm:p-8 font-inter">
+        <div
           className="max-w-2xl bg-green-600 bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl p-8 text-center"
         >
           <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
@@ -183,19 +77,14 @@ const ContactUs = () => {
           >
             Send Another Message
           </button>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
     <div id="contact" className=" text-white flex items-center justify-center p-4 sm:p-8 font-inter mt-10 mb-10">
-      <motion.div
-        ref={ref}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={variants}
-        transition={{ duration: 0.8 }}
+      <div
         className="max-w-7xl bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl flex flex-col lg:flex-row overflow-hidden transform transition-all duration-300 ease-in-out hover:shadow-3xl"
       >
         {/* Left Section */}
@@ -218,7 +107,7 @@ const ContactUs = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col justify-center bg-[#181818] text-white">
+        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col justify-center bg-[#181818] text-primarytext">
           <h1 className="flex text-3xl sm:text-4xl  mb-6  animate-fade-in-right">
             <AsteriskIcon />
             Contact Us
@@ -231,13 +120,6 @@ const ContactUs = () => {
           {error && (
             <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
               {error}
-            </div>
-          )}
-
-          {/* reCAPTCHA Status */}
-          {!recaptchaReady && (
-            <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-lg text-sm">
-              Loading security verification...
             </div>
           )}
 
@@ -325,13 +207,11 @@ const ContactUs = () => {
 
             <button
               type="submit"
-              disabled={!recaptchaReady || isSubmitting}
+              disabled={isSubmitting}
               className="w-full bg-[#bb8d03fc] hover:bg-[#876e25fc] text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg animate-fade-in-right delay-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {isSubmitting 
                 ? "Sending..." 
-                : !recaptchaReady 
-                  ? "Loading Security..." 
                   : "Contact Us"
               }
             </button>
@@ -349,7 +229,7 @@ const ContactUs = () => {
             apply.
           </p>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

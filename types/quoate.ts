@@ -55,4 +55,12 @@ export interface SelectedProduct {
   productId: string;
   productName: string;
   price: number;
+  features?: {
+    title?: string; // Type A
+    name?: string;  // Type B
+    items?: {
+      text: string;
+      highlight: boolean;
+    }[];
+  }[];
 }
