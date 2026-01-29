@@ -83,7 +83,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
     const companyName = "CS Graphic Meta";
     const companyAddress = "Unit 3/2 Adam Ave, Hallam VIC 3803, Australia";
     const companyPhone = "+61 405 455 273";
-    const companyEmail = "info@graphicmeta.com.au";
+    const companyEmail = "info@csgraphicmeta.com.au";
     const quoteTitle = "QUOTATION";
     const currentYear = new Date().getFullYear();
     const quoteDate = new Date().toLocaleDateString("en-AU");
@@ -388,64 +388,72 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded shadow-lg w-96">
             <h2 className="text-lg font-bold mb-4">Enter Your Details</h2>
-            <div className="mb-3">
-              <label className="block text-sm font-medium mb-1">Name / Business Name</label>
-              <input
-                type="text"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-                placeholder="Your Name"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Contact Number</label>
-              <input
-                type="text"
-                value={contactNumber}
-                onChange={(e) => setContactNumber(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-                placeholder="Contact Number"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-                placeholder="Email"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Address</label>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-                placeholder="Address"
-              />
-            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setShowForm(false);
+                downloadQuotation(customerName, contactNumber, email, address);
+              }}
+            >
+              <div className="mb-3">
+                <label className="block text-sm font-medium mb-1">Name / Business Name <span className="text-red-500">*</span></label>
+                <input
+                  required
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Your Name"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">Contact Number <span className="text-red-500">*</span></label>
+                <input
+                  required
+                  type="text"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Contact Number"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">Email <span className="text-red-500">*</span></label>
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Email"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">Address</label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Address"
+                />
+              </div>
 
-            <div className="flex justify-end space-x-3">
-              <button
-                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                onClick={() => setShowForm(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded bg-[#a87f03] text-white hover:bg-black"
-                onClick={() => {
-                  setShowForm(false);
-                  downloadQuotation(customerName, contactNumber, email, address);
-                }}
-              >
-                Generate PDF
-              </button>
-            </div>
+              <div className="flex justify-end space-x-3">
+                <button
+                  className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded bg-[#a87f03] text-white hover:bg-black"
+                >
+                  Download PDF
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
