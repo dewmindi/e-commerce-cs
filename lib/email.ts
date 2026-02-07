@@ -10,27 +10,84 @@
 // }
 
 
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
 
-export function getTransporter() {
-  const port = Number(process.env.SMTP_PORT || 587);
-  const secure = port === 465; // SSL only for port 465
+// export function getTransporter() {
+//   const port = Number(process.env.SMTP_PORT || 587);
+//   const secure = port === 465; // SSL only for port 465
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port,
-    secure,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port,
+//     secure,
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+//   });
+
+//   // Verify connection immediately
+//   transporter.verify((err, success) => {
+//     if (err) console.error('SMTP Transporter Error:', err);
+//     else console.log('SMTP transporter ready to send messages');
+//   });
+
+//   return transporter;
+// }
+
+
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+export async function sendCustomerEmail(order: any) {
+  await transporter.sendMail({
+    from: `"CS Graphic Meta" <${process.env.SMTP_USER}>`,
+    to: order.email,
+    subject: `Order Confirmation - ${order.orderId}`,
+    html: `
+      <h2>Thank you for your purchase</h2>
+      <p>Order ID: <b>${order.orderId}</b></p>
+      <p>Amount Paid: ${(order.amount / 100).toFixed(2)} ${order.currency.toUpperCase()}</p>
+      ${order.projectNote ? `<p><b>Your Note:</b> ${order.projectNote}</p>` : ''}
+      <p>We will contact you shortly.</p>
+    `,
   });
-
-  // Verify connection immediately
-  transporter.verify((err, success) => {
-    if (err) console.error('SMTP Transporter Error:', err);
-    else console.log('SMTP transporter ready to send messages');
-  });
-
-  return transporter;
 }
+
+export async function sendAdminEmail(order: any) {
+  await transporter.sendMail({
+    from: `"Website Orders" <${process.env.SMTP_USER}>`,
+    to: process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
+    subject: `New Website Order - ${order.orderId}`,
+    html: `
+      <h3>New Order Received</h3>
+      <p><b>Name:</b> ${order.customerName}</p>
+      <p><b>Email:</b> ${order.email}</p>
+      <p><b>Phone:</b> ${order.phone}</p>
+      <p><b>Note:</b> ${order.projectNote}</p>
+      <p><b>Amount:</b> ${(order.amount / 100).toFixed(2)} ${order.currency.toUpperCase()}</p>
+    `,
+  });
+}
+
+export async function sendPaymentFailedEmail(email: string) {
+  await transporter.sendMail({
+    to: email,
+    from: `"Your Company" <${process.env.EMAIL_USER}>`,
+    subject: "Payment failed",
+    html: `
+      <p>Your payment was unsuccessful.</p>
+      <p>No money was taken from your account.</p>
+      <p>Please try again or contact support.</p>
+    `,
+  });
+}
+

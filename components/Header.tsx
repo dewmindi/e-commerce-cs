@@ -10,17 +10,103 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { Navbar, NavBody, NavbarLogo, NavItems, MobileNav, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "./ui/resizable-navbar"
 import { ServicesDropdown } from "./ServicesDropdown"
 
+const CheckoutForm = ({ onCheckout, onCancel }: { onCheckout: any, onCancel: () => void }) => {
+    const [customerName, setCustomerName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [projectNote, setProjectNote] = useState("");
+
+    return (
+        <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="flex justify-between items-center mb-4">
+                <h3 className="text-base font-semibold text-gray-800">Checkout Details</h3>
+                <button 
+                    onClick={onCancel} 
+                    className="text-xs text-gray-500 hover:text-red-500 transition-colors px-2 py-1 rounded hover:bg-red-50"
+                >
+                    Cancel
+                </button>
+            </div>
+
+            <div className="space-y-3">
+                <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Full Name</label>
+                    <input
+                        type="text"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#bb8d03fc] focus:ring-1 focus:ring-[#bb8d03fc] transition-all bg-gray-50 focus:bg-white text-gray-800 placeholder-gray-400"
+                        placeholder="John Doe"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Email Address</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#bb8d03fc] focus:ring-1 focus:ring-[#bb8d03fc] transition-all bg-gray-50 focus:bg-white text-gray-800 placeholder-gray-400"
+                        placeholder="john@example.com"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Phone Number</label>
+                    <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#bb8d03fc] focus:ring-1 focus:ring-[#bb8d03fc] transition-all bg-gray-50 focus:bg-white text-gray-800 placeholder-gray-400"
+                        placeholder="+1 (555) 000-0000"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                        Project Note <span className="text-gray-400 font-normal">(Optional)</span>
+                    </label>
+                    <textarea
+                        value={projectNote}
+                        onChange={(e) => setProjectNote(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#bb8d03fc] focus:ring-1 focus:ring-[#bb8d03fc] transition-all bg-gray-50 focus:bg-white text-gray-800 placeholder-gray-400 resize-none"
+                        placeholder="Any specific instructions..."
+                        rows={3}
+                    />
+                </div>
+            </div>
+
+            <button
+                onClick={() =>
+                    onCheckout({
+                        customerName,
+                        email,
+                        phone,
+                        projectNote,
+                    })
+                }
+                className="w-full mt-5 bg-[#bb8d03fc] text-white font-medium py-2.5 rounded-lg hover:bg-[#a67c03] active:scale-[0.98] transition-all shadow-sm hover:shadow-md text-sm"
+            >
+                Proceed to Payment
+            </button>
+        </div>
+    );
+};
 
 
 const Header = () => {
     const isMobile = useIsMobile()
     const { cart, getTotalItems, removeFromCart, getTotalPrice } = useCart()
     const [isCartOpen, setIsCartOpen] = useState(false)
-    const cartRef = useRef(null)
-    const mobilecartRef = useRef(null)
+    const cartRef = useRef<HTMLDivElement>(null)
+    const mobilecartRef = useRef<HTMLDivElement>(null)
     const router = useRouter();
     const pathname = usePathname();
     const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
+    const [showCheckoutForm, setShowCheckoutForm] = useState(false);
 
     // --- Smooth scroll to section ---
     // Smooth scroll function
@@ -62,7 +148,23 @@ const Header = () => {
 
 
 
-    const handleCheckout = async () => {
+    const handleCheckout = async ({
+        customerName,
+        email,
+        phone,
+        projectNote,
+    }: {
+        customerName: string;
+        email: string;
+        phone: string;
+        projectNote: string;
+    }) => {
+
+        if (!customerName || !email || !phone) {
+            alert("Please fill in required contact details.");
+            return;
+        }
+
         if (cart.length === 0) {
             alert('Your cart is empty. Please add items before checking out.');
             return;
@@ -78,7 +180,7 @@ const Header = () => {
             const res = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cartItems: itemsToSend }),
+                body: JSON.stringify({ cartItems: itemsToSend, customerName, email, phone, projectNote }),
             });
             if (!res.ok) {
                 const errorData = await res.json();
@@ -114,15 +216,7 @@ const Header = () => {
     ];
 
 
-    const handleTagClick = (tag: ProjectTag) => { // Accept the full tag object
-        // The condition should check the 'parentCategoryName' property of the tag
-        // AND ensure that the tag actually has a specific path defined
-        if (tag.parentCategoryName === "Brand Identity" && tag.path) {
-            router.push(tag.path);
-        } else {
-            router.push(tag.mainPagePath);
-        }
-    };
+
 
     const handleNavClick = (item: any) => {
         if (item.link) {
@@ -222,15 +316,20 @@ const Header = () => {
                                         <span>Total:</span>
                                         <span>${getTotalPrice().toFixed(2)}</span>
                                     </div>
-                                    <button
-                                        onClick={handleCheckout}
-                                        className="w-full bg-[#bb8d03fc] text-white text-sm font-bold py-2 rounded hover:bg-[#c59f09] transition"
-                                        disabled={isProcessingCheckout || cart.length === 0}
-                                    >
-                                        {isProcessingCheckout ? 'Processing...' : 'Checkout'}
-                                    </button>
+
+                                    {!showCheckoutForm ? (
+                                        <button
+                                            onClick={() => setShowCheckoutForm(true)}
+                                            className="w-full bg-[#bb8d03fc] text-white text-sm font-bold py-2 rounded hover:bg-[#c59f09]"
+                                        >
+                                            Checkout
+                                        </button>
+                                    ) : (
+                                        <CheckoutForm onCheckout={handleCheckout} onCancel={() => setShowCheckoutForm(false)} />
+                                    )}
                                 </div>
                             )}
+
                         </div>
                     )}
                 </div>
@@ -301,15 +400,20 @@ const Header = () => {
                                                 <span>Total:</span>
                                                 <span>${getTotalPrice().toFixed(2)}</span>
                                             </div>
-                                            <button
-                                                onClick={handleCheckout}
-                                                className="w-full bg-[#bb8d03fc] text-white text-sm font-bold py-2 rounded hover:bg-[#c59f09] transition"
-                                                disabled={isProcessingCheckout || cart.length === 0}
-                                            >
-                                                {isProcessingCheckout ? 'Processing...' : 'Checkout'}
-                                            </button>
+
+                                            {!showCheckoutForm ? (
+                                                <button
+                                                    onClick={() => setShowCheckoutForm(true)}
+                                                    className="w-full bg-[#bb8d03fc] text-white text-sm font-bold py-2 rounded hover:bg-[#c59f09]"
+                                                >
+                                                    Checkout
+                                                </button>
+                                            ) : (
+                                                <CheckoutForm onCheckout={handleCheckout} onCancel={() => setShowCheckoutForm(false)} />
+                                            )}
                                         </div>
                                     )}
+
                                 </div>
                             )}
 

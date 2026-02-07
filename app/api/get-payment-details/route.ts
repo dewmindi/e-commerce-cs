@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
+  apiVersion: "2024-06-20" as any,
 });
 
 export async function GET(req: NextRequest) {
@@ -18,6 +18,8 @@ export async function GET(req: NextRequest) {
     const session = await stripe.checkout.sessions.retrieve(session_id, {
       expand: ["line_items", "payment_intent", "customer"],
     });
+
+    const orderId = session.client_reference_id || session.metadata?.orderId || session.id;
 
     const paymentIntentId =
       typeof session.payment_intent === "string"
@@ -35,7 +37,7 @@ export async function GET(req: NextRequest) {
       success: true,
       data: {
         sessionId: session.id,
-        orderId: session.client_reference_id || session.id,
+        orderId: orderId,
         paymentStatus: session.payment_status,
         amountTotal: (session.amount_total || 0) / 100,
         amountSubtotal: (session.amount_subtotal || 0) / 100,
