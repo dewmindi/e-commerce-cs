@@ -45,6 +45,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-8R8WFW8TH5" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8R8WFW8TH5');
+          `}
+        </Script>
+      </head>
       <body>
         <NonBlockingCSS />
         <Suspense fallback={null}>
