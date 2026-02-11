@@ -51,6 +51,7 @@ export async function sendCustomerEmail(order: any) {
   await transporter.sendMail({
     from: `"CS Graphic Meta" <${process.env.SMTP_USER}>`,
     to: order.email,
+    cc: `${process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS}, ${process.env.CC_ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS}`,  // CC the admin email
     subject: `Order Confirmation - ${order.orderId}`,
     html: `
       <h2>Thank you for your purchase</h2>
@@ -66,6 +67,7 @@ export async function sendAdminEmail(order: any) {
   await transporter.sendMail({
     from: `"Website Orders" <${process.env.SMTP_USER}>`,
     to: process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
+    cc: process.env.CC_ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
     subject: `New Website Order - ${order.orderId}`,
     html: `
       <h3>New Order Received</h3>
@@ -81,12 +83,44 @@ export async function sendAdminEmail(order: any) {
 export async function sendPaymentFailedEmail(email: string) {
   await transporter.sendMail({
     to: email,
-    from: `"Your Company" <${process.env.EMAIL_USER}>`,
+    from: `"CS GRAPHIC META" <${process.env.SMTP_USER}>`,
+    cc: process.env.CC_ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
     subject: "Payment failed",
     html: `
       <p>Your payment was unsuccessful.</p>
       <p>No money was taken from your account.</p>
       <p>Please try again or contact support.</p>
+    `,
+  });
+}
+
+export async function sendAdminPaymentFailedEmail(order: any) {
+  await transporter.sendMail({
+    from: `"Website Orders" <${process.env.SMTP_USER}>`,
+    to: process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
+    cc: process.env.CC_ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
+    subject: `Payment Failed - ${order.orderId}`,
+    html: `
+      <h3>Payment Failed</h3>
+      <p><b>Order ID:</b> ${order.orderId}</p>
+      <p><b>Email:</b> ${order.email}</p>
+      <p><b>Amount:</b> ${(order.amount / 100).toFixed(2)} ${order.currency.toUpperCase()}</p>
+      <p><b>Reason:</b> ${order.failureReason}</p>
+    `,
+  });
+}
+
+export async function sendAdminSystemErrorEmail(errorType: string, errorMessage: string, data: any) {
+  await transporter.sendMail({
+    from: `"System Error" <${process.env.SMTP_USER}>`,
+    to: process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,
+    subject: `SYSTEM ERROR: ${errorType}`,
+    html: `
+      <h3>System Error Occurred</h3>
+      <p><b>Type:</b> ${errorType}</p>
+      <p><b>Message:</b> ${errorMessage}</p>
+      <p><b>Data Context:</b></p>
+      <pre>${JSON.stringify(data, null, 2)}</pre>
     `,
   });
 }

@@ -45,7 +45,12 @@ const OrderSchema = new mongoose.Schema(
   {
     orderId: { type: String, required: true, unique: true },
     stripeSessionId: { type: String, unique: true, sparse: true },
-    stripePaymentIntentId: { type: String, unique: true, sparse: true },
+    stripePaymentIntentId: {
+  type: String,
+  required: true,
+  unique: true,
+  index: true
+},
     sessionId: { type: String, sparse: true }, // Legacy field support
 
     customerName: String,
