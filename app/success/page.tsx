@@ -168,7 +168,7 @@ export default function SuccessPage() {
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href={`/api/payment-slip?orderId=${encodeURIComponent(orderId)}`}
+                href={`/api/payment-slip?orderId=${encodeURIComponent(orderId)}&sessionId=${encodeURIComponent(orderDetails.sessionId)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 bg-[#bb8d03] hover:bg-[#a67c03] text-white py-3 px-6 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"

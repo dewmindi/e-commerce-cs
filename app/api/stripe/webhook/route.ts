@@ -99,7 +99,7 @@ async function handlePaymentSuccess(event: Stripe.Event) {
   });
 
   const orderData = {
-    orderId: `ORD-${Date.now()}`,
+    orderId: session.client_reference_id || `ORD-${Date.now()}`,
     stripeSessionId: session.id,
     stripePaymentIntentId: intent.id,
     customerName: session.metadata?.customerName || "Customer",
@@ -107,7 +107,7 @@ async function handlePaymentSuccess(event: Stripe.Event) {
     phone: session.metadata?.phone,
     projectNote: session.metadata?.projectNote,
     items,
-    amount: intent.amount,
+    amount: intent.amount / 100,
     currency: intent.currency,
     status: "paid",
     fulfillmentStatus: "Pending",
@@ -176,7 +176,7 @@ async function handlePaymentFailure(event: Stripe.Event) {
     orderId: `FAILED-${Date.now()}`,
     stripePaymentIntentId: intent.id,
     email: customerEmail,
-    amount: intent.amount,
+    amount: intent.amount / 100,
     currency: intent.currency,
     status: "failed",
     failureReason:

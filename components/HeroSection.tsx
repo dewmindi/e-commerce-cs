@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/hover-card"
 import Header from "@/components/Header"
 import { usePathname, useRouter } from 'next/navigation'
-import csHeroImg from '../public/new-hero-cs-img.jpg'
+import csHeroImg from '../public/modern-web-design-melbourne.webp'
 import Image from 'next/image'
 import { ChevronDown } from "lucide-react";
 

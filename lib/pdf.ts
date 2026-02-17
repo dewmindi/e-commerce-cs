@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+// @ts-ignore
 import PDFDocument from "pdfkit";
 
 // --- Configuration Constants ---
@@ -19,10 +20,11 @@ export async function buildPaymentSlipPDF(order: any): Promise<Buffer> {
 
   // --- Load Fonts (Roboto only) ---
   const fontPathRegular = path.join(process.cwd(), "public/fonts/Roboto-Regular.ttf");
-  const fontPathBold = path.join(process.cwd(), "public/fonts//Roboto-Regular.ttf");
+  // Use Regular font for Bold if Bold font is missing, or point to actual Bold font if added later
+  const fontPathBold = path.join(process.cwd(), "public/fonts/Roboto-Regular.ttf");
 
-  if (!fs.existsSync(fontPathRegular) || !fs.existsSync(fontPathBold)) {
-    throw new Error("Roboto fonts missing. Please add Roboto-Regular.ttf and Roboto-Bold.ttf to /public/fonts/");
+  if (!fs.existsSync(fontPathRegular)) {
+    throw new Error("Roboto fonts missing. Please add Roboto-Regular.ttf to /public/fonts/");
   }
 
 //   const doc = new PDFDocument({ size: "A4", margin: 50 });
@@ -69,7 +71,7 @@ const doc = new PDFDocument({
     const currentY = doc.y;
     doc.text(`Order ID: ${order.orderId}`, rightColX, currentY);
     doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, rightColX, doc.y);
-    doc.fillColor(PRIMARY_COLOR).font(fontPathBold).text(`Payment Status: ${order.paymentStatus}`, rightColX, doc.y);
+    doc.fillColor(PRIMARY_COLOR).font(fontPathBold).text(`Payment Status: ${order.status}`, rightColX, doc.y);
     doc.fillColor(TEXT_COLOR).font(fontPathRegular);
 
     doc.moveDown(2);
@@ -92,17 +94,17 @@ const doc = new PDFDocument({
     let currentItemY = tableTop + 25;
     doc.font(fontPathRegular).fillColor(TEXT_COLOR);
 
-    order.items.forEach((item: any) => {
+    (order.items || []).forEach((item: any) => {
       if (currentItemY > doc.page.height - 100) {
         doc.addPage();
         currentItemY = 50;
       }
 
-      const itemTotal = item.quantity * item.price;
-      doc.text(item.name, colX.item, currentItemY);
-      doc.text(item.quantity.toString(), colX.qty, currentItemY);
-      doc.text(formatCurrency(item.price, order.currency), colX.unitPrice, currentItemY);
-      doc.text(formatCurrency(itemTotal, order.currency), colX.total, currentItemY, { align: "right" });
+      const itemTotal = (item.quantity || 0) * (item.price || 0);
+      doc.text(item.name || "Item", colX.item, currentItemY);
+      doc.text((item.quantity || 0).toString(), colX.qty, currentItemY);
+      doc.text(formatCurrency(item.price || 0, order.currency || "USD"), colX.unitPrice, currentItemY);
+      doc.text(formatCurrency(itemTotal, order.currency || "USD"), colX.total, currentItemY, { align: "right" });
 
       doc.strokeColor("#DDDDDD").lineWidth(0.5).moveTo(50, currentItemY + 15).lineTo(560, currentItemY + 15).stroke();
       currentItemY += 20;
@@ -115,8 +117,25 @@ const doc = new PDFDocument({
     const totalX = 400;
     const totalAmountX = 560;
 
+    const amount = order.amount || 0;
+    // Check if amount seems to be in cents (e.g. > 1000 for a small order, or heuristic). 
+    // However, we just fixed the webhook to store dollars. 
+    // For old orders stored in cents, we might want to divide by 100.
+    // BUT user said "stored as 500", so existing orders are 500. 
+    // If we assume all amounts > 0 are dollars (standard), then 500 is $500.
+    // If we want to handle legacy "cents" orders, we'd need a flag or heuristic.
+    // Given the user just wants it fixed, let's assume the stored value is what we display, 
+    // OR we can try to be smart. 
+    // Actually, simply using `order.amount` is correct for the NEW behavior.
+    // For OLD orders, they will show 500. If we want to fix OLD orders in PDF, we can do:
+    // const displayAmount = amount > 10000 ? amount / 100 : amount; (Risky).
+    // Let's stick to direct mapping first, as consistency is key.
+    
+    // NOTE: Order model has `amount`, but PDF used `amountTotal` and `amountSubtotal`.
+    // We will map `amount` to both for now as we don't have tax/shipping breakdown.
+
     doc.text("Subtotal:", totalX, doc.y, { width: 100, align: "left" });
-    doc.text(formatCurrency(order.amountSubtotal, order.currency), totalX, doc.y, { width: totalAmountX - totalX, align: "right" });
+    doc.text(formatCurrency(amount, order.currency), totalX, doc.y, { width: totalAmountX - totalX, align: "right" });
 
     doc.moveDown(0.5);
     doc.strokeColor(TEXT_COLOR).lineWidth(1).moveTo(totalX, doc.y).lineTo(560, doc.y).stroke();
@@ -124,7 +143,7 @@ const doc = new PDFDocument({
 
     doc.font(fontPathBold).fontSize(FONT_SIZE_LARGE).fillColor(PRIMARY_COLOR);
     doc.text("TOTAL:", totalX, doc.y, { width: 100, align: "left" });
-    doc.text(formatCurrency(order.amountTotal, order.currency), totalX, doc.y, { width: totalAmountX - totalX, align: "right" });
+    doc.text(formatCurrency(amount, order.currency), totalX, doc.y, { width: totalAmountX - totalX, align: "right" });
 
     doc.moveDown(2);
 

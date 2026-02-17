@@ -11,7 +11,7 @@ import Head from 'next/head'
 import NonBlockingCSS from '@/components/NonBlockingCSS'
 
 export const metadata: Metadata = {
-  title: 'CS Graphic Meta',
+  title: 'Professional Graphic Design & Web Development Australia | CS Graphic Meta',
   description: 'Precision-crafted logos that deliver clarity in a complex marketplace.',
   icons: {
     icon: '/favicon.ico',

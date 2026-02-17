@@ -10,10 +10,22 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get("orderId");
-    if (!orderId) return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
+    const sessionId = searchParams.get("sessionId");
+
+    if (!orderId && !sessionId) return NextResponse.json({ error: "Missing orderId or sessionId" }, { status: 400 });
 
     await connectDB();
-    const order = await OrderModel.findOne({ orderId }).lean();
+    
+    let order;
+    if (orderId) {
+      order = await OrderModel.findOne({ orderId }).lean();
+    }
+    
+    if (!order && sessionId) {
+      // Fallback: try finding by Stripe Session ID
+      order = await OrderModel.findOne({ stripeSessionId: sessionId }).lean();
+    }
+
     if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
 
     // const pdf = await buildPaymentSlipPDF(order); // <-- await here

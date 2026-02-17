@@ -51,7 +51,7 @@ export async function sendCustomerEmail(order: any) {
   await transporter.sendMail({
     from: `"CS Graphic Meta" <${process.env.SMTP_USER}>`,
     to: order.email,
-    cc: `${process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS}, ${process.env.CC_ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS}`,  // CC the admin email
+    cc: process.env.ADMIN_EMAIL_FOR_CUSTOM_QUOTES_ORDERS,  // CC the admin email
     subject: `Order Confirmation - ${order.orderId}`,
     html: `
       <h2>Thank you for your purchase</h2>

@@ -9,9 +9,12 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 interface Order {
   orderId: string;
   customerName: string;
-  customerEmail: string;
-  paymentStatus: string;
-  amountTotal: number;
+  customerEmail: string,
+  email: string;
+  status: string;
+  paymentStatus: string,
+  amountTotal: number,
+  amount: number;
   currency: string;
   createdAt: string;
   items: { name: string; quantity: number; price: number }[];
@@ -79,14 +82,14 @@ export default function DashboardPage() {
   const filteredOrders = orders
     .filter(o =>
     (o.customerName?.toLowerCase().includes(search.toLowerCase()) ||
-      o.customerEmail?.toLowerCase().includes(search.toLowerCase()) ||
+      o.email?.toLowerCase().includes(search.toLowerCase()) ||
       o.orderId?.toLowerCase().includes(search.toLowerCase()))
     )
-    .filter(o => statusFilter === 'all' || o.paymentStatus === statusFilter);
+    .filter(o => statusFilter === 'all' || o.status === statusFilter);
 
-  const totalIncome = orders.reduce((sum, o) => sum + o.amountTotal, 0);
-  const pendingOrders = orders.filter((o) => o.paymentStatus === "Pending").length;
-  const completedOrders = orders.filter((o) => o.paymentStatus === "Completed").length;
+  const totalIncome = filteredOrders.reduce((sum, o) => sum + (o.amount || o.amountTotal), 0);
+  const pendingOrders = filteredOrders.filter((o) => o.fulfillmentStatus === "Pending").length;
+  const completedOrders = filteredOrders.filter((o) => o.fulfillmentStatus === "Completed").length;
 
   const paginatedOrders = filteredOrders.slice((page - 1) * pageSize, page * pageSize);
   const totalPages = Math.ceil(filteredOrders.length / pageSize);
@@ -118,8 +121,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard title="Total Income" value={`$${totalIncome}`} percentage="12.04" isPositive />
         <StatCard title="Total orders" value={orders.length} percentage="16.00" isPositive />
-        <StatCard title="Total revenue" value="24.000" percentage="11.07" isPositive />
-        <StatCard title="Pending Orders" value={orders.length} percentage="4.06" isPositive={false} />
+        <StatCard title="Total revenue" value={`$${totalIncome}`} percentage="11.07" isPositive />
+        <StatCard title="Pending Orders" value={`${pendingOrders}`} percentage="4.06" isPositive={false} />
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
@@ -145,18 +148,18 @@ export default function DashboardPage() {
                     <tr key={order.orderId} className="border-b border-gray-800 last:border-b-0">
                       <td className="px-4 py-4 whitespace-nowrap text-gray-400">{order.orderId}</td>
                       <td className="px-4 py-4 whitespace-nowrap text-gray-400">{formattedDate}</td>
-                      <td className="px-4 py-4 whitespace-nowrap text-white">{order.customerEmail}</td>
+                      <td className="px-4 py-4 whitespace-nowrap text-white">{order.email || order.customerEmail}</td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${order.paymentStatus === 'paid'
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${order.status || order.paymentStatus === 'paid'
                             ? 'bg-green-500/20 text-green-400'
                             : 'bg-yellow-500/20 text-yellow-400'
                             }`}
                         >
-                          {order.paymentStatus}
+                          {order.status || order.paymentStatus}
                         </span>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-white">${order.amountTotal}</td>
+                      <td className="px-4 py-4 whitespace-nowrap text-white">${order.amount || order.amountTotal}</td>
                     </tr>
                   );
                 })}
