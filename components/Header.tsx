@@ -60,7 +60,7 @@ const CheckoutForm = ({ onCheckout, onCancel }: { onCheckout: any, onCancel: () 
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#bb8d03fc] focus:ring-1 focus:ring-[#bb8d03fc] transition-all bg-gray-50 focus:bg-white text-gray-800 placeholder-gray-400"
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+61 (xxx) xxx-xxxx"
                         required
                     />
                 </div>
