@@ -46,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="facebook-domain-verification" content="rdycbyzkhcegq5rd847uwza5k6x1lf" />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-8R8WFW8TH5" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
