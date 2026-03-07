@@ -107,30 +107,20 @@ const HeroSection = () => {
       <Header />
 
       {/* ✅ Content */}
-      <div className="relative max-w-7xl mx-auto text-center mt-10 z-10">
+      <div className="relative max-w-7xl mx-auto text-center mt-10  z-10">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isLoaded ? 0 : 1, y: isLoaded ? 0 : 20 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl sm:text-5xl lg:text-6xl text-white mb-4 leading-tight mt-20"
         >
-          <span>One-Stop</span>{" "}
-          <span className="text-[#bb8d03fc]">Design Solutions</span>{" "}
-          <span>For</span>
-        </motion.h1>
-
-        <motion.h1
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight"
-        >
-          <span>All Your Business Branding Needs</span>
+          <span>Top-Rated  </span>{" "}
+          <span className="text-[#bb8d03fc]">Logo Design & Web Development </span>{" "}
+          <span>Agency in Melbourne & Hallam</span>
         </motion.h1>
 
         {/* ✅ Buttons */}
-        <div className="flex justify-center gap-14 text-lg text-gray-800 ">
-
+        <div className="flex justify-center gap-14 text-lg text-gray-800 pt-4">
           <button
             onClick={() => scrollToSection("packages")}
             className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs  leading-6  text-white inline-block">

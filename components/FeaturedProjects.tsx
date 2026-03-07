@@ -32,7 +32,7 @@ const FeaturedProjects = () => {
             link: 'https://crystalxauto.com.au/',
         },
         {
-            img: '/Select-Tiling-web-development.webpcrystalx-ui-meta.webp',
+            img: '/Select-Tiling-web-development.webp',
             tittle: 'Select Tiling',
             desc: 'Modern, SEO Optimized & mobile responsive website for an Australian based Tiling service.',
             link: 'https://selecttiling.com.au/',
@@ -59,7 +59,7 @@ const FeaturedProjects = () => {
 
     return (
         <div id="portfolio" className="max-w-7xl mx-auto flex flex-col py-20">
-            <h1 className="text-2xl md:text-4xl text-center text-[#bb8d03fc]">Recent Projects</h1>
+            <h2 className="text-2xl md:text-4xl text-center text-[#bb8d03fc]">Recent Web Development Projects</h2>
             <div className="relative mt-10 flex overflow-hidden">
                 <div className="flex animate-scroll">
                     {[...recentProjects, ...recentProjects].map((project, index) => (

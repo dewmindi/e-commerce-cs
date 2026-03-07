@@ -11,8 +11,8 @@ import Head from 'next/head'
 import NonBlockingCSS from '@/components/NonBlockingCSS'
 
 export const metadata: Metadata = {
-  title: 'Professional Graphic Design & Web Development Australia | CS Graphic Meta',
-  description: 'Precision-crafted logos that deliver clarity in a complex marketplace.',
+  title: 'Top-Rated Logo & Graphic Design Agency in Melbourne & Hallam',
+  description: '5,000+ completed projects. Get custom logo, packaging,business card designs & web development services in Melbourne. Affordable pricing with unlimited revisions. Get a quote!',
   icons: {
     icon: '/favicon.ico',
   },
