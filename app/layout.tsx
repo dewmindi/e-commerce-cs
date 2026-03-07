@@ -12,7 +12,7 @@ import NonBlockingCSS from '@/components/NonBlockingCSS'
 
 export const metadata: Metadata = {
   title: 'Top-Rated Logo & Graphic Design Agency in Melbourne & Hallam',
-  description: '5,000+ completed projects. Get custom logo, packaging,business card designs & web development services in Melbourne. Affordable pricing with unlimited revisions. Get a quote!',
+  description: '5,000+ completed projects. Get custom logo, packaging,business card designs & web design services in Melbourne. Affordable pricing with unlimited revisions. Get a quote!',
   icons: {
     icon: '/favicon.ico',
   },

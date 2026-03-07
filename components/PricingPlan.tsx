@@ -138,10 +138,10 @@ const PricingPlan = () => {
     <section id="packages" className="py-10 px-4 sm:px-6 lg:px-8  text-white mb-16">
       <div className="max-w-7xl mx-auto">
         <div className="text-center">
-          <h1 className="text-2xl md:text-4xl text-[#bb8d03fc]"
+          <h2 className="text-2xl md:text-4xl text-[#bb8d03fc]"
           >
             Pricing
-          </h1>
+          </h2>
           {/* <h2 className="text-4xl sm:text-5xl font-extrabold text-[#bb8d03fc] mb-4 leading-tight">
             Pricing
           </h2> */}
