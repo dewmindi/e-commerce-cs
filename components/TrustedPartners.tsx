@@ -12,7 +12,7 @@ export function TrustedPartners() {
       </p>
       <HoverEffect items={projects} />
       <div className="mt-10">
-        <h1 className="text-2xl text-white text-center ">We help businesses in all around the world</h1>
+        <h2 className="text-2xl text-white text-center ">We help businesses in all around the world</h2>
         
       </div>
     </div>
