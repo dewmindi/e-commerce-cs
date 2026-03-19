@@ -59,9 +59,10 @@ const SocialMediaManagement = () => {
             price: '770',
             features: [
                 { text: 'All features in the Basic Package', type: 'feature' },
-                { text: '20 premium social media designs per month', type: 'feature' },
+                { text: '12 premium social media designs per month', type: 'feature' },
                 { text: 'Advanced Hashtag & keyword research for maximum reach', type: 'feature' },
                 { text: 'Priority scheduling and page monitoring', type: 'feature' },
+                { text: 'Running & Monitoring Meta Ads campaigns', type: 'feature' },
                 { text: 'Daily insights overview', type: 'feature' },
                 { text: 'Enhanced content writing and optimization', type: 'feature' },
             ],
