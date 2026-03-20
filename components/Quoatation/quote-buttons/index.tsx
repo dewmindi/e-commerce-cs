@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { SelectedProduct } from "@/types/quoate";
 import { useCart } from "@/app/context/CartContext";
-import { jsPDF } from "jspdf";
+import type { jsPDF as JsPDFType } from "jspdf";
 
 /**
  * Buttons (summary)
@@ -67,12 +67,14 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
   const downloadQuotation = async (customerName: string, contactNumber: string, email: string, address: string) => {
     if (selectedProducts.length === 0) return;
 
+    const { jsPDF } = await import("jspdf/dist/jspdf.umd.min.js");
+
     const doc = new jsPDF({
       orientation: "p",
       unit: "mm",
       format: "a4",
       compress: true,
-    });
+    }) as JsPDFType;
     const pageHeight = doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.getWidth();
     const marginX = 15;
@@ -93,7 +95,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
 
     // --- Helper: Add Header ---
     const addHeader = (
-      doc: jsPDF,
+      doc: JsPDFType,
       logoData: string,
       company: string,
       address: string,
@@ -143,7 +145,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
       return headerHeight + 10;
     };
 
-    const addFooter = (doc: jsPDF, pageNum: number, totalPages: number) => {
+    const addFooter = (doc: JsPDFType, pageNum: number, totalPages: number) => {
       const footerY = pageHeight - 10;
       doc.setFontSize(8);
       doc.setFont("helvetica", "normal");

@@ -32,13 +32,13 @@ const SocialMediaManagement = () => {
     // Correctly initialize useCart
     const { addToCart } = useCart();
 
-    const formatCurrency = (value: number) => {
+    const formatCurrency = (value: number | string) => {
         return new Intl.NumberFormat("en-AU", {
             style: "currency",
             currency: "AUD",
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
-        }).format(value);
+        }).format(typeof value === 'string' ? parseFloat(value) : value);
     };
 
     const pricingPlans = [
@@ -93,7 +93,6 @@ const SocialMediaManagement = () => {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    variants={sectionVariants}
                     className=""
                 >
                     {/* --- Header Section --- */}

@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 2. If the secret is valid, proceed with revalidation
-  revalidateTag("quote-data");
+  revalidateTag("quote-data", "max");
 
   // 3. Send the successful response with the required CORS headers
   return NextResponse.json(

@@ -1,8 +1,6 @@
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
-// Define your specific data for the Business Card Design page
-const businessCardContent = {
+const leafletContent: CategoryPageContent = {
     pageTitle: 'Leaflet, Flyer & Brochure Design',
     headerDescription: 'Designing informative and visually appealing print materials to effectively promote your business or events.',
     headerImage: '/ServiceImages/leaflet.jpeg', // A relevant image for the header
@@ -32,12 +30,12 @@ const businessCardContent = {
             answer: "You'll receive print-ready files (PDF, AI, EPS) and digital versions (JPG, PNG) suitable for online use."
         }
     ],
-    callToActionTitle: "Ready to Create Your Perfect Business Card?",
-    callToActionDescription: "Let's design a business card that makes a lasting impression and helps you connect with confidence."
+    callToActionTitle: "Ready to Create Your Perfect Leaflet, Flyer & Brochure?",
+    callToActionDescription: "Let's design a print piece that makes a lasting impression and helps you connect with confidence."
 };
 
 const page = () => {
-    return <CategoryPageTemplate content={businessCardContent} />;
+    return <CategoryPageTemplate content={leafletContent} />;
 };
 
 export default page;

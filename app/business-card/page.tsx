@@ -1,10 +1,8 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
-// Define your specific data for the Business Card Design page
-const businessCardContent = {
-    pageTitle: 'Business Card Design',
+
+const businessCardContent: CategoryPageContent = {
+  pageTitle: 'Business Card Design',
     headerDescription: 'Creating professional and eye-catching business cards that represent your brand in every handshake.',
     headerImage: '/business-cards/bc2.jpeg', // A relevant image for the header
     aboutDescription: "Make every first impression count with our Business Card Design services. We create professional, memorable, and visually appealing cards that reflect your brand identity and leave a lasting impact. Whether you prefer sleek and minimalistic designs or bold and creative layouts, each card is crafted to convey professionalism, credibility, and style. A well-designed business card not only shares your contact information but also tells your brand story at a glance, helping you stand out in any networking opportunity.",
@@ -78,7 +76,7 @@ const businessCardContent = {
     ],
     callToActionTitle: "Ready to Create Your Perfect Business Card?",
     callToActionDescription: "Let's design a business card that makes a lasting impression and helps you connect with confidence."
-};
+}
 
 const page = () => {
     return <CategoryPageTemplate content={businessCardContent} />;

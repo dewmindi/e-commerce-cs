@@ -41,7 +41,7 @@ interface ProjectImage {
     title: string;
 }
 
-interface CategoryPageContent {
+export interface CategoryPageContent {
     pageTitle: string;
     headerDescription: string;
     headerImage: string;
@@ -52,7 +52,7 @@ interface CategoryPageContent {
     faqs: FAQ[];
     callToActionTitle: string;
     callToActionDescription: string;
-    processDescription: string;
+    processDescription?: string;
 }
 
 interface CategoryPageTemplateProps {
@@ -153,12 +153,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
             <Header />
             <div className="py-6 inset-0 bg-pattern-dots opacity-10"></div>
             <AnimatePresence mode="wait">
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    variants={sectionVariants}
-                    className=""
+                <div
                 >
                     {/* --- Header Section --- */}
                     <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-background py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -387,7 +382,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                             </div>
                         </div>
                     </section>
-                </motion.div>
+                </div>
             </AnimatePresence>
 
             {/* --- Call to Action Section --- */}

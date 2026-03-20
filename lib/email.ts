@@ -56,7 +56,7 @@ export async function sendCustomerEmail(order: any) {
     html: `
       <h2>Thank you for your purchase</h2>
       <p>Order ID: <b>${order.orderId}</b></p>
-      <p>Amount Paid: ${(order.amount / 100).toFixed(2)} ${order.currency.toUpperCase()}</p>
+      <p>Amount Paid: ${(order.amount).toFixed(2)} ${order.currency.toUpperCase()}</p>
       ${order.projectNote ? `<p><b>Your Note:</b> ${order.projectNote}</p>` : ''}
       <p>We will contact you shortly.</p>
     `,
@@ -75,7 +75,7 @@ export async function sendAdminEmail(order: any) {
       <p><b>Email:</b> ${order.email}</p>
       <p><b>Phone:</b> ${order.phone}</p>
       <p><b>Note:</b> ${order.projectNote}</p>
-      <p><b>Amount:</b> ${(order.amount / 100).toFixed(2)} ${order.currency.toUpperCase()}</p>
+      <p><b>Amount:</b> ${(order.amount).toFixed(2)} ${order.currency.toUpperCase()}</p>
     `,
   });
 }
@@ -104,7 +104,7 @@ export async function sendAdminPaymentFailedEmail(order: any) {
       <h3>Payment Failed</h3>
       <p><b>Order ID:</b> ${order.orderId}</p>
       <p><b>Email:</b> ${order.email}</p>
-      <p><b>Amount:</b> ${(order.amount / 100).toFixed(2)} ${order.currency.toUpperCase()}</p>
+      <p><b>Amount:</b> ${(order.amount).toFixed(2)} ${order.currency.toUpperCase()}</p>
       <p><b>Reason:</b> ${order.failureReason}</p>
     `,
   });

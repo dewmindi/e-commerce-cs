@@ -1,9 +1,6 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
-// Define your specific data for the Business Card Design page
-const ecomWebDevContent = {
+const ecomWebDevContent: CategoryPageContent = {
     pageTitle: 'E-Commerce Development',
     headerDescription: '🛒 Turn clicks into customers.',
     headerImage: '/ServiceImages/web.jpeg', // A relevant image for the header

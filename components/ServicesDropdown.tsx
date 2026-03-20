@@ -10,6 +10,13 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 export const ServicesDropdown = () => {
+    const scrollToSection = (sectionId: string) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <NavigationMenu>
             <NavigationMenuList>

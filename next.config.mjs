@@ -1,15 +1,43 @@
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   "output": 'standalone',
+//   typescript: {
+//     ignoreBuildErrors: true,
+//   },
+//   images: {
+//     unoptimized: true,
+//     qualities: [80],
+//     remotePatterns: [
+//       {
+//         protocol: "https",
+//         hostname: "lh3.googleusercontent.com",
+//         pathname: "/**",
+//       },
+//     ],
+//   },
+// }
+
+// export default nextConfig
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  "output": 'standalone',
-  eslint: {
-    ignoreDuringBuilds: true,
+  // ✅ Required for VPS / PM2 deployments
+  output: 'standalone',
+
+  // ✅ Remove console logs in production (clean & secure)
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+
+  // ✅ Image optimization (balanced for performance)
   images: {
-    unoptimized: true,
-    qualities: [80],
+    unoptimized: false, // enable optimization
+    qualities: [75, 80],
+    localPatterns: [
+      {
+        pathname: "/**",
+      },
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -18,6 +46,36 @@ const nextConfig = {
       },
     ],
   },
-}
 
-export default nextConfig
+  // ✅ Enable compression (better performance)
+  compress: true,
+
+  // ✅ Security headers (VERY important)
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+        ],
+      },
+    ];
+  },
+};
+
+export default nextConfig;

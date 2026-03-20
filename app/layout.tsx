@@ -2,12 +2,9 @@ import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
 import './globals.css'
 import { GlobalLoader } from '@/components/GlobalLoader'
-import CursorFollower from '@/components/CursorFollower'
 import { CartProvider } from './context/CartContext'
-import MaintenanceOverlay from '@/components/MaintenanceOverlay'
 import localFont from 'next/font/local';
 import Script from "next/script";
-import Head from 'next/head'
 import NonBlockingCSS from '@/components/NonBlockingCSS'
 
 export const metadata: Metadata = {
@@ -66,7 +63,7 @@ export default function RootLayout({
           <div className={`${isMaintenance ? 'blur-sm pointer-events-none' : ''} ${cursive.variable} ${symphonie.variable}`}>
             {children}
           </div>
-          {isMaintenance && <MaintenanceOverlay />}</CartProvider>
+          </CartProvider>
         {/* <CursorFollower /> */}
         {/* reCAPTCHA v3 script */}
       </body>

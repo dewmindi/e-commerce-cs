@@ -7,8 +7,23 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+type CategoryName = 'Logo Design' | 'Business Card Design' | 'Letter Head Design' | 'Email Signature';
+
+interface Project {
+  id: string;
+  category: CategoryName;
+  title: string;
+  imageUrl: string;
+}
+
+interface PricingPlan {
+  title: string;
+  price: string;
+  features: string[];
+}
+
 // --- Dummy Project Data (Expanded for demonstration) ---
-const allProjectsData = [
+const allProjectsData: Project[] = [
   // Logo Designs
   { id: 'l1', category: 'Logo Design', title: 'Modern Tech Logo', imageUrl: '/logo-designs/logoDesign1.jpeg' },
   { id: 'l2', category: 'Logo Design', title: 'Abstract Brand Mark', imageUrl: '/images/logo-placeholder-2.jpeg' },
@@ -28,7 +43,7 @@ const allProjectsData = [
 ];
 
 // Dummy Pricing Data
-const pricingData = {
+const pricingData: Record<CategoryName, PricingPlan[]> = {
   'Logo Design': [
     { title: 'Basic Logo Package', price: '$199', features: ['2 Concepts', '2 Revisions', 'JPG, PNG Files'] },
     { title: 'Standard Logo Package', price: '$399', features: ['5 Concepts', 'Unlimited Revisions', 'Vector, JPG, PNG, PDF Files', 'Brand Guide'] },
@@ -54,13 +69,13 @@ const pricingData = {
 const ProjectsPage = () => {
   // `activeCategory` will now correspond to the image clicked.
   // Initially, no category is active, so we show the category selection images.
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [displayedProjects, setDisplayedProjects] = useState([]);
+  const [activeCategory, setActiveCategory] = useState<CategoryName | null>(null);
+  const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 8; // Fewer projects per page to emphasize pricing below
 
   // Define the categories for the initial image grid
-  const initialCategories = [
+  const initialCategories: { name: CategoryName; slug: CategoryName; imageUrl: string }[] = [
     { name: 'Logo Design', slug: 'Logo Design', imageUrl: '/logo-designs/logoDesign2.jpeg' },
     { name: 'Business Card Design', slug: 'Business Card Design', imageUrl: '/business-cards/bc1.jpeg' },
     { name: 'Letter Head Design', slug: 'Letter Head Design', imageUrl: '/letter-head/lh1.jpeg' },
@@ -83,7 +98,7 @@ const ProjectsPage = () => {
   const currentProjects = displayedProjects.slice(indexOfFirstProject, indexOfLastProject);
   const totalPages = Math.ceil(displayedProjects.length / projectsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   // Animation variants for Framer Motion
   const containerVariants = {
@@ -108,7 +123,7 @@ const ProjectsPage = () => {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
     exit: { opacity: 0, y: -50, transition: { duration: 0.5, ease: "easeIn" } }
-  };
+  } as const;
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] text-[#333333]">

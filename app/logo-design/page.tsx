@@ -1,10 +1,6 @@
-// app/business-card/page.tsx
-"use client"
-import React, { useState } from 'react';
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
-// Define your specific data for the Business Card Design page
-const businessCardContent = {
+const logoContent: CategoryPageContent = {
     pageTitle: 'Logo Design',
     headerDescription: 'Crafting unique and memorable logos that capture your brand identity and make a lasting impression.',
     headerImage: '/logo-designs/logoDesign7.jpeg', // A relevant image for the header
@@ -87,12 +83,12 @@ const businessCardContent = {
             answer: "You'll receive print-ready files (PDF, AI, EPS) and digital versions (JPG, PNG) suitable for online use."
         }
     ],
-    callToActionTitle: "Ready to Create Your Perfect Business Card?",
-    callToActionDescription: "Let's design a business card that makes a lasting impression and helps you connect with confidence."
+    callToActionTitle: "Ready to Create Your Perfect Logo?",
+    callToActionDescription: "Let's design a logo that makes a lasting impression and helps you connect with confidence."
 };
 
 const page = () => {
-    return <CategoryPageTemplate content={businessCardContent} />;
+    return <CategoryPageTemplate content={logoContent} />;
 };
 
 export default page;
