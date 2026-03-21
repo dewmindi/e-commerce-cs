@@ -128,9 +128,6 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
         </div>
       </div>
 
-      {/* RIGHT COLUMN / MOBILE OVERLAY: Product Details */}
-      {/* On Mobile: Becomes a fixed overlay if activeProduct exists */}
-      {/* On Desktop: Is a static sidebar */}
       <div className={`
         fixed inset-0 z-50 lg:relative lg:inset-auto lg:z-0 lg:block lg:w-96
         ${activeProduct ? 'flex' : 'hidden'}
@@ -160,32 +157,17 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
                   </div>
                 )}
 
-                {activeProduct.features && (
+                {activeProduct.uiFeatures.length > 0 && (
                   <div>
                     <h4 className="text-[#a87f03] text-xs font-bold uppercase mb-3">Key Features</h4>
-                    <div className="space-y-4">
-                      {activeProduct.features.map((section, i) => (
-                        <div key={i} className="border-l-2 border-[#a87f03]/30 pl-4">
-                          {"title" in section && (
-                            <p className="text-sm font-bold text-white mb-2">{section.title}</p>
-                          )}
-                          <ul className="space-y-2">
-                            {("items" in section ? section.items : []).map((item: any, idx: number) => (
-                              <li key={idx} className={`text-xs flex items-start gap-2 ${item.highlight ? "text-[#ffd700] font-medium" : "text-gray-400"}`}>
-                                <span className="mt-1 w-1 h-1 rounded-full bg-[#a87f03] shrink-0" />
-                                {item.text}
-                              </li>
-                            ))}
-                            {"name" in section && (
-                              <li className="text-xs text-gray-400 flex items-start gap-2">
-                                <span className="mt-1 w-1 h-1 rounded-full bg-[#a87f03] shrink-0" />
-                                {(section as { name: string }).name}
-                              </li>
-                            )}
-                          </ul>
-                        </div>
+                    <ul className="space-y-2">
+                      {activeProduct.uiFeatures.map((feature, i) => (
+                        <li key={i} className="text-xs text-gray-300 flex items-start gap-2">
+                          <span className="mt-1 w-1 h-1 rounded-full bg-[#a87f03] shrink-0" />
+                          {feature}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 )}
               </div>

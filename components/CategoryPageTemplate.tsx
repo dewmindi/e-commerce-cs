@@ -150,23 +150,23 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
     }
     return (
         <div className="min-h-screen bg-[#F5F5F5] text-background">
-            <Header />
-            <div className="py-6 inset-0 bg-pattern-dots opacity-10"></div>
+            {/* <Header /> */}
+            
             <AnimatePresence mode="wait">
                 <div
                 >
                     {/* --- Header Section --- */}
                     <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-background py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
                         <div className="absolute inset-0 z-0 opacity-20">
-                            <Image
+                            {/* <Image
                                 src={content.headerImage}
                                 alt={`${content.pageTitle} Background`}
                                 layout="fill"
                                 objectFit="cover"
                                 className="scale-105"
-                            />
+                            /> */}
                         </div>
-                        <div className="max-w-4xl mx-auto text-center relative z-10">
+                        <div className="max-w-4xl mx-auto text-center relative pt-20">
                             <h2 className="text-4xl sm:text-4xl font-extrabold mb-2 drop-shadow-md">
                                 {content.pageTitle}
                             </h2>

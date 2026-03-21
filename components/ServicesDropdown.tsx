@@ -43,7 +43,7 @@ export const ServicesDropdown = () => {
 
                                             className="w-40 h-40 object-fill md:object-cover"
                                         />
-                                        <div className="mb-2 text-lg font-medium sm:mt-4 hover:text-[#bb8d03]">Brand Identity / Logo Design</div>
+                                        <div className="mb-2 text-lg font-medium sm:mt-4 hover:text-[#bb8d03] ">Brand Identity / Logo Design</div>
                                         <a href="/logo-design" className="hover:text-[#bb8d03]">Logo Design</a>
                                         <a href="/logo-design" className="hover:text-[#bb8d03]">Cooperate Profile Design</a>
                                         <a href="/business-card" className="hover:text-[#bb8d03]">Business Card Design</a>

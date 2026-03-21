@@ -4,7 +4,7 @@ import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
 
 export function TrustedPartners() {
   return (
-    <div className="max-w-5xl mx-auto px-8 -mt-60 md:mt-0 ">
+    <div className="max-w-5xl mx-auto px-8  ">
       <p className="text-white text-center">
         We specialize in creating powerful digital identities for small and medium businesses. 
         From custom logo design to responsive web design, CS Graphic Meta delivers high-quality, 

@@ -6,6 +6,7 @@ import { CartProvider } from './context/CartContext'
 import localFont from 'next/font/local';
 import Script from "next/script";
 import NonBlockingCSS from '@/components/NonBlockingCSS'
+import GlobalNavbar from '@/components/GlobalNavbar'
 
 export const metadata: Metadata = {
   title: 'Top-Rated Logo & Graphic Design Agency in Melbourne & Hallam',
@@ -60,6 +61,7 @@ export default function RootLayout({
           <GlobalLoader />
         </Suspense>
         <CartProvider>
+          <GlobalNavbar />
           <div className={`${isMaintenance ? 'blur-sm pointer-events-none' : ''} ${cursive.variable} ${symphonie.variable}`}>
             {children}
           </div>

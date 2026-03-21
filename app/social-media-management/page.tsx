@@ -86,8 +86,6 @@ const SocialMediaManagement = () => {
 
     return (
         <div className="min-h-screen bg-[#F5F5F5] text-white">
-            <Header />
-            <div className="py-6 inset-0 bg-pattern-dots opacity-10"></div>
             <AnimatePresence mode="wait">
                 <motion.div
                     initial="hidden"
@@ -96,7 +94,7 @@ const SocialMediaManagement = () => {
                     className=""
                 >
                     {/* --- Header Section --- */}
-                    <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                    <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden pt-24">
                         <div className="absolute inset-0 z-0 opacity-20">
                             {/* <Image
                                 src={content.headerImage}

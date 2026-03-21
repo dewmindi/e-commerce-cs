@@ -9,6 +9,38 @@ import PackagesSidebar from "@/components/Quoatation/packages-side-bar";
 import PackageDetailArea from "@/components/Quoatation/package-detials-area";
 import SummaryCard from "@/components/Quoatation/summary-card";
 
+function normalizeUiFeatures(p: PackageFromDB): string[] {
+  if (Array.isArray(p.ui_features) && p.ui_features.length > 0) {
+    return p.ui_features.filter((item): item is string => typeof item === "string" && item.trim().length > 0);
+  }
+
+  if (!Array.isArray(p.features)) return [];
+
+  const legacyFeatures: string[] = [];
+  for (const section of p.features) {
+    if (!section || typeof section !== "object") continue;
+
+    const sectionName = (section as { title?: unknown; name?: unknown }).title
+      ?? (section as { title?: unknown; name?: unknown }).name;
+    if (typeof sectionName === "string" && sectionName.trim()) {
+      legacyFeatures.push(sectionName);
+    }
+
+    const items = (section as { items?: unknown }).items;
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        if (!item || typeof item !== "object") continue;
+        const text = (item as { text?: unknown }).text;
+        if (typeof text === "string" && text.trim()) {
+          legacyFeatures.push(text);
+        }
+      }
+    }
+  }
+
+  return legacyFeatures;
+}
+
 function mapPackageToProduct(p: PackageFromDB): Product {
   return {
     id: p._id,
@@ -17,7 +49,8 @@ function mapPackageToProduct(p: PackageFromDB): Product {
     price: typeof p.price === "number" ? p.price : Number(p.price) || 0,
     inStock: 1,
     overview: p.overview,
-    features: p.features || [],
+    uiFeatures: normalizeUiFeatures(p),
+    quotation: p.quotation,
   };
 }
 
@@ -65,7 +98,8 @@ export default function QuoteBuilderClient({
       productId: product.id,
       productName: product.name,
       price: product.price,
-      features: product.features,
+      uiFeatures: product.uiFeatures,
+      quotation: product.quotation,
     };
 
     setSelectedProducts((prev) => {
@@ -88,9 +122,7 @@ export default function QuoteBuilderClient({
 
   return (
     <div className="min-h-screen bg-foreground px-4 py-6 md:p-8">
-      <Header />
-
-      <div className="mt-16 lg:mt-24 flex flex-col lg:flex-row gap-6">
+      <div className="mt-16 lg:mt-24 flex flex-col lg:flex-row gap-6 md:mb-24">
         <div className="w-full lg:w-1/4">
           <PackagesSidebar
             categories={categories}
