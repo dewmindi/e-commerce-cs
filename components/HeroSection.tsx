@@ -173,7 +173,7 @@ const HeroSection = () => {
       </div>
 
       {/* Glass Sidebar Content (Optional/Simplified from old version) */}
-      <div className="absolute bottom-8 left-0 right-0 flex flex-wrap justify-center px-4 gap-3 z-20 pb-4">
+      <div className="absolute bottom-8 left-0 right-0  flex-wrap justify-center px-4 gap-3 z-20 pb-4 hidden md:flex">
         {serviceCategoriesData.map((tab, index) => (
           <button
             key={index}
