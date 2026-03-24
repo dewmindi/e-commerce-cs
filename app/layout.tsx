@@ -34,6 +34,23 @@ const poppins = localFont({
   variable: '--font-poppins', // 👈 defines a CSS variable
 });
 
+const nexa = localFont({
+  src: [
+    {
+      path: '../public/fonts/NexaLight/Nexa Light.otf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/NexaLight/Nexa Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-nexa',
+  display: 'swap',
+});
+
 const isMaintenance = false
 
 export default function RootLayout({
@@ -62,7 +79,7 @@ export default function RootLayout({
         </Suspense>
         <CartProvider>
           <GlobalNavbar />
-          <div className={`${isMaintenance ? 'blur-sm pointer-events-none' : ''} ${cursive.variable} ${symphonie.variable}`}>
+          <div className={`${isMaintenance ? 'blur-sm pointer-events-none' : ''} ${cursive.variable} ${symphonie.variable} ${nexa.variable}`}>
             {children}
           </div>
           </CartProvider>

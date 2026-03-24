@@ -77,7 +77,7 @@ const HeroSection = () => {
       id="home"
       className="relative min-h-screen pt-32 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-cover bg-center bg-no-repeat flex flex-col items-center"
       style={{
-        backgroundImage: "url('/New.png')",
+        backgroundImage: "url('/HeroBgImg.webp')",
       }}
     >
       {/* 3D Depth Particles/Background Elements */}
@@ -105,7 +105,7 @@ const HeroSection = () => {
       {/* Navigation removed and moved to GlobalNavbar.tsx */}
 
       {/* ✅ Main Content Area */}
-      <div className="relative flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto text-center z-10 py-12">
+      <div className="relative flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto text-center z-10 py-12 font-nexa">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -117,11 +117,11 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white font-black leading-[1.1] tracking-tight">
-              Top-Rated <br />
-              <span className="text-[#bb8d03fc] italic font-serif">Logo Design & Web Development</span>
+            <h1 className="text-5xl sm:text-5xl lg:text-7xl text-white  leading-[1.1] tracking-tight">
+              <span className=''>Top-Rated</span> <br />
+              <span className="text-[#bb8d03fc] font-semibold">Graphic, Web & Marketing</span>
               <br />
-              <span className="text-white/90 text-4xl sm:text-5xl lg:text-6xl mt-4 block font-medium">Agency in Melbourne</span>
+              <span className="text-white/90 text-4xl sm:text-5xl lg:text-7xl mt-4 block font-light">Agency in Australia</span>
             </h1>
           </motion.div>
           
