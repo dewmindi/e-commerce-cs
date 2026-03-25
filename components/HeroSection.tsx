@@ -117,7 +117,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-5xl sm:text-xl lg:text-7xl text-white  leading-[1.1] tracking-tight">
+            <h2 className="text-5xl sm:text-xl lg:text-6xl text-white  leading-[1.1] tracking-tight">
               <span className='font-semibold'>One Stop</span> <br />
               <span className="text-[#bb8d03fc] font-semibold">Graphic , Web & Marketing</span> <span className=" font-semibold">Solutions</span>
               <br />
