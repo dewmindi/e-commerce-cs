@@ -117,14 +117,14 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-5xl sm:text-xl lg:text-5xl text-white  leading-[1.1] tracking-tight">
+            <h2 className="text-5xl sm:text-xl lg:text-7xl text-white  leading-[1.1] tracking-tight">
               <span className='font-semibold'>One Stop</span> <br />
               <span className="text-[#bb8d03fc] font-semibold">Graphic , Web & Marketing</span> <span className=" font-semibold">Solutions</span>
               <br />
-              <span className="text-white/90 text-4xl sm:text-lg lg:text-3xl mt-4 block font-light">We Provide Everything Your Brand Needs to Grow</span>
+              <span className="text-white/90 text-4xl sm:text-lg lg:text-3xl mt-4 block font-semibold">We Provide Everything Your Brand Needs to Grow</span>
             </h2>  
-            <h1 className="  leading-[1.1]">  
-              <span className="text-white/90 sm:text-sm lg:text-xl mt-4 block font-light">Top - Rated Design & Web Development Agency in Australia</span>
+            <h1 className="text-white/90 sm:text-sm lg:text-lg mt-4 block font-light ">  
+              We are a Top - Rated Design & Web Development Agency in <span className='font-semibold'>Australia</span>
             </h1>
           </motion.div>
           

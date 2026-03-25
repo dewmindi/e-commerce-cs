@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import Script from "next/script";
 import NonBlockingCSS from '@/components/NonBlockingCSS'
 import GlobalNavbar from '@/components/GlobalNavbar'
+import ChatBot from '@/components/ChatBot'
 
 export const metadata: Metadata = {
   title: 'Top-Rated Logo & Graphic Design Agency in Melbourne & Hallam',
@@ -82,6 +83,7 @@ export default function RootLayout({
           <div className={`${isMaintenance ? 'blur-sm pointer-events-none' : ''} ${cursive.variable} ${symphonie.variable} ${nexa.variable}`}>
             {children}
           </div>
+          <ChatBot />
           </CartProvider>
         {/* <CursorFollower /> */}
         {/* reCAPTCHA v3 script */}
