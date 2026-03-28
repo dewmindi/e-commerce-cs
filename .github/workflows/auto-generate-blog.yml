@@ -1,0 +1,99 @@
+# ============================================================
+#  Auto-Generate SEO Blog Post  |  CS Graphic Meta
+# ============================================================
+#
+#  Schedule:  Mon / Wed / Fri at 22:00 UTC  (08:00 AEST next day)
+#
+#  Secrets required in GitHub → Settings → Secrets → Actions:
+#    SITE_URL          → https://csgraphicmeta.com.au
+#    CRON_SECRET_TOKEN → same value as CRON_SECRET_TOKEN in .env
+#
+#  Manual trigger: Actions → "Auto Generate Blog Post" → Run workflow
+# ============================================================
+
+name: Auto Generate Blog Post
+
+on:
+  schedule:
+    #        min hour dom month dow
+    - cron: "0 22 * * 1,3,5"   # Mon, Wed, Fri at 22:00 UTC = 08:00 AEST
+  workflow_dispatch:             # Allow manual trigger from GitHub UI
+    inputs:
+      keyword:
+        description: "Keyword to target (leave blank for auto-select)"
+        required: false
+        default: ""
+      topic:
+        description: "Topic context (leave blank to match keyword)"
+        required: false
+        default: ""
+
+jobs:
+  generate:
+    name: Generate & Publish Blog Post
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      # ----------------------------------------------------------
+      # Step 1: Build the request body
+      # ----------------------------------------------------------
+      - name: Set request payload
+        id: payload
+        run: |
+          KEYWORD="${{ github.event.inputs.keyword }}"
+          TOPIC="${{ github.event.inputs.topic }}"
+
+          if [ -n "$KEYWORD" ]; then
+            # Manual dispatch with a specific keyword
+            BODY=$(printf '{"keyword":"%s","topic":"%s"}' "$KEYWORD" "${TOPIC:-$KEYWORD}")
+          else
+            # Cron / auto-select → empty body, cron auth picks randomly
+            BODY='{}'
+          fi
+
+          echo "body=$BODY" >> "$GITHUB_OUTPUT"
+
+      # ----------------------------------------------------------
+      # Step 2: Call the API
+      # ----------------------------------------------------------
+      - name: Trigger blog generation
+        run: |
+          echo "📝 Triggering blog post generation..."
+
+          HTTP_STATUS=$(curl -s -o response.json -w "%{http_code}" \
+            -X POST "${{ secrets.SITE_URL }}/api/generate-blog" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '${{ steps.payload.outputs.body }}' \
+            --max-time 120)
+
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response:"
+          cat response.json | python3 -m json.tool 2>/dev/null || cat response.json
+
+          if [ "$HTTP_STATUS" = "201" ] || [ "$HTTP_STATUS" = "200" ]; then
+            echo ""
+            echo "✅ Blog post generated and published successfully!"
+          elif [ "$HTTP_STATUS" = "409" ]; then
+            echo ""
+            echo "⚠️  Post already exists (duplicate slug/keyword) — skipped."
+            exit 0
+          else
+            echo ""
+            echo "❌ Unexpected HTTP status: $HTTP_STATUS"
+            exit 1
+          fi
+
+      # ----------------------------------------------------------
+      # Step 3: Summary
+      # ----------------------------------------------------------
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Blog Generation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Site:** ${{ secrets.SITE_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Keyword input:** ${{ github.event.inputs.keyword || 'auto-selected' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Time (UTC):** $(date -u)" >> $GITHUB_STEP_SUMMARY

@@ -103,6 +103,7 @@ const Header = () => {
     const navItems = [
         { name: "Home", section: "" },
         { name: "About", link: "/about" },
+        { name: "Blog", link: "/blog" },
 
         { customComponent: <ServicesDropdown /> },
 
@@ -342,6 +343,17 @@ const Header = () => {
                         className="py-2 text-left w-full"
                     >
                         About
+                    </button>
+
+                    {/* Blog */}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false)
+                            router.push("/blog")
+                        }}
+                        className="py-2 text-left w-full"
+                    >
+                        Blog
                     </button>
 
                     {/* Services section */}
