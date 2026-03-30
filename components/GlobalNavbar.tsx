@@ -215,6 +215,7 @@ const GlobalNavbar = () => {
               <button onClick={() => scrollToSection("home")} className="hover:text-[#bb8d03fc] transition-colors">Home</button>
               <ServicesDropdown />
               <button onClick={() => scrollToSection("packages")} className="hover:text-[#bb8d03fc] transition-colors">Packages</button>
+              <button onClick={() => router.push("/blog")} className="hover:text-[#bb8d03fc] transition-colors">Blog</button>
               <button onClick={() => router.push("/about")} className="hover:text-[#bb8d03fc] transition-colors">About</button>
               <button onClick={() => scrollToSection("contact")} className="hover:text-[#bb8d03fc] transition-colors">Contact</button>
               <button onClick={() => router.push("/quotation")} className="bg-[#bb8d03fc] text-black px-4 py-1.5 rounded-lg hover:bg-white transition-all text-xs font-black">Get Quote</button>
@@ -307,6 +308,7 @@ const GlobalNavbar = () => {
                   ))}
                 </div>
               </div>
+              <button onClick={() => { router.push("/blog"); setIsMenuOpen(false); }} className="text-white text-3xl font-black uppercase tracking-tighter hover:text-[#bb8d03fc]">Blog</button>
               <button onClick={() => { router.push("/about"); setIsMenuOpen(false); }} className="text-white text-3xl font-black uppercase tracking-tighter hover:text-[#bb8d03fc]">About</button>
               <button onClick={() => { scrollToSection("contact"); setIsMenuOpen(false); }} className="text-white text-3xl font-black uppercase tracking-tighter hover:text-[#bb8d03fc]">Contact</button>
             </nav>

@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "@/components/Header";
 import FooterNew from "@/components/FooterNew";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb-products";
 import { Calendar, Tag, ArrowLeft, Share2 } from "lucide-react";
 
 // --------------------------------------------------------------------------
@@ -235,7 +234,6 @@ export default async function BlogPostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <Header />
 
       {/* ------------------------------------------------------------------ */}
       {/* Hero / Feature image */}

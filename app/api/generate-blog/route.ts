@@ -14,7 +14,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import ImageKit from "@imagekit/nodejs";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb-products";
 
 // ---------------------------------------------------------------------------
 // Trending keyword pool – used when a cron job doesn't supply a keyword

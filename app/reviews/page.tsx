@@ -51,8 +51,11 @@ export default async function ReviewsPage() {
         });
 
         const data = await res.json();
-        console.log("Review Page:",data); // add this to check what you are actually receiving
-        return data;
+        if (!res.ok) {
+            console.error("Review API error:", data?.error || `HTTP ${res.status}`);
+            return [];
+        }
+        return Array.isArray(data) ? data : [];
     }
     const reviews = await getReviews();
 

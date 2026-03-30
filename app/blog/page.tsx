@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "@/components/Header";
 import FooterNew from "@/components/FooterNew";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb-products";
 import { Calendar, ArrowRight, Tag } from "lucide-react";
 
 // --------------------------------------------------------------------------
@@ -100,7 +99,6 @@ export default async function BlogListingPage({
 
   return (
     <div className="min-h-screen bg-[#0b0f16] text-gray-300">
-      <Header />
 
       {/* ------------------------------------------------------------------ */}
       {/* Hero Banner */}
