@@ -263,7 +263,7 @@ export default async function BlogPostPage({
             <span>/</span>
             <Link href="/blog" className="hover:text-[#bb8d03] transition-colors">Blog</Link>
             <span>/</span>
-            <span className="text-gray-500 line-clamp-1">{post.title}</span>
+            <span className="text-gray-1-00 line-clamp-1">{post.title}</span>
           </nav>
 
           <div className="flex items-center gap-2 mb-3">
