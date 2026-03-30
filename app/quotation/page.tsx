@@ -4,7 +4,7 @@ import QuoteBuilderClient from "./quote-builder-client";
 import { Category, PackageFromDB, Subcategory } from "@/types/quoate";
 import clientPromise from "@/lib/mongodb";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 async function getQuoteData() {
   const client = await clientPromise;

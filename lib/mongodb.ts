@@ -21,35 +21,41 @@
 
 import { MongoClient } from "mongodb";
 
-const uri = process.env.NODE_ENV === "production"
-  ? process.env.MONGODB_URI_FALLBACK
-  : process.env.MONGODB_URI!;
-
-// const uri = process.env.MONGODB_URI_PRODUCTS!;
-const options = {};
-
-if (!uri) {
-  throw new Error("Please add MONGODB_URI to your env file");
-}
-
-let client;
-let clientPromise: Promise<MongoClient>;
-
 declare global {
-  // allow global to have a cached connection
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+function createClientPromise(): Promise<MongoClient> {
+  const uri =
+    process.env.NODE_ENV === "production"
+      ? process.env.MONGODB_URI_FALLBACK
+      : process.env.MONGODB_URI;
+
+  if (!uri) {
+    throw new Error("Please add MONGODB_URI (dev) or MONGODB_URI_FALLBACK (prod) to your env file");
   }
-  clientPromise = global._mongoClientPromise!;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+
+  if (process.env.NODE_ENV === "development") {
+    if (!global._mongoClientPromise) {
+      global._mongoClientPromise = new MongoClient(uri).connect();
+    }
+    return global._mongoClientPromise;
+  }
+  return new MongoClient(uri).connect();
 }
+
+// Lazy thenable – connection is deferred until first `await clientPromise`
+const clientPromise = {
+  then: <T, U>(
+    onfulfilled?: ((v: MongoClient) => T | PromiseLike<T>) | null,
+    onrejected?: ((r: unknown) => U | PromiseLike<U>) | null
+  ) => createClientPromise().then(onfulfilled, onrejected),
+  catch: <T>(onrejected?: ((r: unknown) => T | PromiseLike<T>) | null) =>
+    createClientPromise().catch(onrejected),
+  finally: (onfinally?: (() => void) | null) =>
+    createClientPromise().finally(onfinally),
+  [Symbol.toStringTag]: "Promise" as const,
+} as unknown as Promise<MongoClient>;
 
 export default clientPromise;
