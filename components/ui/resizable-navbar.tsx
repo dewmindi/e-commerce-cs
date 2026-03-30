@@ -23,14 +23,18 @@ interface NavBodyProps {
     visible?: boolean;
 }
 
+interface NavItem {
+    name?: string;
+    link?: string;
+    section?: string;
+    subItems?: { name: string; link: string }[];
+    customComponent?: React.ReactNode;
+}
+
 interface NavItemsProps {
-    items: {
-        name: string;
-        link?: string;
-        subItems?: { name: string; link: string }[];
-    }[]
+    items: NavItem[]
     className?: string;
-    onItemClick?: () => void;
+    onItemClick?: (item: NavItem) => void;
 }
 
 interface MobileNavProps {
@@ -147,7 +151,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
             onMouseEnter={() => setHovered(idx)}
             onClick={(e) => {
               e.preventDefault();  // stop browser navigation
-              onItemClick(item);   // tell Header which nav item was clicked
+              onItemClick?.(item);   // tell Header which nav item was clicked
             }}
             className="relative px-4 py-2 inline-flex items-center justify-center overflow-hidden
                        text-white dark:text-neutral-300  rounded-full hover:text-popover-foreground"

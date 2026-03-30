@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { SelectedProduct } from "@/types/quoate";
 import { useCart } from "@/app/context/CartContext";
-import { jsPDF } from "jspdf";
+import type { jsPDF as JsPDFType } from "jspdf";
 
 /**
  * Buttons (summary)
@@ -67,12 +67,14 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
   const downloadQuotation = async (customerName: string, contactNumber: string, email: string, address: string) => {
     if (selectedProducts.length === 0) return;
 
+    const { jsPDF } = await import("jspdf/dist/jspdf.umd.min.js");
+
     const doc = new jsPDF({
       orientation: "p",
       unit: "mm",
       format: "a4",
       compress: true,
-    });
+    }) as JsPDFType;
     const pageHeight = doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.getWidth();
     const marginX = 15;
@@ -93,7 +95,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
 
     // --- Helper: Add Header ---
     const addHeader = (
-      doc: jsPDF,
+      doc: JsPDFType,
       logoData: string,
       company: string,
       address: string,
@@ -143,14 +145,22 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
       return headerHeight + 10;
     };
 
-    const addFooter = (doc: jsPDF, pageNum: number, totalPages: number) => {
+    const addFooter = (doc: JsPDFType, pageNum: number, totalPages: number) => {
       const footerY = pageHeight - 10;
+      const noteY = pageHeight - 16;
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "italic");
+      doc.setTextColor(120, 120, 120);
+      doc.text("Note: Prices are inclusive of GST unless otherwise stated. This quotation is valid for 30 days from the date of issue.", marginX, noteY);
+
       doc.setFontSize(8);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(150, 150, 150);
       doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth - marginX, footerY, { align: "right" });
       doc.text("Graphic Meta Solutions - ABN 98 765 432 109", marginX, footerY);
     };
+
+    const tableHeaderColor: [number, number, number] = [70, 156, 226];
 
     // --- Helper: Check Page Break ---
     const checkPageBreak = (heightNeeded: number) => {
@@ -159,7 +169,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
         currentY = addHeader(doc, companyLogo, companyName, companyAddress, companyPhone, companyEmail, quoteTitle);
 
         // Redraw table header on new page
-        doc.setFillColor(34, 49, 63);
+        doc.setFillColor(...tableHeaderColor);
         doc.rect(marginX, currentY, pageWidth - 2 * marginX, 7, "F");
         doc.setTextColor(255, 255, 255);
         doc.setFont("helvetica", "bold");
@@ -235,7 +245,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(255, 255, 255);
-    doc.setFillColor(70, 156, 226); // dark modern header
+    doc.setFillColor(...tableHeaderColor); // dark modern header
     doc.rect(marginX, currentY, pageWidth - 2 * marginX, 8, "F");
 
     doc.text("No.", colNo + 2, currentY + 5.5);
@@ -243,6 +253,31 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
     doc.text("Price (AUD)", colPrice, currentY + 5.5, { align: "right" });
 
     currentY += 8; // Header height
+
+    const writeWrapped = (
+      text: string,
+      x: number,
+      maxWidth: number,
+      fontStyle: "normal" | "bold" | "italic" = "normal",
+      fontSize = 9,
+      color: [number, number, number] = [80, 80, 80],
+      lineHeight = 5
+    ) => {
+      doc.setFont("helvetica", fontStyle);
+      doc.setFontSize(fontSize);
+      doc.setTextColor(color[0], color[1], color[2]);
+
+      const lines = doc.splitTextToSize(text, maxWidth) as string[];
+      checkPageBreak(lines.length * lineHeight + 2);
+      doc.text(lines, x, currentY + 3);
+      currentY += lines.length * lineHeight + 0.5;
+    };
+
+    const writeSectionTitle = (title: string) => {
+      currentY += 1;
+      writeWrapped(title, colProduct + 2, productColWidth - 5, "bold", 9, [70, 70, 70], 5);
+      currentY += 1;
+    };
 
     // --- Table Content ---
     let index = 0;
@@ -259,7 +294,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
 
       // Calculate wrapped text height
       const titleLines = doc.splitTextToSize(productTitle, productColWidth);
-      const titleHeight = titleLines.length * 5; // Approx 5mm per line
+      const titleHeight = titleLines.length * 5; // Slightly relaxed line spacing
 
       // Check if product title alone fits
       checkPageBreak(titleHeight + 5);
@@ -277,42 +312,73 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
       doc.text(titleLines, colProduct, currentY + 3);
       currentY += titleHeight + 2; // Move past title
 
-      // 2. Features
-      if (p.features && p.features.length > 0) {
-        for (const feature of p.features) {
-          const featureTitle = feature.title || feature.name;
+      // 2. New quotation block (if available)
+      if (p.quotation) {
+        const q = p.quotation;
 
-          // Feature Title
-          if (featureTitle) {
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(9);
-            doc.setTextColor(100, 100, 100); // Dark Gray
-
-            const featTitleLines = doc.splitTextToSize(featureTitle, productColWidth - 5);
-            const featTitleHeight = featTitleLines.length * 4;
-
-            checkPageBreak(featTitleHeight);
-            doc.text(featTitleLines, colProduct + 2, currentY + 3);
-            currentY += featTitleHeight + 1;
-          }
-
-          // Feature Items
-          if (feature.items && feature.items.length > 0) {
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(9);
-            doc.setTextColor(80, 80, 80); // Lighter Gray
-
-            for (const item of feature.items) {
-              const bulletText = `• ${item.text}`;
-              const itemLines = doc.splitTextToSize(bulletText, productColWidth - 10);
-              const itemHeight = itemLines.length * 4;
-
-              checkPageBreak(itemHeight);
-              doc.text(itemLines, colProduct + 6, currentY + 3);
-              currentY += itemHeight; // Spacing between items
+        if (q.summary?.items?.length) {
+          writeSectionTitle("Quotation Summary");
+          q.summary.items.forEach((item) => {
+            const amount = typeof item.amount === "number" ? item.amount.toFixed(2) : "0.00";
+            const optional = item.optional ? " (Optional)" : "";
+            writeWrapped(`• ${item.title}${optional} - AUD ${amount}`, colProduct + 4, productColWidth - 10);
+            if (item.description) {
+              writeWrapped(`  ${item.description}`, colProduct + 8, productColWidth - 14, "italic", 8, [110, 110, 110]);
             }
-            currentY += 2; // Extra space after a feature group
+          });
+
+          if (q.summary.total_label || typeof q.summary.total_amount === "number") {
+            const totalLabel = q.summary.total_label || "Total";
+            const totalAmount = typeof q.summary.total_amount === "number"
+              ? q.summary.total_amount.toFixed(2)
+              : "0.00";
+            writeWrapped(`${totalLabel}: AUD ${totalAmount}`, colProduct + 4, productColWidth - 10, "bold", 9, [60, 60, 60]);
           }
+
+          if (q.summary.note) {
+            writeWrapped(`Note: ${q.summary.note}`, colProduct + 4, productColWidth - 10, "italic", 8, [120, 120, 120]);
+          }
+        }
+
+        if (q.deliverables?.length) {
+          writeSectionTitle("Deliverables");
+          q.deliverables.forEach((item) => {
+            writeWrapped(`• ${item}`, colProduct + 4, productColWidth - 10);
+          });
+        }
+
+        if (q.timeline?.length) {
+          writeSectionTitle("Timeline");
+          q.timeline.forEach((step) => {
+            writeWrapped(`• ${step.week}: ${step.tasks}`, colProduct + 4, productColWidth - 10);
+          });
+        }
+
+        if (q.payment_schedule?.length) {
+          writeSectionTitle("Payment Schedule");
+          q.payment_schedule.forEach((stage) => {
+            writeWrapped(`• ${stage.label}: AUD ${stage.amount.toFixed(2)}`, colProduct + 4, productColWidth - 10);
+          });
+        }
+
+        if (q.exclusions?.length) {
+          writeSectionTitle("Exclusions");
+          q.exclusions.forEach((item) => {
+            writeWrapped(`• ${item}`, colProduct + 4, productColWidth - 10);
+          });
+        }
+
+        // if (q.final_total && (q.final_total.label || typeof q.final_total.amount === "number")) {
+        //   const label = q.final_total.label || "Final Total";
+        //   const amount = typeof q.final_total.amount === "number" ? q.final_total.amount.toFixed(2) : "0.00";
+        //   writeSectionTitle("Final Total");
+        //   writeWrapped(`${label}: AUD ${amount}`, colProduct + 4, productColWidth - 10, "bold", 9, [30, 30, 30]);
+        // }
+      } else if (p.uiFeatures.length > 0) {
+        // 3. Fallback for legacy packages
+        writeSectionTitle("Key Features");
+        for (const feature of p.uiFeatures) {
+          writeWrapped(`• ${feature}`, colProduct + 4, productColWidth - 10);
         }
       }
 
@@ -340,17 +406,6 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
     doc.setTextColor(0, 0, 0);
     doc.text(`TOTAL (AUD):`, colPriceStart, currentY);
     doc.text(`${totalPrice.toFixed(2)}`, pageWidth - 20, currentY, { align: "right" });
-
-    // --- Terms & Notes ---
-    currentY += 15;
-    checkPageBreak(15);
-
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(9);
-    doc.setTextColor(120, 120, 120);
-    doc.text("Note: Prices are inclusive of GST unless otherwise stated.", marginX, currentY);
-    currentY += 5;
-    doc.text("This quotation is valid for 30 days from the date of issue.", marginX, currentY);
 
     // --- Footer Numbers ---
     const pageCount = doc.getNumberOfPages();

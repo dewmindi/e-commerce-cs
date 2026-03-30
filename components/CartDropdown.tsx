@@ -4,9 +4,14 @@ import { X } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
 import { useRef, useEffect } from "react";
 
-export const CartDropdown = ({ isCartOpen, setIsCartOpen }: any) => {
+interface CartDropdownProps {
+    isCartOpen: boolean;
+    setIsCartOpen: (open: boolean) => void;
+}
+
+export const CartDropdown = ({ isCartOpen, setIsCartOpen }: CartDropdownProps) => {
     const { cart, removeFromCart, getTotalItems, getTotalPrice } = useCart();
-    const cartRef = useRef(null);
+    const cartRef = useRef<HTMLDivElement | null>(null);
 
     // close on outside click
     useEffect(() => {

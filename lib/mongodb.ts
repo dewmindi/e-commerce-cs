@@ -22,8 +22,8 @@
 import { MongoClient } from "mongodb";
 
 const uri = process.env.NODE_ENV === "production"
-  ? process.env.MONGODB_URI_PRODUCTS
-  : process.env.MONGODB_DB_URI_PRODUCTS_DEV!;
+  ? process.env.MONGODB_URI_FALLBACK
+  : process.env.MONGODB_URI!;
 
 // const uri = process.env.MONGODB_URI_PRODUCTS!;
 const options = {};

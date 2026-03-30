@@ -108,13 +108,13 @@ const pricingPlans = [
   },
 ];
 
-const formatCurrency = (value: number) => {
+const formatCurrency = (value: number | string) => {
   return new Intl.NumberFormat("en-AU", {
     style: "currency",
     currency: "AUD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(Number.isNaN(value) ? 0 : Number(value));
 };
 
 
@@ -125,11 +125,10 @@ const PricingPlan = () => {
     addToCart({
       id: plan.name,
       title: plan.name,
-      price: plan.price,
+      price: Number(plan.price),
       quantity: 1,
       image: '/cs-logo.png', // Consider adding specific images for each service if possible
       category: 'Service Package',
-      currency: "AUD",
     });
   };
 
@@ -138,10 +137,10 @@ const PricingPlan = () => {
     <section id="packages" className="py-10 px-4 sm:px-6 lg:px-8  text-white mb-16">
       <div className="max-w-7xl mx-auto">
         <div className="text-center">
-          <h1 className="text-2xl md:text-4xl text-[#bb8d03fc]"
+          <h2 className="text-2xl md:text-4xl text-[#bb8d03fc]"
           >
             Pricing
-          </h1>
+          </h2>
           {/* <h2 className="text-4xl sm:text-5xl font-extrabold text-[#bb8d03fc] mb-4 leading-tight">
             Pricing
           </h2> */}
@@ -215,39 +214,11 @@ const PricingPlan = () => {
                 >
                   Get Started
                 </Button>
-                {/* <button
-                  onClick={() => handleAddToCart(plan)}
-                  className={`p-3 rounded-full transition-all duration-300
-                             shadow-md hover:shadow-lg hover:scale-110 active:scale-90
-                             ${plan.popular ? "bg-[#bb8d03fc] text-white" : "bg-gray-700 text-[#bb8d03fc] border border-[#bb8d03fc]"}
-                             `}
-                  aria-label="Add to cart"
-                >
-                  <ShoppingCart className="w-6 h-6" />
-                </button> */}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bottom Benefits */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 text-center">
-          <div className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            <FaUserFriends className="text-4xl text-[#bb8d03fc] mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Friendly Communication</h3>
-            <p className="text-gray-400 text-sm">We believe in clear, open, and friendly discussions throughout our process.</p>
-          </div>
-          <div className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            <BadgeDollarSign className="text-4xl text-[#bb8d03fc] mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No Hidden Fees</h3>
-            <p className="text-gray-400 text-sm">Transparency is key. What you see is what you pay, with no surprises.</p>
-          </div>
-          <div className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            <PercentDiamondIcon className="text-4xl text-[#bb8d03fc] mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">100% Satisfaction</h3>
-            <p className="text-gray-400 text-sm">We're committed to your complete satisfaction with our work and service.</p>
-          </div>
-        </div> */}
       </div>
     </section>
   );

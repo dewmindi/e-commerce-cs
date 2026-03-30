@@ -32,13 +32,13 @@ const SocialMediaManagement = () => {
     // Correctly initialize useCart
     const { addToCart } = useCart();
 
-    const formatCurrency = (value: number) => {
+    const formatCurrency = (value: number | string) => {
         return new Intl.NumberFormat("en-AU", {
             style: "currency",
             currency: "AUD",
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
-        }).format(value);
+        }).format(typeof value === 'string' ? parseFloat(value) : value);
     };
 
     const pricingPlans = [
@@ -59,9 +59,10 @@ const SocialMediaManagement = () => {
             price: '770',
             features: [
                 { text: 'All features in the Basic Package', type: 'feature' },
-                { text: '20 premium social media designs per month', type: 'feature' },
+                { text: '12 premium social media designs per month', type: 'feature' },
                 { text: 'Advanced Hashtag & keyword research for maximum reach', type: 'feature' },
                 { text: 'Priority scheduling and page monitoring', type: 'feature' },
+                { text: 'Running & Monitoring Meta Ads campaigns', type: 'feature' },
                 { text: 'Daily insights overview', type: 'feature' },
                 { text: 'Enhanced content writing and optimization', type: 'feature' },
             ],
@@ -85,18 +86,15 @@ const SocialMediaManagement = () => {
 
     return (
         <div className="min-h-screen bg-[#F5F5F5] text-white">
-            <Header />
-            <div className="py-6 inset-0 bg-pattern-dots opacity-10"></div>
             <AnimatePresence mode="wait">
                 <motion.div
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    variants={sectionVariants}
                     className=""
                 >
                     {/* --- Header Section --- */}
-                    <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                    <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden pt-24">
                         <div className="absolute inset-0 z-0 opacity-20">
                             {/* <Image
                                 src={content.headerImage}

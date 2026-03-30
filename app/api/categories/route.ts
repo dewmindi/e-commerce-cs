@@ -37,6 +37,7 @@ export async function GET() {
     return NextResponse.json(categories);
   } catch (error) {
     console.error("❌ API Error at /api/categories:", error);
-    return NextResponse.json({ error: "Internal Server Error", details: error.message }, { status: 500 });
+    const details = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: "Internal Server Error", details }, { status: 500 });
   }
 }

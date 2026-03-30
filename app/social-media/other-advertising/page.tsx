@@ -1,9 +1,9 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+
+
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
 // Define your specific data for the Business Card Design page
-const businessCardContent = {
+const otherAdvertisingContent : CategoryPageContent = {
     pageTitle: 'Other Advertising Design',
     headerDescription: 'Designing engaging and branded visuals for social media platforms to help boost your online presence.',
     headerImage: '/sm/sm8.jpeg', // A relevant image for the header
@@ -39,7 +39,7 @@ const businessCardContent = {
 };
 
 const page = () => {
-    return <CategoryPageTemplate content={businessCardContent} />;
+    return <CategoryPageTemplate content={otherAdvertisingContent} />;
 };
 
 export default page;
