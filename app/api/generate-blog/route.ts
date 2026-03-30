@@ -1,0 +1,394 @@
+/**
+ * POST /api/generate-blog
+ *
+ * Automated SEO blog post generation using:
+ *   - Google Gemini 2.5 Flash  → 1200-word HTML content
+ *   - Gemini 2.0 Flash (image) → 16:9 feature image (base64)
+ *   - ImageKit.io              → image hosting with q-80/f-auto transformation
+ *   - MongoDB                  → deduplicated post storage
+ *
+ * Manual trigger  → body: { keyword, topic, isManual: true }
+ * Cron trigger    → Authorization: Bearer <CRON_SECRET_TOKEN>  (keyword auto-selected)
+ */
+
+import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
+import ImageKit from "@imagekit/nodejs";
+import clientPromise from "@/lib/mongodb";
+
+// ---------------------------------------------------------------------------
+// Trending keyword pool – used when a cron job doesn't supply a keyword
+// ---------------------------------------------------------------------------
+const TRENDING_KEYWORDS = [
+  "logo design tips for startups",
+  "why your business needs a professional website in 2025",
+  "mobile app development cost breakdown",
+  "graphic design trends 2025",
+  "ecommerce website development guide",
+  "social media branding for small businesses",
+  "custom web development vs website builders",
+  "responsive website design importance",
+  "brand identity design process",
+  "ui ux design best practices for 2025",
+  "how to choose a web development agency",
+  "color psychology in logo design",
+  "progressive web apps vs native mobile apps",
+  "why professional graphic design matters for your brand",
+  "digital marketing and its relationship with graphic design",
+  "wordpress vs custom web development which is right for you",
+  "mobile first design approach explained",
+  "web development stack for small businesses",
+  "importance of visual identity for startups",
+  "how to build a brand from scratch with design",
+];
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Convert any string to a URL-safe slug. */
+function toSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+}
+
+/** Strip HTML tags from a string (used to extract plain title from H1). */
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, "").trim();
+}
+
+/** Validate cron token from Authorization header. */
+function isAuthorizedCronRequest(req: NextRequest): boolean {
+  const authHeader = req.headers.get("authorization") ?? "";
+  const cronSecret = process.env.CRON_SECRET_TOKEN;
+  return !!cronSecret && authHeader === `Bearer ${cronSecret}`;
+}
+
+// ---------------------------------------------------------------------------
+// Main handler
+// ---------------------------------------------------------------------------
+
+export async function POST(req: NextRequest) {
+  try {
+    // -----------------------------------------------------------------------
+    // 1. Determine whether this is a cron-job request
+    // -----------------------------------------------------------------------
+    const isCron = isAuthorizedCronRequest(req);
+
+    // -----------------------------------------------------------------------
+    // 2. Parse request body (optional for cron)
+    // -----------------------------------------------------------------------
+    let keyword = "";
+    let topic = "";
+    let isManual = false;
+
+    try {
+      const body = await req.json();
+      keyword = (body.keyword ?? "").trim();
+      topic = (body.topic ?? "").trim();
+      isManual = !!body.isManual;
+    } catch {
+      // Empty body is fine for cron requests
+    }
+
+    // -----------------------------------------------------------------------
+    // 3. Auto-select keyword for cron jobs
+    // -----------------------------------------------------------------------
+    if (!keyword) {
+      if (!isCron) {
+        return NextResponse.json(
+          { error: "keyword is required" },
+          { status: 400 }
+        );
+      }
+      keyword =
+        TRENDING_KEYWORDS[
+          Math.floor(Math.random() * TRENDING_KEYWORDS.length)
+        ];
+      topic = keyword;
+    }
+
+    if (!topic) topic = keyword;
+
+    const preliminarySlug = toSlug(keyword);
+
+    // -----------------------------------------------------------------------
+    // 4. Duplicate check (early – by keyword slug)
+    // -----------------------------------------------------------------------
+    const mongoClient = await clientPromise;
+    const db = mongoClient.db(
+      process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce"
+    );
+    const collection = db.collection("blog_posts");
+
+    const earlyDuplicate = await collection.findOne({
+      $or: [{ slug: preliminarySlug }, { keyword }],
+    });
+
+    if (earlyDuplicate) {
+      return NextResponse.json(
+        {
+          message:
+            "A post with this keyword/slug already exists. Skipping to avoid SEO duplication.",
+          slug: preliminarySlug,
+        },
+        { status: 409 }
+      );
+    }
+
+    // -----------------------------------------------------------------------
+    // 5. Initialise Gemini AI client
+    // -----------------------------------------------------------------------
+    const genAI = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY!,
+    });
+
+    // -----------------------------------------------------------------------
+    // 6. Generate SEO blog content – Gemini 1.5 Flash
+    // -----------------------------------------------------------------------
+    const contentPrompt = `You are a senior SEO content writer for CS Graphic Meta, a professional Development Agency based in Australia that specialises in Graphic Design, Web Development, and Mobile App Development.
+
+Write a comprehensive, SEO-optimised blog post targeting the keyword: "${keyword}"
+Topic context: "${topic}"
+
+STRICT FORMATTING RULES (follow exactly):
+1. Output ONLY valid HTML — no markdown, no code fences, no extra explanation.
+2. The very first line must be an HTML comment with the meta description:
+   <!-- META: A compelling 155-character meta description about ${keyword} for CS Graphic Meta. -->
+3. Wrap the ENTIRE post in a single <article> tag.
+4. Inside <article>, the FIRST element must be <h1>Your SEO Optimised Title Here</h1>.
+5. Include several <h2> and <h3> subheadings to structure the content.
+6. The post must be AT LEAST 1200 words using <p> tags for all paragraphs.
+7. The writing tone must be professional, authoritative, and reader-friendly.
+8. End the article with:
+   a) A "Call to Action" <section> mentioning CS Graphic Meta's services.
+   b) A <script type="application/ld+json"> block with an FAQPage JSON-LD schema containing at least 3 FAQs.
+9. Do NOT include <html>, <head>, or <body> wrapper tags.`;
+
+    const textResult = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: contentPrompt,
+    });
+
+    const rawContent: string = textResult.text ?? "";
+
+    if (!rawContent) {
+      throw new Error("Gemini returned empty content.");
+    }
+
+    // Extract meta description from leading HTML comment
+    const metaMatch = rawContent.match(/<!--\s*META:\s*(.*?)\s*-->/i);
+    const metaDescription = metaMatch
+      ? metaMatch[1].slice(0, 160)
+      : `Learn about ${keyword} with expert insights from CS Graphic Meta, your trusted development agency.`;
+
+    // Extract title text from the first <h1>
+    const h1Match = rawContent.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+    const title = h1Match ? stripHtml(h1Match[1]) : keyword;
+    const finalSlug = toSlug(title) || preliminarySlug;
+
+    // Remove the meta comment from the stored HTML
+    const contentHtml = rawContent
+      .replace(/<!--\s*META:.*?-->/i, "")
+      .trim();
+
+    // -----------------------------------------------------------------------
+    // 7. Second duplicate check (using title-derived slug)
+    // -----------------------------------------------------------------------
+    if (finalSlug !== preliminarySlug) {
+      const slugDuplicate = await collection.findOne({ slug: finalSlug });
+      if (slugDuplicate) {
+        return NextResponse.json(
+          {
+            message:
+              "A post with this title slug already exists. Skipping.",
+            slug: finalSlug,
+          },
+          { status: 409 }
+        );
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // 8. Generate feature image – Gemini 2.0 Flash (image generation)
+    //    Model: gemini-2.0-flash-preview-image-generation
+    //    NOTE: Update the model name below if Google releases a newer version.
+    // -----------------------------------------------------------------------
+    let imageKitUrl = "";
+
+    try {
+      const imagePrompt =
+        `Create a professional, photorealistic 16:9 blog feature image for an article titled "${title}". ` +
+        `The image should evoke themes of ${keyword}. ` +
+        `Style: modern, clean, corporate, suitable for a development agency website. ` +
+        `Incorporate subtle visual metaphors related to graphic design, web development, or mobile app development. ` +
+        `No text, watermarks, or overlays in the image.`;
+
+      const imgResult = await genAI.models.generateContent({
+        model: "gemini-2.5-flash-image",
+        contents: imagePrompt,
+        config: {
+          responseModalities: ["IMAGE"],
+        },
+      });
+
+      const parts = imgResult.candidates?.[0]?.content?.parts ?? [];
+      let base64Data: string | null = null;
+      let mimeType = "image/png";
+
+      for (const part of parts) {
+        if (part.inlineData?.data) {
+          base64Data = part.inlineData.data;
+          mimeType = part.inlineData.mimeType ?? "image/png";
+          break;
+        }
+      }
+
+      // -------------------------------------------------------------------
+      // 9. Upload to ImageKit.io with SEO-friendly filename
+      //    @imagekit/nodejs v7: constructor only needs privateKey;
+      //    upload is accessed via imagekit.files.upload()
+      // -------------------------------------------------------------------
+      if (base64Data) {
+        const imagekit = new ImageKit({
+          privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
+        });
+
+        // Construct a URL-friendly filename from the blog title (Image SEO)
+        const seoFilename =
+          toSlug(title).substring(0, 100) +
+          (mimeType === "image/jpeg" ? ".jpg" : ".png");
+
+        const uploadResponse = await imagekit.files.upload({
+          file: `data:${mimeType};base64,${base64Data}`,
+          fileName: seoFilename,
+          folder: "/blog/featured-images",
+          useUniqueFileName: false,
+          overwriteFile: true,
+        });
+
+        // Append ImageKit URL transformation parameters:
+        //   q-80   → compress to 80% quality
+        //   f-auto → serve in best format (WebP/AVIF) per browser
+        if (uploadResponse.url) {
+          imageKitUrl = `${uploadResponse.url}?tr=q-80,f-auto`;
+        }
+      }
+    } catch (imgError) {
+      // Image generation / upload is non-blocking – log and continue
+      console.error(
+        "[generate-blog] Image generation or ImageKit upload failed:",
+        imgError
+      );
+    }
+
+    // -----------------------------------------------------------------------
+    // 10. Save post to MongoDB
+    // -----------------------------------------------------------------------
+    const postDoc = {
+      title,
+      slug: finalSlug,
+      keyword,
+      contentHtml,
+      metaDescription,
+      imageKitUrl,
+      isAutoGenerated: isCron,
+      published: true,
+      createdAt: new Date(),
+    };
+
+    await collection.insertOne(postDoc);
+
+    // -----------------------------------------------------------------------
+    // 11. Respond
+    //     Manual → return full post data;  Cron → return lightweight message
+    // -----------------------------------------------------------------------
+    if (isManual) {
+      return NextResponse.json(
+        { success: true, post: postDoc },
+        { status: 201 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Blog post "${title}" generated and saved successfully.`,
+      slug: finalSlug,
+    });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error";
+    console.error("[generate-blog] Fatal error:", error);
+    return NextResponse.json(
+      { error: "Internal server error", details: message },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/generate-blog?keep=30
+ * Keeps only the latest N auto-generated posts and deletes older ones.
+ */
+export async function DELETE(req: NextRequest) {
+  try {
+    if (!isAuthorizedCronRequest(req)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const keepRaw = req.nextUrl.searchParams.get("keep") ?? "30";
+    const parsedKeep = Number.parseInt(keepRaw, 10);
+    const keep = Number.isNaN(parsedKeep)
+      ? 30
+      : Math.min(500, Math.max(0, parsedKeep));
+
+    const mongoClient = await clientPromise;
+    const db = mongoClient.db(
+      process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce"
+    );
+    const collection = db.collection("blog_posts");
+
+    const postsToDelete = await collection
+      .find(
+        { isAutoGenerated: true },
+        { projection: { _id: 1 } }
+      )
+      .sort({ createdAt: -1, _id: -1 })
+      .skip(keep)
+      .toArray();
+
+    if (postsToDelete.length === 0) {
+      return NextResponse.json({
+        success: true,
+        keep,
+        deletedCount: 0,
+        message: "No old auto-generated posts to delete.",
+      });
+    }
+
+    const ids = postsToDelete.map((post) => post._id);
+    const result = await collection.deleteMany({
+      _id: { $in: ids },
+      isAutoGenerated: true,
+    });
+
+    return NextResponse.json({
+      success: true,
+      keep,
+      deletedCount: result.deletedCount ?? 0,
+      message: "Old auto-generated posts were deleted successfully.",
+    });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error";
+    console.error("[generate-blog:cleanup] Fatal error:", error);
+    return NextResponse.json(
+      { error: "Internal server error", details: message },
+      { status: 500 }
+    );
+  }
+}
