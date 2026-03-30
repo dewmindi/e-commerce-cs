@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'E-Commerce Website Development Melbourne',
+  description: 'Professional e-commerce website development in Melbourne. Build your online store with a fast, secure, and conversion-optimised website. Get a free quote today!',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/e-commerce-websites` },
+  openGraph: {
+    title: 'E-Commerce Website Development Melbourne',
+    description: 'Build your online store with a fast, secure, and conversion-optimised website.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/e-commerce-websites`,
+    type: 'website',
+  },
+};
 
 const ecomWebDevContent: CategoryPageContent = {
     pageTitle: 'E-Commerce Development',

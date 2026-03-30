@@ -1,4 +1,17 @@
-    import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+import type { Metadata } from 'next';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Banner & Poster Design Services Melbourne',
+  description: 'Eye-catching banner and poster designs for your business in Melbourne. Professional print & digital designs, fast turnaround, unlimited revisions. Get a free quote!',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/banner-poster-design` },
+  openGraph: {
+    title: 'Banner & Poster Design Services Melbourne',
+    description: 'Eye-catching banner and poster designs for your business in Melbourne.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/banner-poster-design`,
+    type: 'website',
+  },
+};
 
 
 // Define your specific data for the Business Card Design page

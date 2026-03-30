@@ -1,5 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
+export const metadata: Metadata = {
+  title: 'Social Media Design Services Melbourne',
+  description: 'Professional social media graphic design in Melbourne. Posts, banners, stories, and ads designed to grow your brand online. Unlimited revisions included.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/social-media` },
+  openGraph: {
+    title: 'Social Media Design Services Melbourne',
+    description: 'Professional social media graphic design in Melbourne. Grow your brand online.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/social-media`,
+    type: 'website',
+  },
+};
 
 // Define your specific data for the Business Card Design page
 const socialMedaiaContent : CategoryPageContent = {

@@ -1,5 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
+export const metadata: Metadata = {
+  title: 'Web Development Services Melbourne | Custom Websites',
+  description: 'Professional web development services in Melbourne. We build fast, responsive, SEO-friendly websites and web apps tailored to your business needs. Get a free quote!',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/web-development` },
+  openGraph: {
+    title: 'Web Development Services Melbourne | Custom Websites',
+    description: 'Professional web development services in Melbourne. Fast, responsive, SEO-friendly websites.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/web-development`,
+    type: 'website',
+  },
+};
 
 // Define your specific data for the Business Card Design page
 const webDevelopmentContent : CategoryPageContent = {

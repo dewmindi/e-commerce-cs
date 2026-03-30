@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Professional Logo Design Services in Melbourne',
+  description: 'Custom logo design services in Melbourne & Hallam. Get a memorable, unique logo for your business. Affordable pricing, unlimited revisions. Request a free quote today!',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/logo-design` },
+  openGraph: {
+    title: 'Professional Logo Design Services in Melbourne',
+    description: 'Custom logo design services in Melbourne & Hallam. Affordable pricing with unlimited revisions.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/logo-design`,
+    type: 'website',
+  },
+};
 
 const logoContent: CategoryPageContent = {
     pageTitle: 'Logo Design',

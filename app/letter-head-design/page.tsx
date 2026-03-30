@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Letterhead Design Services Melbourne',
+  description: 'Professional branded letterhead design in Melbourne. Add a polished, professional look to your official correspondence. Fast turnaround, unlimited revisions.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/letter-head-design` },
+  openGraph: {
+    title: 'Letterhead Design Services Melbourne',
+    description: 'Professional branded letterhead design in Melbourne.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/letter-head-design`,
+    type: 'website',
+  },
+};
 
 const letterHeadContent: CategoryPageContent = {
     pageTitle: 'Letter Head Design',

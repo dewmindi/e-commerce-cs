@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import ContactUs from "@/components/ContactUs"
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards"
 import Achievements from "@/components/Achievements"
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au',
+  },
+};
 import FooterNew from "@/components/FooterNew"
 import PricingPlan from "@/components/PricingPlan"
 import Portfolio from "@/components/Portfolio"
