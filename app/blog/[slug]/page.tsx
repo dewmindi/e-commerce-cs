@@ -25,15 +25,20 @@ interface BlogPost {
 // Data helpers
 // --------------------------------------------------------------------------
 async function getPost(slug: string): Promise<BlogPost | null> {
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-  const raw = await db.collection("blog_posts").findOne({ slug, published: true });
-  if (!raw) return null;
-  return {
-    ...raw,
-    _id: raw._id.toString(),
-    createdAt: raw.createdAt?.toISOString?.() ?? raw.createdAt,
-  } as BlogPost;
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
+    const raw = await db.collection("blog_posts").findOne({ slug, published: true });
+    if (!raw) return null;
+    return {
+      ...raw,
+      _id: raw._id.toString(),
+      createdAt: raw.createdAt?.toISOString?.() ?? raw.createdAt,
+    } as BlogPost;
+  } catch (err) {
+    console.error("[blog/slug] getPost error:", err);
+    return null;
+  }
 }
 
 interface RelatedPost {
@@ -45,32 +50,37 @@ interface RelatedPost {
 }
 
 async function getRelatedPosts(keyword: string, currentSlug: string, limit = 3): Promise<RelatedPost[]> {
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-  const words = keyword.split(" ").slice(0, 2).join("|");
-  const rawPosts = await db
-    .collection("blog_posts")
-    .find(
-      {
-        published: true,
-        slug: { $ne: currentSlug },
-        $or: [
-          { keyword: { $regex: words, $options: "i" } },
-          { title: { $regex: words, $options: "i" } },
-        ],
-      },
-      { projection: { contentHtml: 0 } }
-    )
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .toArray();
-  return rawPosts.map((p) => ({
-    _id: p._id.toString(),
-    title: (p.title as string) ?? "",
-    slug: (p.slug as string) ?? "",
-    imageKitUrl: (p.imageKitUrl as string) ?? "",
-    createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
-  }));
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
+    const words = keyword.split(" ").slice(0, 2).join("|");
+    const rawPosts = await db
+      .collection("blog_posts")
+      .find(
+        {
+          published: true,
+          slug: { $ne: currentSlug },
+          $or: [
+            { keyword: { $regex: words, $options: "i" } },
+            { title: { $regex: words, $options: "i" } },
+          ],
+        },
+        { projection: { contentHtml: 0 } }
+      )
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .toArray();
+    return rawPosts.map((p) => ({
+      _id: p._id.toString(),
+      title: (p.title as string) ?? "",
+      slug: (p.slug as string) ?? "",
+      imageKitUrl: (p.imageKitUrl as string) ?? "",
+      createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
+    }));
+  } catch (err) {
+    console.error("[blog/slug] getRelatedPosts error:", err);
+    return [];
+  }
 }
 
 // --------------------------------------------------------------------------

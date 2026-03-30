@@ -48,29 +48,34 @@ interface BlogPost {
 // Data fetching (Server Component – direct MongoDB, no extra network hop)
 // --------------------------------------------------------------------------
 async function getPosts(page: number, limit = 9) {
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-  const col = db.collection("blog_posts");
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
+    const col = db.collection("blog_posts");
 
-  const skip = (page - 1) * limit;
-  const [rawPosts, total] = await Promise.all([
-    col
-      .find({ published: true }, { projection: { contentHtml: 0 } })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray(),
-    col.countDocuments({ published: true }),
-  ]);
+    const skip = (page - 1) * limit;
+    const [rawPosts, total] = await Promise.all([
+      col
+        .find({ published: true }, { projection: { contentHtml: 0 } })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .toArray(),
+      col.countDocuments({ published: true }),
+    ]);
 
-  // Serialise ObjectId → string
-  const posts = rawPosts.map((p) => ({
-    ...p,
-    _id: p._id.toString(),
-    createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
-  })) as BlogPost[];
+    // Serialise ObjectId → string
+    const posts = rawPosts.map((p) => ({
+      ...p,
+      _id: p._id.toString(),
+      createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
+    })) as BlogPost[];
 
-  return { posts, total, totalPages: Math.ceil(total / limit) };
+    return { posts, total, totalPages: Math.ceil(total / limit) };
+  } catch (err) {
+    console.error("[blog] getPosts error:", err);
+    return { posts: [] as BlogPost[], total: 0, totalPages: 0 };
+  }
 }
 
 function formatDate(iso: string) {
