@@ -108,10 +108,10 @@ const ContactUs = () => {
 
         {/* Right Section */}
         <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col justify-center bg-[#181818] text-primarytext">
-          <h1 className="flex text-3xl sm:text-4xl  mb-6  animate-fade-in-right">
+          <h2 className="flex text-3xl sm:text-4xl  mb-6  animate-fade-in-right">
             <AsteriskIcon />
             Contact Us
-          </h1>
+          </h2>
           <p className="text-lg mb-8 animate-fade-in-right delay-100">
             Reach out to us, and let's discuss how we can help.
           </p>

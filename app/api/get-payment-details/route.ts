@@ -2,12 +2,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
-});
-
 export async function GET(req: NextRequest) {
   try {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json({ error: "Stripe secret key is not configured" }, { status: 500 });
+    }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2024-06-20" as any,
+    });
+
     const url = new URL(req.url);
     const session_id = url.searchParams.get("session_id");
 
@@ -18,6 +22,8 @@ export async function GET(req: NextRequest) {
     const session = await stripe.checkout.sessions.retrieve(session_id, {
       expand: ["line_items", "payment_intent", "customer"],
     });
+
+    const orderId = session.client_reference_id || session.metadata?.orderId || session.id;
 
     const paymentIntentId =
       typeof session.payment_intent === "string"
@@ -35,7 +41,7 @@ export async function GET(req: NextRequest) {
       success: true,
       data: {
         sessionId: session.id,
-        orderId: session.client_reference_id || session.id,
+        orderId: orderId,
         paymentStatus: session.payment_status,
         amountTotal: (session.amount_total || 0) / 100,
         amountSubtotal: (session.amount_subtotal || 0) / 100,
@@ -49,8 +55,15 @@ export async function GET(req: NextRequest) {
         fee: 0,
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("get-payment-details error:", err);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+
+    if (err instanceof Stripe.errors.StripeError) {
+      const statusCode = (err as Stripe.errors.StripeError & { statusCode?: number }).statusCode || 400;
+      return NextResponse.json({ error: err.message, type: err.type }, { status: statusCode });
+    }
+
+    const message = err instanceof Error ? err.message : "Internal Server Error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

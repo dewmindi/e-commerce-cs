@@ -1,13 +1,12 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
 
 // Define your specific data for the Business Card Design page
-const businessCardContent = {
-    pageTitle: 'Basic Websites Development',
+const webDevelopmentContent : CategoryPageContent = {
+    pageTitle: 'Business Website Development',
     headerDescription: '✨ Your online presence starts here.',
     headerImage: '/ServiceImages/web.jpeg', // A relevant image for the header
-    aboutDescription: "A basic website is the digital storefront of your business which is simple, professional, and built to make a strong first impression. Whether you're a small business owner, a freelancer, or a personal brand, this package gives you a clean, mobile-friendly website that communicates your story without unnecessary complexity. Perfect for startups, local businesses, and individuals who want to establish credibility online.",
+    aboutDescription: "A website is the digital storefront of your business which is simple, professional, and built to make a strong first impression. Whether you're a small business owner, a freelancer, or a personal brand, this package gives you a clean, mobile-friendly website that communicates your story without unnecessary complexity. Perfect for startups, local businesses, and individuals who want to establish credibility online.",
     benefits: [
         "Modern, responsive design that works on all devices",
         "Pages like Home, About, Services, and Contact",
@@ -90,7 +89,7 @@ const businessCardContent = {
 };
 
 const page = () => {
-    return <CategoryPageTemplate content={businessCardContent} />;
+    return <CategoryPageTemplate content={webDevelopmentContent} />;
 };
 
 export default page;

@@ -1,9 +1,6 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
-// Define your specific data for the Business Card Design page
-const businessCardContent = {
+const emailSignDesugnContent: CategoryPageContent = {
     pageTitle: 'Email Signature Design',
     headerDescription: 'Developing clean and consistent email signatures to strengthen your brand in every email you send.',
     headerImage: '/letter-head/lh15.jpeg', // A relevant image for the header
@@ -69,7 +66,7 @@ const businessCardContent = {
 };
 
 const page = () => {
-    return <CategoryPageTemplate content={businessCardContent} />;
+    return <CategoryPageTemplate content={emailSignDesugnContent} />;
 };
 
 export default page;

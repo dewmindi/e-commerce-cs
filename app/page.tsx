@@ -10,7 +10,6 @@ import GoogleReviews from "@/components/GoogleReviews";
 import { TrustedPartners } from "@/components/TrustedPartners";
 
 import FeaturedProjects from "@/components/FeaturedProjects";
-import ChatModalWrapper from "@/components/ChatModalWrapper"
 
 
 export default function CSGraphicsMetaWebsite() {
@@ -66,7 +65,6 @@ export default function CSGraphicsMetaWebsite() {
       <ContactUs />
       <Achievements />
       <FooterNew />
-      <ChatModalWrapper/>
     </div>
   );
 }

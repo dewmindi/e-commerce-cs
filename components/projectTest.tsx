@@ -8,12 +8,25 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+interface Project {
+  id: string;
+  category: string;
+  title: string;
+  imageUrl: string;
+}
+
+interface Category {
+  name: string;
+  count: number;
+  slug: string;
+}
+
 // You'll need these if not already globally available or from a component library
 // import { Button } from '@/components/ui/button'; // Your Button component
 // import { ChevronLeft, ChevronRight } from 'lucide-react'; // Example icons
 
 // Dummy Project Data (Replace with your actual data fetching)
-const allProjectsData = [
+const allProjectsData: Project[] = [
   // Logo Designs (59)
   { id: 'l1', category: 'Logo Designs', title: 'Modern Logo Design', imageUrl: '/logo-designs/logoDesign1.jpeg' },
   { id: 'l2', category: 'Logo Designs', title: 'Tech Startup Logo', imageUrl: '/logo-designs/logoDesign2.jpeg' },
@@ -154,7 +167,7 @@ const allProjectsData = [
 ];
 
 // Helper to get category counts
-const categories = [
+const categories: Category[] = [
   { name: 'All Projects', count: allProjectsData.length, slug: 'all' },
   { name: 'Logo Designs', count: 59, slug: 'logo-designs' },
   { name: 'Letter Head Designs', count: 15, slug: 'letter-head-designs' },
@@ -166,7 +179,7 @@ const categories = [
 
 const ProjectsPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [displayedProjects, setDisplayedProjects] = useState([]);
+  const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 12; // Adjust as needed, common for galleries
 
@@ -187,7 +200,7 @@ const ProjectsPage = () => {
   const currentProjects = displayedProjects.slice(indexOfFirstProject, indexOfLastProject);
   const totalPages = Math.ceil(displayedProjects.length / projectsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   // Animation variants for Framer Motion
   const containerVariants = {

@@ -17,9 +17,49 @@ export type PackageFromDB = {
   name: string;
   price: number;
   overview?: string;
+  ui_features?: string[];
+  quotation?: QuotationData;
   features?: any[];
   is_active?: boolean;
   popular?: boolean;
+};
+
+export type QuotationSummaryItem = {
+  title: string;
+  description?: string;
+  amount: number;
+  optional?: boolean;
+};
+
+export type QuotationSummary = {
+  items?: QuotationSummaryItem[];
+  total_label?: string;
+  total_amount?: number;
+  note?: string;
+};
+
+export type QuotationTimeline = {
+  week: string;
+  tasks: string;
+};
+
+export type QuotationPayment = {
+  label: string;
+  amount: number;
+};
+
+export type QuotationFinalTotal = {
+  label?: string;
+  amount?: number;
+};
+
+export type QuotationData = {
+  summary?: QuotationSummary;
+  deliverables?: string[];
+  timeline?: QuotationTimeline[];
+  payment_schedule?: QuotationPayment[];
+  exclusions?: string[];
+  // final_total?: QuotationFinalTotal;
 };
 
 export type Product = {
@@ -29,13 +69,8 @@ export type Product = {
   price: number;
   inStock: number;      // defaulted if not provided by DB
   overview?: string;
-  features?: {
-    title: string;
-    items: {
-      text: string;
-      highlight: boolean;
-    }[];
-  }[];
+  uiFeatures: string[];
+  quotation?: QuotationData;
 
 };
 
@@ -55,12 +90,6 @@ export interface SelectedProduct {
   productId: string;
   productName: string;
   price: number;
-  features?: {
-    title?: string; // Type A
-    name?: string;  // Type B
-    items?: {
-      text: string;
-      highlight: boolean;
-    }[];
-  }[];
+  uiFeatures: string[];
+  quotation?: QuotationData;
 }

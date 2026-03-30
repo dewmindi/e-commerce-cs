@@ -1,6 +1,5 @@
 "use client"
 import { usePathname, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import { PlusIcon, Check } from 'lucide-react';
 import Header from '@/components/Header';
@@ -9,9 +8,7 @@ import { useInViewAnimation } from '@/utils/inviewAnimation';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input"
 
-import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import FooterNew from '@/components/FooterNew';
-import { useCart } from '@/app/context/CartContext';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
 import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
@@ -71,7 +68,7 @@ const socialMediaGrowthContent = () => {
       if (data.success) {
         setSubmitted(true);
         setForm({
-          project: content.pageTitle,
+          project: data.project || "",
           name: "",
           email: "",
           phone: "",
@@ -85,15 +82,6 @@ const socialMediaGrowthContent = () => {
       alert("Sending email error:" + err.message);
     }
   }
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-AU", {
-      style: "currency",
-      currency: "AUD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
 
   const pricingPlans = [
     {
@@ -126,7 +114,6 @@ const socialMediaGrowthContent = () => {
           initial="hidden"
           animate="visible"
           exit="exit"
-          variants={sectionVariants}
           className=""
         >
           {/* --- Header Section --- */}

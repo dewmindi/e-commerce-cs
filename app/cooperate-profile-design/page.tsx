@@ -1,7 +1,6 @@
 
 "use client"
 import { usePathname, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import { PlusIcon, Check } from 'lucide-react';
 import Header from '@/components/Header';
@@ -10,13 +9,11 @@ import { useInViewAnimation } from '@/utils/inviewAnimation';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input"
 
-import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import FooterNew from '@/components/FooterNew';
 import { useCart } from '@/app/context/CartContext';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
 
-// Define the types for your data structures to ensure type safety
 interface Benefit {
     text: string;
 }
@@ -148,13 +145,14 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
         }
     }
 
-    const formatCurrency = (value: number) => {
+    const formatCurrency = (value: number | string) => {
+        const normalized = typeof value === "string" ? Number(value) : value;
         return new Intl.NumberFormat("en-AU", {
             style: "currency",
             currency: "AUD",
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
-        }).format(value);
+        }).format(Number.isNaN(normalized) ? 0 : normalized);
     };
 
     const pricingPlans = [
@@ -196,19 +194,11 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    variants={sectionVariants}
                     className=""
                 >
                     {/* --- Header Section --- */}
                     <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-white py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
                         <div className="absolute inset-0 z-0 opacity-20">
-                            {/* <Image
-                                src={content.headerImage}
-                                alt={`${content.pageTitle} Background`}
-                                layout="fill"
-                                objectFit="cover"
-                                className="scale-105"
-                            /> */}
                         </div>
                         <div className="max-w-4xl mx-auto text-center relative z-10">
                             <h2 className="text-4xl sm:text-4xl font-extrabold mb-2 drop-shadow-md">

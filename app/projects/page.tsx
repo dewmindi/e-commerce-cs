@@ -8,8 +8,22 @@ import Header from '@/components/Header';
 import FooterNew from '@/components/FooterNew';
 import Link from 'next/link';
 
+interface Project {
+  id: string;
+  category: string;
+  title: string;
+  imageUrl: string;
+  price?: number | string;
+}
+
+interface Category {
+  name: string;
+  count: number;
+  slug: string;
+}
+
 // Dummy Project Data (Replace with your actual data fetching)
-const allProjectsData = [
+const allProjectsData: Project[] = [
   // Logo Designs (59)
   { id: 'l1', category: 'Logo Designs', title: 'Modern Logo Design', imageUrl: '/logo-designs/logoDesign1.jpeg', price: 20 },
   { id: 'l2', category: 'Logo Designs', title: 'Tech Startup Logo', imageUrl: '/logo-designs/logoDesign2.jpeg', price: 20 },
@@ -129,7 +143,7 @@ type CartItemSource = {
 
 
 // Helper to get category counts
-const categories = [
+const categories: Category[] = [
   { name: 'All Projects', count: allProjectsData.length, slug: 'all' },
   { name: 'Logo Designs', count: 59, slug: 'logo-designs' },
   { name: 'Letter Head Designs', count: 15, slug: 'letter-head-designs' },
@@ -142,9 +156,11 @@ const categories = [
 
 const ProjectsPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [displayedProjects, setDisplayedProjects] = useState([]);
+  const [displayedProjects, setDisplayedProjects] = useState<Project[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 12; // Adjust as needed, common for galleries
+
+  
 
   useEffect(() => {
     let filtered = allProjectsData;

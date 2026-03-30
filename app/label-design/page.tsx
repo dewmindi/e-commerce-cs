@@ -1,9 +1,6 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
-// Define your specific data for the Business Card Design page
-const businessCardContent = {
+const businessCardContent: CategoryPageContent = {
     pageTitle: 'Packaging, Label & Sticker Design',
     headerDescription: 'Creating attractive and functional packaging and labels that stand out on shelves and speak to your audience.',
     headerImage: '/packaging/pack5.jpeg', // A relevant image for the header

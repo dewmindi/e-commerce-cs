@@ -71,15 +71,11 @@ const CustomQuestions = () => {
                     {/* AnimatePresence allows components to animate when they unmount */}
                     <AnimatePresence>
                         {openIndex === idx && (
-                            <motion.p
-                                variants={contentVariants}
-                                initial="hidden"
-                                animate="visible"
-                                exit="exit"
+                            <p
                                 className="text-start text-gray-600" // Removed mt-2 here as it's handled by variants
                             >
                                 {faq.answer}
-                            </motion.p>
+                            </p>
                         )}
                     </AnimatePresence>
                 </div>

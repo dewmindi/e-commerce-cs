@@ -1,9 +1,8 @@
-// app/business-card/page.tsx
-"use client"
-import CategoryPageTemplate from '@/components/CategoryPageTemplate';
+import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
 
 // Define your specific data for the Business Card Design page
-const businessCardContent = {
+const bookMagazineContent: CategoryPageContent = {
     pageTitle: 'Book & Magazine Design',
     headerDescription: 'Laying out and designing books and magazines with attention to readability, structure, and visual appeal.',
     headerImage: '/ServiceImages/book.jpeg', // A relevant image for the header
@@ -33,12 +32,12 @@ const businessCardContent = {
             answer: "You'll receive print-ready files (PDF, AI, EPS) and digital versions (JPG, PNG) suitable for online use."
         }
     ],
-    callToActionTitle: "Ready to Create Your Perfect Business Card?",
-    callToActionDescription: "Let's design a business card that makes a lasting impression and helps you connect with confidence."
+    callToActionTitle: "Ready to Create Your Perfect Book or Magazine?",
+    callToActionDescription: "Let's design a book or magazine that makes a lasting impression and helps you connect with confidence."
 };
 
 const page = () => {
-    return <CategoryPageTemplate content={businessCardContent} />;
+    return <CategoryPageTemplate content={bookMagazineContent} />;
 };
 
 export default page;
