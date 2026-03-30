@@ -11,8 +11,8 @@
     "blog:generate": "node --env-file=.env scripts/generate-blog-post.mjs",
     "blog:test": "node --env-file=.env scripts/test-blog-generation.mjs"
   },
- 
   "dependencies": {
+    "@google/genai": "^1.47.0",
     "@google/generative-ai": "^0.24.1",
     "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^3.9.1",
