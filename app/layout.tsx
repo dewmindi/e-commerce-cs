@@ -73,7 +73,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <NonBlockingCSS />
         <Suspense fallback={null}>
           <GlobalLoader />
