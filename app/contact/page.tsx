@@ -77,7 +77,7 @@ export default function ContactPage() {
       {/* <Header /> */}
 
       {/* Hero */}
-      <section className="py-16 lg:pt-28 px-4 sm:px-6 lg:px-8 bg-[#0f0f0f] border-b border-gray-800">
+      <section className="py-16 pt-28 px-4 sm:px-6 lg:px-8 bg-[#0f0f0f] border-b border-gray-800">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-[#bb8d03fc] uppercase tracking-widest text-sm font-semibold mb-3">
             Get In Touch

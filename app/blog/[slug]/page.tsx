@@ -248,7 +248,7 @@ export default async function BlogPostPage({
       {/* ------------------------------------------------------------------ */}
       {/* Hero / Feature image */}
       {/* ------------------------------------------------------------------ */}
-      <div className="relative w-full h-[40vh] sm:h-[50vh] lg:h-[60vh] bg-gray-900 overflow-hidden">
+      <div className="relative w-full h-[60vh] sm:h-[50vh] lg:h-[60vh] bg-gray-900 overflow-hidden">
         {post.imageKitUrl ? (
           <Image
             src={post.imageKitUrl}
@@ -265,13 +265,13 @@ export default async function BlogPostPage({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f16] via-[#0b0f16]/60 to-transparent" />
 
         {/* Title overlay */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-10 sm:pb-14 max-w-4xl mx-auto">
+        <div className="absolute  bottom-0 left-0 right-0 px-4 pb-10 sm:pb-14 max-w-4xl mx-auto">
           <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs text-gray-400">
             <Link href="/" className="hover:text-[#bb8d03] transition-colors">Home</Link>
             <span>/</span>
             <Link href="/blog" className="hover:text-[#bb8d03] transition-colors">Blog</Link>
             <span>/</span>
-            <span className="text-gray-1-00 line-clamp-1">{post.title}</span>
+            <span className="text-gray-100 line-clamp-1">{post.title}</span>
           </nav>
 
           <div className="flex items-center gap-2 mb-3">
