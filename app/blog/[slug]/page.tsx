@@ -305,11 +305,11 @@ export default async function BlogPostPage({
               <span className="text-gray-600">·</span>
               <span>By CS Graphic Meta</span>
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
+                href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-auto flex items-center gap-1.5 text-gray-400 hover:text-[#bb8d03] transition-colors"
-                aria-label="Share on Twitter"
+                aria-label="Share on X"
               >
                 <Share2 className="w-4 h-4" /> Share
               </a>
@@ -412,12 +412,12 @@ export default async function BlogPostPage({
                   LinkedIn
                 </a>
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
+                  href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 text-center text-xs font-semibold py-2 rounded-lg bg-gray-700/50 text-gray-300 hover:bg-gray-700 transition-colors"
                 >
-                  Twitter
+                  𝕏
                 </a>
               </div>
             </div>

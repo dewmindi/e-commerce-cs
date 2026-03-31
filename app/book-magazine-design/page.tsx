@@ -1,5 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
+export const metadata: Metadata = {
+  title: 'Book & Magazine Design Services Melbourne',
+  description: 'Professional book cover and magazine layout design in Melbourne. High-quality print-ready designs for publishers, authors, and businesses.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/book-magazine-design` },
+  openGraph: {
+    title: 'Book & Magazine Design Services Melbourne',
+    description: 'Professional book cover and magazine layout design in Melbourne.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/book-magazine-design`,
+    type: 'website',
+  },
+};
 
 // Define your specific data for the Business Card Design page
 const bookMagazineContent: CategoryPageContent = {

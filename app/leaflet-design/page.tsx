@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Leaflet, Flyer & Brochure Design Melbourne',
+  description: 'Professional leaflet, flyer, and brochure design services in Melbourne. Informative and visually appealing print materials to promote your business or events.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/leaflet-design` },
+  openGraph: {
+    title: 'Leaflet, Flyer & Brochure Design Melbourne',
+    description: 'Professional leaflet, flyer, and brochure design services in Melbourne.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/leaflet-design`,
+    type: 'website',
+  },
+};
 
 const leafletContent: CategoryPageContent = {
     pageTitle: 'Leaflet, Flyer & Brochure Design',

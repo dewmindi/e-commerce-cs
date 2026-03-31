@@ -17,30 +17,85 @@ import ImageKit from "@imagekit/nodejs";
 import clientPromise from "@/lib/mongodb-products";
 
 // ---------------------------------------------------------------------------
-// Trending keyword pool – used when a cron job doesn't supply a keyword
+// Current year – ensures all generated content uses the correct year
 // ---------------------------------------------------------------------------
-const TRENDING_KEYWORDS = [
-  "logo design tips for startups",
-  "why your business needs a professional website in 2025",
-  "mobile app development cost breakdown",
-  "graphic design trends 2025",
-  "ecommerce website development guide",
-  "social media branding for small businesses",
-  "custom web development vs website builders",
-  "responsive website design importance",
-  "brand identity design process",
-  "ui ux design best practices for 2025",
-  "how to choose a web development agency",
-  "color psychology in logo design",
-  "progressive web apps vs native mobile apps",
-  "why professional graphic design matters for your brand",
-  "digital marketing and its relationship with graphic design",
-  "wordpress vs custom web development which is right for you",
-  "mobile first design approach explained",
-  "web development stack for small businesses",
-  "importance of visual identity for startups",
-  "how to build a brand from scratch with design",
+const CURRENT_YEAR = new Date().getFullYear();
+
+// ---------------------------------------------------------------------------
+// Fallback keyword pool – used if Google Trends AU fetch fails
+// ---------------------------------------------------------------------------
+const FALLBACK_KEYWORDS = [
+  `logo design tips for startups`,
+  `why your business needs a professional website in ${CURRENT_YEAR}`,
+  `mobile app development cost breakdown`,
+  `graphic design trends ${CURRENT_YEAR}`,
+  `ecommerce website development guide`,
+  `social media branding for small businesses`,
+  `custom web development vs website builders`,
+  `responsive website design importance`,
+  `brand identity design process`,
+  `ui ux design best practices for ${CURRENT_YEAR}`,
+  `how to choose a web development agency`,
+  `color psychology in logo design`,
+  `progressive web apps vs native mobile apps`,
+  `why professional graphic design matters for your brand`,
+  `digital marketing and its relationship with graphic design`,
+  `wordpress vs custom web development which is right for you`,
+  `mobile first design approach explained`,
+  `web development stack for small businesses`,
+  `importance of visual identity for startups`,
+  `how to build a brand from scratch with design`,
 ];
+
+// ---------------------------------------------------------------------------
+// Fetch a relevant trending keyword from Google Trends – Australia (geo: AU)
+// Falls back to the static pool on any error.
+// ---------------------------------------------------------------------------
+const TREND_SEED_KEYWORDS = [
+  "graphic design",
+  "web development",
+  "logo design",
+  "website design",
+  "mobile app development",
+  "social media marketing",
+  "brand identity",
+  "ecommerce website",
+];
+
+async function fetchAuTrendingKeyword(): Promise<string | null> {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const googleTrends = require("google-trends-api") as {
+      relatedQueries: (opts: Record<string, unknown>) => Promise<string>;
+    };
+    const seed =
+      TREND_SEED_KEYWORDS[
+        Math.floor(Math.random() * TREND_SEED_KEYWORDS.length)
+      ];
+    const raw = await googleTrends.relatedQueries({
+      keyword: seed,
+      geo: "AU",
+      startTime: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // last 7 days
+    });
+    const data = JSON.parse(raw) as {
+      default?: {
+        rankedList?: Array<{ rankedKeyword?: Array<{ query: string }> }>;
+      };
+    };
+    const topList = data?.default?.rankedList ?? [];
+    // rankedList[0] = top queries, rankedList[1] = rising queries
+    for (const list of topList) {
+      const queries = list.rankedKeyword ?? [];
+      if (queries.length > 0) {
+        const keyword = queries[0].query.trim();
+        if (keyword) return keyword;
+      }
+    }
+  } catch {
+    // Google Trends fetch failed – will fall back to static pool
+  }
+  return null;
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -96,7 +151,7 @@ export async function POST(req: NextRequest) {
     }
 
     // -----------------------------------------------------------------------
-    // 3. Auto-select keyword for cron jobs
+    // 3. Auto-select keyword for cron jobs (Google Trends AU → fallback pool)
     // -----------------------------------------------------------------------
     if (!keyword) {
       if (!isCron) {
@@ -105,9 +160,11 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
       }
+      const auTrend = await fetchAuTrendingKeyword();
       keyword =
-        TRENDING_KEYWORDS[
-          Math.floor(Math.random() * TRENDING_KEYWORDS.length)
+        auTrend ??
+        FALLBACK_KEYWORDS[
+          Math.floor(Math.random() * FALLBACK_KEYWORDS.length)
         ];
       topic = keyword;
     }
@@ -151,6 +208,8 @@ export async function POST(req: NextRequest) {
     // 6. Generate SEO blog content – Gemini 1.5 Flash
     // -----------------------------------------------------------------------
     const contentPrompt = `You are a senior SEO content writer for CS Graphic Meta, a professional Development Agency based in Australia that specialises in Graphic Design, Web Development, and Mobile App Development.
+
+IMPORTANT: The current year is ${CURRENT_YEAR}. Always use ${CURRENT_YEAR} for any year-specific references in titles, headings, and content. Do NOT use any previous years (e.g. 2025 or earlier) in titles or headings.
 
 Write a comprehensive, SEO-optimised blog post targeting the keyword: "${keyword}"
 Topic context: "${topic}"
@@ -296,7 +355,6 @@ STRICT FORMATTING RULES (follow exactly):
       contentHtml,
       metaDescription,
       imageKitUrl,
-      isAutoGenerated: isCron,
       published: true,
       createdAt: new Date(),
     };
@@ -323,69 +381,6 @@ STRICT FORMATTING RULES (follow exactly):
     const message =
       error instanceof Error ? error.message : "Unknown error";
     console.error("[generate-blog] Fatal error:", error);
-    return NextResponse.json(
-      { error: "Internal server error", details: message },
-      { status: 500 }
-    );
-  }
-}
-
-/**
- * DELETE /api/generate-blog?keep=30
- * Keeps only the latest N auto-generated posts and deletes older ones.
- */
-export async function DELETE(req: NextRequest) {
-  try {
-    if (!isAuthorizedCronRequest(req)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const keepRaw = req.nextUrl.searchParams.get("keep") ?? "30";
-    const parsedKeep = Number.parseInt(keepRaw, 10);
-    const keep = Number.isNaN(parsedKeep)
-      ? 30
-      : Math.min(500, Math.max(0, parsedKeep));
-
-    const mongoClient = await clientPromise;
-    const db = mongoClient.db(
-      process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce"
-    );
-    const collection = db.collection("blog_posts");
-
-    const postsToDelete = await collection
-      .find(
-        { isAutoGenerated: true },
-        { projection: { _id: 1 } }
-      )
-      .sort({ createdAt: -1, _id: -1 })
-      .skip(keep)
-      .toArray();
-
-    if (postsToDelete.length === 0) {
-      return NextResponse.json({
-        success: true,
-        keep,
-        deletedCount: 0,
-        message: "No old auto-generated posts to delete.",
-      });
-    }
-
-    const ids = postsToDelete.map((post) => post._id);
-    const result = await collection.deleteMany({
-      _id: { $in: ids },
-      isAutoGenerated: true,
-    });
-
-    return NextResponse.json({
-      success: true,
-      keep,
-      deletedCount: result.deletedCount ?? 0,
-      message: "Old auto-generated posts were deleted successfully.",
-    });
-  } catch (error: unknown) {
-    const message =
-      error instanceof Error ? error.message : "Unknown error";
-    console.error("[generate-blog:cleanup] Fatal error:", error);
     return NextResponse.json(
       { error: "Internal server error", details: message },
       { status: 500 }
