@@ -118,7 +118,7 @@ const HeroSection = () => {
             transition={{ delay: 0.2 }}
           >
             <h2 className="text-5xl sm:text-xl lg:text-6xl text-white  leading-[1.1] tracking-tight">
-              <span className='font-semibold'>One Stop</span> <br />
+              <span className='text-5xl sm:text-xl lg:text-8xl font-semibold'>One Stop</span> <br />
               <span className="text-[#bb8d03fc] font-semibold">Graphic , Web & Marketing</span> <span className=" font-semibold">Solutions</span>
               <br />
               <span className="text-white/90 text-4xl sm:text-lg lg:text-3xl mt-4 block font-semibold">We Provide Everything Your Brand Needs to Grow</span>

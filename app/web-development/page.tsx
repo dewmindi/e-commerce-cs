@@ -44,7 +44,7 @@ const webDevelopmentContent : CategoryPageContent = {
             title: 'Standard',
             price: '$650',
             features: [
-                { text: 'Up to 7 - 10 pages', type: 'feature' },
+                { text: 'Up to 7 pages', type: 'feature' },
                 { text: 'Responsive design (mobile-friendly)', type: 'feature' },
                 { text: 'Basic SEO setup (meta tags, sitemap)', type: 'feature' },
                 { text: 'Modern UI/UX design', type: 'feature' },
@@ -61,7 +61,7 @@ const webDevelopmentContent : CategoryPageContent = {
             title: 'Premium',
             price: '$890',
             features: [
-                { text: 'Up to 15 pages', type: 'feature' },
+                { text: 'Up to 12 pages', type: 'feature' },
                 { text: 'Responsive design (mobile-friendly)', type: 'feature' },
                 { text: 'Basic SEO setup (meta tags, sitemap)', type: 'feature' },
                 { text: 'Modern UI/UX design', type: 'feature' },

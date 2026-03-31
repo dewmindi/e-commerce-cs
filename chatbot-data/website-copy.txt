@@ -846,16 +846,60 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+let cachedWebsiteContext = "";
+
+function getWebsiteContext() {
+  if (cachedWebsiteContext) return cachedWebsiteContext;
+  const filePath = path.join(process.cwd(), "chatbot-data", "website-copy.txt");
+  cachedWebsiteContext = fs.readFileSync(filePath, "utf-8");
+  return cachedWebsiteContext;
+}
+
+function tokenize(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((t) => t.length > 2)
+    .slice(0, 40);
+}
+
+function getRelevantContext(fullContext: string, query: string) {
+  const sections = fullContext
+    .split(/\n\n--- FILE: .*? ---\n\n/g)
+    .filter(Boolean);
+
+  const queryTokens = new Set(tokenize(query));
+  const scored = sections.map((section) => {
+    const lowered = section.toLowerCase();
+    let score = 0;
+    for (const token of queryTokens) {
+      if (lowered.includes(token)) score += 1;
+    }
+    return { section, score };
+  });
+
+  const best = scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 6)
+    .map((s) => s.section)
+    .join("\n\n");
+
+  return best.slice(0, 35000);
+}
+
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json(); // Expecting messages array: [{ role: 'user', content: '...' }]
-    const userMessage = messages[messages.length - 1].content;
-    
-    // Format history for context. Note: Gemini API handles history differently in chat sessions,
-    // but for simple completion with context, we can append previous QA pairs to prompt or use startChat.
-    // For simplicity with large context, we'll just append the latest question, or maybe last few.
-    
-    const history = messages.slice(0, -1).map((m: any) => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`).join('\n');
+    const { messages } = await req.json();
+    const userMessage = messages[messages.length - 1]?.content || "";
+    const recentHistory = messages
+      .slice(-6, -1)
+      .map((m: any) => {
+        const role = m.role === "user" ? "User" : "Assistant";
+        const content = String(m.content || "").slice(0, 400);
+        return `${role}: ${content}`;
+      })
+      .join("\n");
 
 
     const apiKey = process.env.NEXT_GEMINI_API_KEY;
@@ -867,47 +911,37 @@ export async function POST(req: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
-    // Read the website content
-    const filePath = path.join(process.cwd(), "chatbot-data", "website-copy.txt");
     let websiteContext = "";
     try {
-      websiteContext = fs.readFileSync(filePath, "utf-8");
+      websiteContext = getWebsiteContext();
     } catch (error) {
       console.error("Error reading website context:", error);
-      // Fallback or error if context is strictly required
     }
 
-    const prompt = `
-You are a helpful AI assistant for this website. 
-Here is the content of the website:
-
-<website_content>
-${websiteContext.slice(0, 500000)} 
-</website_content>
-(Note: Content truncated if too long, though Gemini 1.5 context window is large)
-
-Answer the user's question based on the website content provided above. 
-If the answer is not in the content, politely say you don't have that information.
-Keep your answers concise and relevant to the user's question.
-
-User Question: ${userMessage}
-`; 
-// Actually using the full history in prompt
+    const relevantContext = getRelevantContext(websiteContext, userMessage);
     const fullPrompt = `
 You are a helpful AI assistant for this website. 
 Here is the content of the website:
 
 <website_content>
-${websiteContext.slice(0, 500000)} 
+${relevantContext} 
 </website_content>
 
 Answer the user's question based on the website content provided above. 
-Keep your answers concise and relevant.
+    
+Guidelines for your response:
+1. Be concise and get straight to the point.
+2. Use short paragraphs (max 2-3 sentences).
+3. Use bullet points or numbered lists where appropriate to break up text.
+4. Use bold text for key terms or important emphasis.
+5. If the answer involves steps, use a numbered list.
+6. If the user greets you, greet them back briefly.
+7. If the answer is not in the content, politely say you don't have that information.
 
 Conversation History:
-${history}
+${recentHistory}
 
 User Question: ${userMessage}
 `;
@@ -7785,7 +7819,7 @@ export default CategoryPageTemplate;
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircleMore, X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
@@ -7796,6 +7830,7 @@ interface Message {
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: "bot", content: "Hi! How can I help you today?" },
   ]);
@@ -7810,6 +7845,13 @@ export default function ChatBot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOpen]);
+
+  useEffect(() => {
+    const updateMobileState = () => setIsMobile(window.innerWidth < 640);
+    updateMobileState();
+    window.addEventListener("resize", updateMobileState);
+    return () => window.removeEventListener("resize", updateMobileState);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -7851,19 +7893,20 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end pointer-events-none">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] flex flex-col items-end pointer-events-none">
       <div className="pointer-events-auto">
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={isMobile ? { opacity: 0, y: 8 } : { opacity: 0, scale: 0.94, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg shadow-2xl flex flex-col overflow-hidden"
+              exit={isMobile ? { opacity: 0, y: 8 } : { opacity: 0, scale: 0.96, y: 10 }}
+              transition={{ duration: 0.16 }}
+              className="mb-3 sm:mb-4 w-[calc(100vw-1rem)] sm:w-[400px] max-w-[400px] h-[68vh] sm:h-[500px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               {/* Header */}
               <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 flex justify-between items-center text-zinc-900 dark:text-zinc-50">
-                <h3 className="font-semibold">Chat Assistant</h3>
+                <h3 className="font-semibold">CS Graphic Meta</h3>
                 <button 
                   onClick={() => setIsOpen(false)} 
                   className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-full transition-colors"
@@ -7879,13 +7922,23 @@ export default function ChatBot() {
                     <div
                       className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm shadow-sm ${
                         m.role === "user"
-                          ? "bg-blue-600 text-white"
+                          ? "bg-[#bb8d03fc] text-white"
                           : "bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700"
                       }`}
                     >
-                      <ReactMarkdown className="prose dark:prose-invert max-w-none text-inherit leading-relaxed">
-                        {m.content}
-                      </ReactMarkdown>
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                        <ReactMarkdown
+                          components={{
+                            ul: ({ ...props }) => <ul className="list-disc list-inside my-2 space-y-1" {...props} />,
+                            ol: ({ ...props }) => <ol className="list-decimal list-inside my-2 space-y-1" {...props} />,
+                            p: ({ ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                            strong: ({ ...props }) => <strong className="font-semibold" {...props} />,
+                            a: ({ ...props }) => <a className="text-blue-600 underline" {...props} />,
+                          }}
+                        >
+                          {m.content}
+                        </ReactMarkdown>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -7912,7 +7965,7 @@ export default function ChatBot() {
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="bg-blue-600 text-white p-2.5 rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-colors flex items-center justify-center aspect-square"
+                  className="bg-[#fcb617] text-white p-2.5 rounded-full hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-colors flex items-center justify-center aspect-square"
                 >
                   <Send size={16} className={input.trim() ? "ml-0.5" : ""} />
                 </button>
@@ -7925,9 +7978,10 @@ export default function ChatBot() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center ml-auto"
+          className="bg-[#c69a10] text-white h-14 w-14 rounded-md shadow-lg hover:bg-[#b88f0f] transition-colors flex items-center justify-center ml-auto border border-[#a8810d]"
+          aria-label="Toggle chat"
         >
-          {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+          {isOpen ? <X size={24} /> : <MessageCircleMore size={26} strokeWidth={2.2} />}
         </motion.button>
       </div>
     </div>
@@ -9907,14 +9961,14 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-5xl sm:text-xl lg:text-5xl text-white  leading-[1.1] tracking-tight">
+            <h2 className="text-5xl sm:text-xl lg:text-6xl text-white  leading-[1.1] tracking-tight">
               <span className='font-semibold'>One Stop</span> <br />
               <span className="text-[#bb8d03fc] font-semibold">Graphic , Web & Marketing</span> <span className=" font-semibold">Solutions</span>
               <br />
-              <span className="text-white/90 text-4xl sm:text-lg lg:text-3xl mt-4 block font-light">We Provide Everything Your Brand Needs to Grow</span>
+              <span className="text-white/90 text-4xl sm:text-lg lg:text-3xl mt-4 block font-semibold">We Provide Everything Your Brand Needs to Grow</span>
             </h2>  
-            <h1 className="  leading-[1.1]">  
-              <span className="text-white/90 sm:text-sm lg:text-xl mt-4 block font-light">Top - Rated Design & Web Development Agency in Australia</span>
+            <h1 className="text-white/90 sm:text-sm lg:text-lg mt-4 block font-light ">  
+              We are a Top - Rated Design & Web Development Agency in <span className='font-semibold'>Australia</span>
             </h1>
           </motion.div>
           

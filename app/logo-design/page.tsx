@@ -37,7 +37,7 @@ const logoContent: CategoryPageContent = {
             title: 'Standard',
             price: '$75',
             features: [
-                { text: '2 Super Amazing Logo Concepts', type: 'feature' },
+                { text: 'Up to 2 Super Amazing Logo Concepts', type: 'feature' },
                 { text: 'Transparency File (PNG)', type: 'feature' },
                 { text: 'Revisions - 6', type: 'feature' },
                 { text: 'Raster Based File Sets', type: 'feature' },
@@ -51,6 +51,7 @@ const logoContent: CategoryPageContent = {
             title: 'Premium',
             price: '$100',
             features: [
+                { text: 'Up to 3 top notch Quality Concepts', type: 'feature' },
                 { text: 'Transparency File (png)', type: 'feature' },
                 { text: 'Printable File', type: 'feature' },
                 { text: 'Revisions - Unlimited', type: 'feature' },
@@ -64,6 +65,7 @@ const logoContent: CategoryPageContent = {
             title: 'Cooperative',
             price: '$175',
             features: [
+                { text: 'Up to 3 top notch Quality Concepts', type: 'feature' },
                 { text: 'Transparency File (png)', type: 'feature' },
                 { text: 'Printable File', type: 'feature' },
                 { text: 'Revisions - Unlimited', type: 'feature' },
