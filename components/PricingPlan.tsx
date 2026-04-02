@@ -29,7 +29,7 @@ const pricingPlans = [
   },
   {
     name: "Premium (Logo)",
-    price: "100",
+    price: "10",
     period: "",
     overview: "Up to 3 top-notch quality Concepts With Unlimited Revisions",
     featureGroups: [
