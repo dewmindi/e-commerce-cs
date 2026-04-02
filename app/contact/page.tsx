@@ -32,11 +32,11 @@ const contactDetails = [
     value: "info@csgraphicmeta.com.au",
     href: "mailto:info@csgraphicmeta.com.au",
   },
-  {
-    icon: <Clock className="w-6 h-6 text-[#bb8d03fc]" />,
-    label: "Business Hours",
-    value: "Mon – Fri: 9:00 AM – 6:00 PM AEST",
-  },
+  // {
+  //   icon: <Clock className="w-6 h-6 text-[#bb8d03fc]" />,
+  //   label: "Business Hours",
+  //   value: "Mon – Fri: 9:00 AM – 6:00 PM AEST",
+  // },
 ];
 
 const socialLinks = [
@@ -55,20 +55,20 @@ const socialLinks = [
     href: "https://www.linkedin.com/company/csgraphicmeta",
     icon: <Linkedin className="w-5 h-5" />,
   },
-  {
-    label: "X",
-    href: "https://x.com/csgraphicmeta",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="w-5 h-5"
-        aria-hidden="true"
-      >
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25h6.977l4.256 5.628zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
-  },
+  // {
+  //   label: "X",
+  //   href: "https://x.com/csgraphicmeta",
+  //   icon: (
+  //     <svg
+  //       viewBox="0 0 24 24"
+  //       fill="currentColor"
+  //       className="w-5 h-5"
+  //       aria-hidden="true"
+  //     >
+  //       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25h6.977l4.256 5.628zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  //     </svg>
+  //   ),
+  // },
 ];
 
 export default function ContactPage() {
@@ -94,7 +94,7 @@ export default function ContactPage() {
 
       {/* Quick Info Cards */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-[#111111]">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {contactDetails.map((item) => (
             <div
               key={item.label}

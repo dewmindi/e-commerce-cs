@@ -33,7 +33,7 @@ jobs:
   generate:
     name: Generate & Publish Blog Post
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       # ----------------------------------------------------------
@@ -67,7 +67,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '${{ steps.payload.outputs.body }}' \
-            --max-time 120)
+            --max-time 300)
 
           echo "HTTP Status: $HTTP_STATUS"
           echo "Response:"
