@@ -31,9 +31,15 @@ jobs:
             echo "Starting deployment..."
 
             cd /home/csgraphicmeta/htdocs/csgraphicmeta.com.au
+            
+            echo "Fetching all branches..."
+            git fetch --all
 
             echo "Fetch latest code"
             git fetch origin
+
+            echo "Switching to main branch..."
+            git checkout main
 
             echo "Reset to latest main"
             git reset --hard origin/main
