@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Packaging, Label & Sticker Design Melbourne',
+  description: 'Professional packaging, label, and sticker design in Melbourne. Stand out on shelves with eye-catching designs. Unlimited revisions, print-ready files included.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/label-design` },
+  openGraph: {
+    title: 'Packaging, Label & Sticker Design Melbourne',
+    description: 'Professional packaging, label, and sticker design in Melbourne. Stand out on shelves.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/label-design`,
+    type: 'website',
+  },
+};
 
 const businessCardContent: CategoryPageContent = {
     pageTitle: 'Packaging, Label & Sticker Design',

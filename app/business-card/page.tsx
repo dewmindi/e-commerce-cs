@@ -1,5 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
 
+export const metadata: Metadata = {
+  title: 'Business Card Design Services Melbourne',
+  description: 'Professionally designed business cards that make a lasting first impression. Affordable pricing, premium quality, fast delivery across Melbourne & Hallam.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/business-card` },
+  openGraph: {
+    title: 'Business Card Design Services Melbourne',
+    description: 'Professionally designed business cards that make a lasting first impression.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/business-card`,
+    type: 'website',
+  },
+};
 
 const businessCardContent: CategoryPageContent = {
   pageTitle: 'Business Card Design',

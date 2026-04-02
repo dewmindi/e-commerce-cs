@@ -32,12 +32,20 @@ const ReviewList: React.FC<ReviewListProps> = ({
     const fetchReviews = async () => {
       try {
         const res = await fetch("/api/reviews", { cache: "no-store" });
-        let data: Review[] = await res.json();
+        const rawData = await res.json();
+        if (!res.ok) {
+          console.error("Error fetching reviews:", rawData?.error || `HTTP ${res.status}`);
+          setReviews([]);
+          return;
+        }
+
+        let data: Review[] = Array.isArray(rawData) ? rawData : [];
         data = data.sort((a, b) => (a._id < b._id ? -1 : 1));
         if (limit) data = data.slice(0, limit);
         setReviews(data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
+        setReviews([]);
       }
     };
     fetchReviews();

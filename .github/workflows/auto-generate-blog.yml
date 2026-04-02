@@ -2,8 +2,8 @@
 #  Auto-Generate SEO Blog Post  |  CS Graphic Meta
 # ============================================================
 #
-#  Schedule:  Every day at 02:00 UTC and 14:00 UTC
-#             (07:30 AM and 07:30 PM Sri Lanka time)
+#  Schedule:  Every day at 22:00 UTC and 10:00 UTC
+#             (08:00 AM and 08:00 PM AEST - Australia)
 #
 #  Secrets required in GitHub → Settings → Secrets → Actions:
 #    SITE_URL          → https://csgraphicmeta.com.au
@@ -17,7 +17,7 @@ name: Auto Generate Blog Post
 on:
   schedule:
     #        min hour dom month dow
-    - cron: "0 2,14 * * *"      # Daily at 02:00 and 14:00 UTC
+    - cron: "0 22,10 * * *"     # Daily at 22:00 and 10:00 UTC
   workflow_dispatch:             # Allow manual trigger from GitHub UI
     inputs:
       keyword:
@@ -33,7 +33,7 @@ jobs:
   generate:
     name: Generate & Publish Blog Post
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       # ----------------------------------------------------------
@@ -67,7 +67,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '${{ steps.payload.outputs.body }}' \
-            --max-time 120)
+            --max-time 300)
 
           echo "HTTP Status: $HTTP_STATUS"
           echo "Response:"
@@ -87,35 +87,7 @@ jobs:
           fi
 
       # ----------------------------------------------------------
-      # Step 3: Cleanup old auto-generated posts
-      # ----------------------------------------------------------
-      - name: Cleanup old auto-generated posts
-        run: |
-          echo "🧹 Running cleanup for older auto-generated posts..."
-
-          KEEP_COUNT="${{ vars.BLOG_KEEP_COUNT }}"
-          if [ -z "$KEEP_COUNT" ]; then
-            KEEP_COUNT="30"
-          fi
-
-          HTTP_STATUS=$(curl -s -o cleanup_response.json -w "%{http_code}" \
-            -X DELETE "${{ secrets.SITE_URL }}/api/generate-blog?keep=${KEEP_COUNT}" \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET_TOKEN }}" \
-            --max-time 120)
-
-          echo "Cleanup HTTP Status: $HTTP_STATUS"
-          echo "Cleanup Response:"
-          cat cleanup_response.json | python3 -m json.tool 2>/dev/null || cat cleanup_response.json
-
-          if [ "$HTTP_STATUS" = "200" ]; then
-            echo "✅ Cleanup completed. Keeping latest ${KEEP_COUNT} auto-generated posts."
-          else
-            echo "❌ Cleanup failed with HTTP status: $HTTP_STATUS"
-            exit 1
-          fi
-
-      # ----------------------------------------------------------
-      # Step 4: Summary
+      # Step 3: Summary
       # ----------------------------------------------------------
       - name: Job summary
         if: always()
@@ -125,5 +97,4 @@ jobs:
           echo "- **Site:** ${{ secrets.SITE_URL }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Keyword input:** ${{ github.event.inputs.keyword || 'auto-selected' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Blog retention (auto-generated):** ${{ vars.BLOG_KEEP_COUNT || '30' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Time (UTC):** $(date -u)" >> $GITHUB_STEP_SUMMARY

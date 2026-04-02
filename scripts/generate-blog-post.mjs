@@ -50,19 +50,24 @@ function parseArgs() {
 }
 
 // ---------------------------------------------------------------------------
-// Keyword pool (same as API route)
+// Current year – ensures generated content uses the correct year
+// ---------------------------------------------------------------------------
+const CURRENT_YEAR = new Date().getFullYear();
+
+// ---------------------------------------------------------------------------
+// Fallback keyword pool (used when Google Trends AU fetch fails)
 // ---------------------------------------------------------------------------
 const TRENDING_KEYWORDS = [
   "logo design tips for startups",
-  "why your business needs a professional website",
+  `why your business needs a professional website in ${CURRENT_YEAR}`,
   "mobile app development cost breakdown",
-  "graphic design trends 2025",
+  `graphic design trends ${CURRENT_YEAR}`,
   "ecommerce website development guide",
   "social media branding for small businesses",
   "custom web development vs website builders",
   "responsive website design importance",
   "brand identity design process",
-  "ui ux design best practices",
+  `ui ux design best practices for ${CURRENT_YEAR}`,
   "how to choose a web development agency",
   "color psychology in logo design",
   "progressive web apps vs native mobile apps",
@@ -74,6 +79,44 @@ const TRENDING_KEYWORDS = [
   "importance of visual identity for startups",
   "how to build a brand from scratch with design",
 ];
+
+// ---------------------------------------------------------------------------
+// Google Trends AU – fetch a relevant trending keyword for Australia
+// ---------------------------------------------------------------------------
+const TREND_SEEDS = [
+  "graphic design",
+  "web development",
+  "logo design",
+  "website design",
+  "mobile app development",
+  "social media marketing",
+  "brand identity",
+  "ecommerce website",
+];
+
+async function fetchAuTrendingKeyword() {
+  try {
+    const { default: googleTrends } = await import("google-trends-api");
+    const seed = TREND_SEEDS[Math.floor(Math.random() * TREND_SEEDS.length)];
+    const raw = await googleTrends.relatedQueries({
+      keyword: seed,
+      geo: "AU",
+      startTime: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    });
+    const data = JSON.parse(raw);
+    const topList = data?.default?.rankedList ?? [];
+    for (const list of topList) {
+      const queries = list.rankedKeyword ?? [];
+      if (queries.length > 0) {
+        const kw = queries[0].query?.trim();
+        if (kw) return kw;
+      }
+    }
+  } catch {
+    // Google Trends unavailable – fall through to static pool
+  }
+  return null;
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -97,7 +140,12 @@ function stripHtml(html) {
 (async () => {
   const { keyword: cliKeyword, topic: cliTopic } = parseArgs();
 
-  let keyword = cliKeyword || TRENDING_KEYWORDS[Math.floor(Math.random() * TRENDING_KEYWORDS.length)];
+  // Try Google Trends AU first; fall back to static pool
+  const auTrend = cliKeyword ? null : await fetchAuTrendingKeyword();
+  let keyword = cliKeyword || auTrend || TRENDING_KEYWORDS[Math.floor(Math.random() * TRENDING_KEYWORDS.length)];
+  if (auTrend && !cliKeyword) {
+    console.log(`  Source  : Google Trends AU → "${auTrend}"`);
+  }
   let topic   = cliTopic   || keyword;
 
   const DB_URI    = process.env.NODE_ENV === "production"
@@ -144,6 +192,8 @@ function stripHtml(html) {
   const startText = Date.now();
 
   const contentPrompt = `You are a senior SEO content writer for CS Graphic Meta, a professional Development Agency based in Australia that specialises in Graphic Design, Web Development, and Mobile App Development.
+
+IMPORTANT: The current year is ${CURRENT_YEAR}. Always use ${CURRENT_YEAR} for any year-specific references in titles, headings, and content. Do NOT use any previous years (e.g. 2025 or earlier) in titles or headings.
 
 Write a comprehensive, SEO-optimised blog post targeting the keyword: "${keyword}"
 Topic context: "${topic}"

@@ -1,5 +1,18 @@
 
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Custom Web Application Development Melbourne',
+  description: 'Bespoke web application development in Melbourne. We build scalable, secure, and high-performance custom web apps for businesses of all sizes.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/custom-web-development` },
+  openGraph: {
+    title: 'Custom Web Application Development Melbourne',
+    description: 'Bespoke web application development in Melbourne. Scalable and high-performance custom web apps.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/custom-web-development`,
+    type: 'website',
+  },
+};
 
 const customWebAppContent: CategoryPageContent = {
     pageTitle: 'Custom Web Applications',

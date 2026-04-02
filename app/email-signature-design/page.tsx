@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+
+export const metadata: Metadata = {
+  title: 'Email Signature Design Services Melbourne',
+  description: 'Custom professional email signature design in Melbourne. Strengthen your brand in every email you send. Affordable, fast, and unlimited revisions.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/email-signature-design` },
+  openGraph: {
+    title: 'Email Signature Design Services Melbourne',
+    description: 'Custom professional email signature design in Melbourne.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/email-signature-design`,
+    type: 'website',
+  },
+};
 
 const emailSignDesugnContent: CategoryPageContent = {
     pageTitle: 'Email Signature Design',

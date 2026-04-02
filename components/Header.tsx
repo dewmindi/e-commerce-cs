@@ -205,14 +205,13 @@ const Header = () => {
     const navItems = [
         { name: "Home", section: "" },
         { name: "About", link: "/about" },
-        { name: "Blog", link: "/blog" },
-
         { customComponent: <ServicesDropdown /> },
 
         { name: "Portfolio", section: "portfolio" },
         { name: "Pricing", section: "packages" },
+        { name: "Blog", link: "/blog" },
         { name: "FAQ", section: "faq" },
-        { name: "Contact", section: "contact" },
+        { name: "Contact", link: "/contact" },
         { name: "Get Quote", link: "/quotation" },
     ];
 
@@ -504,7 +503,7 @@ const Header = () => {
                     <button
                         onClick={() => {
                             setIsOpen(false)
-                            scrollToSection("contact")
+                            router.push("/contact")
                         }}
                         className="py-2 text-left w-full"
                     >

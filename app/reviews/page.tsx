@@ -1,6 +1,19 @@
+import type { Metadata } from 'next';
 import FooterNew from "@/components/FooterNew";
 import Header from "@/components/Header";
 import ReviewCard from "@/components/ReviewCard";
+
+export const metadata: Metadata = {
+  title: 'Customer Reviews | CS Graphic Meta',
+  description: 'Read real reviews from our satisfied clients across Melbourne and Australia. See why 5,000+ businesses trust CS Graphic Meta for design and web development.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/reviews` },
+  openGraph: {
+    title: 'Customer Reviews | CS Graphic Meta',
+    description: 'Read real reviews from our satisfied clients across Melbourne and Australia.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://csgraphicmeta.com.au'}/reviews`,
+    type: 'website',
+  },
+};
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -51,8 +64,11 @@ export default async function ReviewsPage() {
         });
 
         const data = await res.json();
-        console.log("Review Page:",data); // add this to check what you are actually receiving
-        return data;
+        if (!res.ok) {
+            console.error("Review API error:", data?.error || `HTTP ${res.status}`);
+            return [];
+        }
+        return Array.isArray(data) ? data : [];
     }
     const reviews = await getReviews();
 

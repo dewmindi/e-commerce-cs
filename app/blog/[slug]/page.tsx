@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "@/components/Header";
 import FooterNew from "@/components/FooterNew";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb-products";
 import { Calendar, Tag, ArrowLeft, Share2 } from "lucide-react";
 
 // --------------------------------------------------------------------------
@@ -26,15 +25,20 @@ interface BlogPost {
 // Data helpers
 // --------------------------------------------------------------------------
 async function getPost(slug: string): Promise<BlogPost | null> {
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-  const raw = await db.collection("blog_posts").findOne({ slug, published: true });
-  if (!raw) return null;
-  return {
-    ...raw,
-    _id: raw._id.toString(),
-    createdAt: raw.createdAt?.toISOString?.() ?? raw.createdAt,
-  } as BlogPost;
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
+    const raw = await db.collection("blog_posts").findOne({ slug, published: true });
+    if (!raw) return null;
+    return {
+      ...raw,
+      _id: raw._id.toString(),
+      createdAt: raw.createdAt?.toISOString?.() ?? raw.createdAt,
+    } as BlogPost;
+  } catch (err) {
+    console.error("[blog/slug] getPost error:", err);
+    return null;
+  }
 }
 
 interface RelatedPost {
@@ -46,32 +50,37 @@ interface RelatedPost {
 }
 
 async function getRelatedPosts(keyword: string, currentSlug: string, limit = 3): Promise<RelatedPost[]> {
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-  const words = keyword.split(" ").slice(0, 2).join("|");
-  const rawPosts = await db
-    .collection("blog_posts")
-    .find(
-      {
-        published: true,
-        slug: { $ne: currentSlug },
-        $or: [
-          { keyword: { $regex: words, $options: "i" } },
-          { title: { $regex: words, $options: "i" } },
-        ],
-      },
-      { projection: { contentHtml: 0 } }
-    )
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .toArray();
-  return rawPosts.map((p) => ({
-    _id: p._id.toString(),
-    title: (p.title as string) ?? "",
-    slug: (p.slug as string) ?? "",
-    imageKitUrl: (p.imageKitUrl as string) ?? "",
-    createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
-  }));
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
+    const words = keyword.split(" ").slice(0, 2).join("|");
+    const rawPosts = await db
+      .collection("blog_posts")
+      .find(
+        {
+          published: true,
+          slug: { $ne: currentSlug },
+          $or: [
+            { keyword: { $regex: words, $options: "i" } },
+            { title: { $regex: words, $options: "i" } },
+          ],
+        },
+        { projection: { contentHtml: 0 } }
+      )
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .toArray();
+    return rawPosts.map((p) => ({
+      _id: p._id.toString(),
+      title: (p.title as string) ?? "",
+      slug: (p.slug as string) ?? "",
+      imageKitUrl: (p.imageKitUrl as string) ?? "",
+      createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
+    }));
+  } catch (err) {
+    console.error("[blog/slug] getRelatedPosts error:", err);
+    return [];
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -235,12 +244,11 @@ export default async function BlogPostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <Header />
 
       {/* ------------------------------------------------------------------ */}
       {/* Hero / Feature image */}
       {/* ------------------------------------------------------------------ */}
-      <div className="relative w-full h-[40vh] sm:h-[50vh] lg:h-[60vh] bg-gray-900 overflow-hidden">
+      <div className="relative w-full h-[60vh] sm:h-[50vh] lg:h-[60vh] bg-gray-900 overflow-hidden">
         {post.imageKitUrl ? (
           <Image
             src={post.imageKitUrl}
@@ -257,13 +265,13 @@ export default async function BlogPostPage({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f16] via-[#0b0f16]/60 to-transparent" />
 
         {/* Title overlay */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-10 sm:pb-14 max-w-4xl mx-auto">
+        <div className="absolute  bottom-0 left-0 right-0 px-4 pb-10 sm:pb-14 max-w-4xl mx-auto">
           <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs text-gray-400">
             <Link href="/" className="hover:text-[#bb8d03] transition-colors">Home</Link>
             <span>/</span>
             <Link href="/blog" className="hover:text-[#bb8d03] transition-colors">Blog</Link>
             <span>/</span>
-            <span className="text-gray-1-00 line-clamp-1">{post.title}</span>
+            <span className="text-gray-100 line-clamp-1">{post.title}</span>
           </nav>
 
           <div className="flex items-center gap-2 mb-3">
@@ -297,11 +305,11 @@ export default async function BlogPostPage({
               <span className="text-gray-600">·</span>
               <span>By CS Graphic Meta</span>
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
+                href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-auto flex items-center gap-1.5 text-gray-400 hover:text-[#bb8d03] transition-colors"
-                aria-label="Share on Twitter"
+                aria-label="Share on X"
               >
                 <Share2 className="w-4 h-4" /> Share
               </a>
@@ -404,12 +412,12 @@ export default async function BlogPostPage({
                   LinkedIn
                 </a>
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
+                  href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(canonical)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 text-center text-xs font-semibold py-2 rounded-lg bg-gray-700/50 text-gray-300 hover:bg-gray-700 transition-colors"
                 >
-                  Twitter
+                  𝕏
                 </a>
               </div>
             </div>
