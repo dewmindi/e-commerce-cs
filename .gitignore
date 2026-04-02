@@ -25,3 +25,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.tsconfig/service-account-key.json
+
+# process manager config
+ecosystem.config.js
