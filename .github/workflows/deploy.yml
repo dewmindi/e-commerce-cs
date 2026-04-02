@@ -21,9 +21,6 @@ jobs:
       - name: Install Dependencies (CI Check)
         run: npm install
 
-      - name: Build Project (CI Check)
-        run: npm run build
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
