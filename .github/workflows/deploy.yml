@@ -30,6 +30,9 @@ jobs:
           script: |
             echo "Starting deployment..."
 
+            # Add Node, npm, PM2 from NVM to PATH
+            export PATH=$PATH:/home/csgraphicmeta/.nvm/versions/node/v22.21.1/bin
+
             cd /home/csgraphicmeta/htdocs/csgraphicmeta.com.au
             
             echo "Fetching all branches..."
@@ -41,7 +44,8 @@ jobs:
             echo "Switching to main branch..."
             git checkout main
 
-            git pull origin main
+            echo "Reset to latest main"
+            git reset --hard origin/main
 
             echo "Install dependencies"
             npm install
