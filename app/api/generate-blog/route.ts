@@ -240,22 +240,36 @@ STRICT FORMATTING RULES (follow exactly):
       `Incorporate subtle visual metaphors related to graphic design, web development, or mobile app development. ` +
       `No text, watermarks, or overlays in the image.`;
 
-    // Run text generation and image generation concurrently
+    // Helper: wrap a promise with a hard timeout so a slow image model
+    // can never block the entire response.
+    function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+      return Promise.race([
+        promise,
+        new Promise<null>((resolve) => setTimeout(() => resolve(null), ms)),
+      ]);
+    }
+
+    // Run text generation and image generation concurrently.
+    // Image generation is capped at 90 s – if it exceeds that we skip the
+    // image rather than timing out the whole request.
     const [textResult, imgResult] = await Promise.all([
       genAI.models.generateContent({
         model: "gemini-2.5-flash",
         contents: contentPrompt,
       }),
-      genAI.models
-        .generateContent({
-          model: "gemini-2.0-flash-preview-image-generation",
-          contents: imagePromptText,
-          config: { responseModalities: ["IMAGE"] },
-        })
-        .catch((err) => {
-          console.error("[generate-blog] Image generation failed:", err);
-          return null;
-        }),
+      withTimeout(
+        genAI.models
+          .generateContent({
+            model: "gemini-2.0-flash-preview-image-generation",
+            contents: imagePromptText,
+            config: { responseModalities: ["IMAGE"] },
+          })
+          .catch((err) => {
+            console.error("[generate-blog] Image generation failed:", err);
+            return null;
+          }),
+        90_000, // 90-second cap for image generation
+      ),
     ]);
 
     const rawContent: string = textResult.text ?? "";
