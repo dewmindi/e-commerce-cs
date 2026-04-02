@@ -41,6 +41,8 @@ jobs:
             echo "Switching to main branch..."
             git checkout main
 
+            git pull origin main
+
             echo "Reset to latest main"
             git reset --hard origin/main
 
