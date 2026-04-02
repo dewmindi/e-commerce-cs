@@ -9,7 +9,7 @@ import { FaUserFriends } from 'react-icons/fa'; // Ensure this is imported
 const pricingPlans = [
   {
     name: "Standard (Logo)",
-    price: "75",
+    price: "5",
     period: "",
     overview: "Up to 2 Super Amazing Logo Concepts",
     featureGroups: [
