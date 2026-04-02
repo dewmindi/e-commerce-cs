@@ -16,6 +16,9 @@ import { GoogleGenAI } from "@google/genai";
 import ImageKit from "@imagekit/nodejs";
 import clientPromise from "@/lib/mongodb-products";
 
+// Extend the serverless function timeout for long-running AI workflows
+export const maxDuration = 300;
+
 // ---------------------------------------------------------------------------
 // Current year – ensures all generated content uses the correct year
 // ---------------------------------------------------------------------------
@@ -205,8 +208,11 @@ export async function POST(req: NextRequest) {
     });
 
     // -----------------------------------------------------------------------
-    // 6. Generate SEO blog content – Gemini 1.5 Flash
+    // 6 & 8. Generate SEO blog content AND feature image in PARALLEL
+    //         Image uses keyword for the prompt so it doesn't have to wait
+    //         for the text result.
     // -----------------------------------------------------------------------
+
     const contentPrompt = `You are a senior SEO content writer for CS Graphic Meta, a professional Development Agency based in Australia that specialises in Graphic Design, Web Development, and Mobile App Development.
 
 IMPORTANT: The current year is ${CURRENT_YEAR}. Always use ${CURRENT_YEAR} for any year-specific references in titles, headings, and content. Do NOT use any previous years (e.g. 2025 or earlier) in titles or headings.
@@ -228,10 +234,29 @@ STRICT FORMATTING RULES (follow exactly):
    b) A <script type="application/ld+json"> block with an FAQPage JSON-LD schema containing at least 3 FAQs.
 9. Do NOT include <html>, <head>, or <body> wrapper tags.`;
 
-    const textResult = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: contentPrompt,
-    });
+    const imagePromptText =
+      `Create a professional, photorealistic 16:9 blog feature image for an article about "${keyword}". ` +
+      `Style: modern, clean, corporate, suitable for a development agency website. ` +
+      `Incorporate subtle visual metaphors related to graphic design, web development, or mobile app development. ` +
+      `No text, watermarks, or overlays in the image.`;
+
+    // Run text generation and image generation concurrently
+    const [textResult, imgResult] = await Promise.all([
+      genAI.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: contentPrompt,
+      }),
+      genAI.models
+        .generateContent({
+          model: "gemini-2.0-flash-preview-image-generation",
+          contents: imagePromptText,
+          config: { responseModalities: ["IMAGE"] },
+        })
+        .catch((err) => {
+          console.error("[generate-blog] Image generation failed:", err);
+          return null;
+        }),
+    ]);
 
     const rawContent: string = textResult.text ?? "";
 
@@ -273,29 +298,12 @@ STRICT FORMATTING RULES (follow exactly):
     }
 
     // -----------------------------------------------------------------------
-    // 8. Generate feature image – Gemini 2.0 Flash (image generation)
-    //    Model: gemini-2.0-flash-preview-image-generation
-    //    NOTE: Update the model name below if Google releases a newer version.
+    // 9. Upload image to ImageKit.io (imgResult already resolved in parallel)
     // -----------------------------------------------------------------------
     let imageKitUrl = "";
 
     try {
-      const imagePrompt =
-        `Create a professional, photorealistic 16:9 blog feature image for an article titled "${title}". ` +
-        `The image should evoke themes of ${keyword}. ` +
-        `Style: modern, clean, corporate, suitable for a development agency website. ` +
-        `Incorporate subtle visual metaphors related to graphic design, web development, or mobile app development. ` +
-        `No text, watermarks, or overlays in the image.`;
-
-      const imgResult = await genAI.models.generateContent({
-        model: "gemini-2.5-flash-image",
-        contents: imagePrompt,
-        config: {
-          responseModalities: ["IMAGE"],
-        },
-      });
-
-      const parts = imgResult.candidates?.[0]?.content?.parts ?? [];
+      const parts = imgResult?.candidates?.[0]?.content?.parts ?? [];
       let base64Data: string | null = null;
       let mimeType = "image/png";
 
@@ -308,7 +316,7 @@ STRICT FORMATTING RULES (follow exactly):
       }
 
       // -------------------------------------------------------------------
-      // 9. Upload to ImageKit.io with SEO-friendly filename
+      // Upload to ImageKit.io with SEO-friendly filename
       //    @imagekit/nodejs v7: constructor only needs privateKey;
       //    upload is accessed via imagekit.files.upload()
       // -------------------------------------------------------------------
