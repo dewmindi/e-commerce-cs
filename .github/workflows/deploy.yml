@@ -1,0 +1,56 @@
+name: CI/CD Pipleine Deploy to CloudPanel VPS 
+
+on:
+  push:
+    branches:
+      - main   
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies (CI Check)
+        run: npm install
+
+      - name: Build Project (CI Check)
+        run: npm run build
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: csgraphicmeta
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            echo "Starting deployment..."
+
+            cd /home/csgraphicmeta/htdocs/csgraphicmeta.com.au
+
+            echo "Fetch latest code"
+            git fetch origin
+
+            echo "Reset to latest main"
+            git reset --hard origin/main
+
+            echo "Install dependencies"
+            npm install
+
+            echo "Build Next.js app"
+            npm run build
+
+            echo "Reload PM2 process (zero downtime)"
+            pm2 reload cs-graphics-meta || pm2 start npm --name "cs-graphics-meta" -- start
+
+            echo "Save PM2 process list"
+            pm2 save
+
+            echo "Deployment completed! ✅"

@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useInViewAnimation } from '@/utils/inviewAnimation';
 import { Button } from '@/components/ui/button';
 import FooterNew from '@/components/FooterNew';
-import { useCart } from '@/app/context/CartContext';
 import Link from 'next/link';
 
 
@@ -29,8 +28,6 @@ const SocialMediaManagement = () => {
             router.push(`#${sectionId}`)
         }
     }
-    // Correctly initialize useCart
-    const { addToCart } = useCart();
 
     const formatCurrency = (value: number | string) => {
         return new Intl.NumberFormat("en-AU", {
@@ -45,6 +42,7 @@ const SocialMediaManagement = () => {
         {
             title: 'BASIC',
             price: '550',
+            stripeUrl: 'https://buy.stripe.com/9B6fZi8FI2v480FgAZdby03',
             features: [
                 { text: '12 Social media designs including videos', type: 'feature' },
                 { text: 'Content writing for every post', type: 'feature' },
@@ -57,6 +55,7 @@ const SocialMediaManagement = () => {
         {
             title: 'PREMIUM',
             price: '770',
+            stripeUrl: 'https://buy.stripe.com/5kQaEY2hk1r02GlckJdby07',
             features: [
                 { text: 'All features in the Basic Package', type: 'feature' },
                 { text: '12 premium social media designs per month', type: 'feature' },
@@ -68,20 +67,7 @@ const SocialMediaManagement = () => {
             ],
         },
     ]
-    // The function you wrote, adjusted to match the `plan` object structure
-    const handleAddToCart = (plan: typeof pricingPlans[0]) => {
-        // You'll need to clean the price string, e.g., remove '$'
-        const price = parseFloat(plan.price.replace(/[^0-9.]/g, ''));
 
-        addToCart({
-            id: plan.title, // Use title as a unique ID
-            title: plan.title + "-" + "Social Media Management",
-            price: price,
-            quantity: 1,
-            image: '/cs-logo.png', // Or a better image URL if available
-            category: "Social Media Management", // Use the current page title as the category
-        });
-    };
     const benefits = ["Builds brand credibility and professionalism", "Strengthens your brand identity", "Works as a long-term marketing asset", "Shows organization, clarity, and business maturity"]
 
     return (
@@ -162,12 +148,11 @@ const SocialMediaManagement = () => {
                                                 ))}
                                             </ul>
                                         </div>
-                                        <Button
-                                            // ADDED onClick handler here
-                                            onClick={() => handleAddToCart(plan)}
-                                            className="bg-black border border-[#FFC107] text-background hover:bg-[#FFC107] hover:text-black px-8 py-3 rounded-lg  text-lg shadow-md transition-all duration-300 hover:scale-105 mt-auto">
-                                            Get Started
-                                        </Button>
+                                            <Button
+                                                onClick={() => window.open(plan.stripeUrl, '_blank')}
+                                                className="bg-black border border-[#FFC107] text-background hover:bg-[#FFC107] hover:text-black px-8 py-3 rounded-lg  text-lg shadow-md transition-all duration-300 hover:scale-105 mt-auto">
+                                                Get Started
+                                            </Button>
                                     </motion.div>
                                 ))}
                             </div>
