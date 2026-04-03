@@ -260,7 +260,7 @@ STRICT FORMATTING RULES (follow exactly):
       withTimeout(
         genAI.models
           .generateContent({
-            model: "gemini-2.0-flash-preview-image-generation",
+            model: "gemini-2.5-flash-image",
             contents: imagePromptText,
             config: { responseModalities: ["IMAGE"] },
           })
