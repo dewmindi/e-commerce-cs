@@ -204,7 +204,7 @@ export async function POST(req: NextRequest) {
     // 5. Initialise Gemini AI client
     // -----------------------------------------------------------------------
     const genAI = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY!,
+      apiKey: process.env.GEMINI_API_KEY2!,
     });
 
     // -----------------------------------------------------------------------
