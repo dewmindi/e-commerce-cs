@@ -1,5 +1,302 @@
 import type { Metadata } from 'next';
-import CategoryPageTemplate, { type CategoryPageContent } from '@/components/CategoryPageTemplate';
+import clientPromise from '@/lib/mongodb';
+import { cache } from 'react';
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import AddPackageToCartButton from '@/components/AddPackageToCartButton';
+import { getPortfolioByService, type PortfolioItem } from '@/lib/portfolio';
+import FooterNew from '@/components/FooterNew';
+
+export const dynamic = 'force-dynamic';
+
+type ContentSection = {
+    id: string;
+    type: 'text' | 'features' | 'gallery' | 'cta' | string;
+    title: string;
+    content?: string;
+    imageUrl?: string;
+    images?: string[];
+    order?: number;
+};
+
+type ContentPageDoc = {
+    slug: string;
+    title?: string;
+    sections?: ContentSection[];
+    metaTitle?: string;
+    metaDescription?: string;
+};
+
+type PackageDoc = {
+    _id: string;
+    subcategory_id: string;
+    name: string;
+    price: number;
+    overview?: string;
+    ui_features?: string[];
+    is_active?: boolean;
+};
+
+const DEFAULT_PAGE: ContentPageDoc = {
+    slug: 'web-development',
+    title: 'Web Development',
+    sections: [
+        {
+            id: 'default-hero',
+            type: 'text',
+            title: 'Business Website Development',
+            content: 'Your online presence starts here.',
+            order: 0,
+        },
+        {
+            id: 'default-about',
+            type: 'text',
+            title: 'About Business Website Development',
+            content:
+                "A website is the digital storefront of your business which is simple, professional, and built to make a strong first impression. Whether you're a small business owner, a freelancer, or a personal brand, this package gives you a clean, mobile-friendly website that communicates your story without unnecessary complexity.",
+            order: 1,
+        },
+    ],
+};
+
+const parseFeatureList = (value: string): string[] =>
+    value
+        .split('\n')
+        .map((line) => line.replace(/^[\-•*✅]\s*/, '').trim())
+        .filter(Boolean);
+
+const parseFaqText = (value: string): { question: string; answer: string }[] => {
+    const lines = value
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+    const faqs: { question: string; answer: string }[] = [];
+    for (let index = 0; index < lines.length; index += 2) {
+        const question = lines[index];
+        const answer = lines[index + 1];
+        if (question && answer) {
+            faqs.push({ question, answer });
+        }
+    }
+
+    return faqs;
+};
+
+const formatTypeLabel = (type: string) => type.replace(/[-_]/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+
+const getOrderedSections = (sections?: ContentSection[]) => [...(sections ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+const isFaqSection = (section: ContentSection) => {
+    const normalizedTitle = section.title.toLowerCase();
+    return normalizedTitle.includes('faq') || normalizedTitle.includes('frequently asked');
+};
+
+const heroFromSections = (doc: ContentPageDoc) => {
+    const ordered = getOrderedSections(doc.sections);
+    const firstText = ordered.find((section) => section.type === 'text') ?? ordered[0];
+
+    return {
+        title: firstText?.title || doc.title || 'Web Development',
+        subtitle: firstText?.content || 'Premium digital experiences built for growth.',
+    };
+};
+
+const SECTION_SPACING = 'px-4 py-16 sm:px-6 lg:px-8';
+const SECTION_CONTAINER = 'mx-auto max-w-6xl';
+const CARD_SURFACE = 'rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm';
+
+const renderSection = (section: ContentSection, portfolioItems: PortfolioItem[] = []) => {
+    if (section.type === 'features') {
+        const features = parseFeatureList(section.content ?? '');
+        return (
+            <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
+                <div className={SECTION_CONTAINER}>
+                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{section.title}</h2>
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {features.map((feature, index) => (
+                            <div key={`${section.id}-${index}`} className={`${CARD_SURFACE} p-5`}>
+                                <p className="text-sm leading-relaxed text-white/90">{feature}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (section.type === 'gallery') {
+        const galleryItems: PortfolioItem[] =
+            portfolioItems.length > 0
+                ? portfolioItems
+                : (section.images ?? []).map((image, index) => ({
+                      _id: `${section.id}-${index}`,
+                      service: 'web-development',
+                      title: section.title,
+                      description: '',
+                      imageUrl: image,
+                      weblink: null,
+                  }));
+
+        return (
+            <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
+                <div className={SECTION_CONTAINER}>
+                    <div className="flex items-center justify-between gap-3">
+                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{section.title}</h2>
+                        <span className="hidden rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70 sm:inline-flex">Scroll to Explore</span>
+                    </div>
+                    <div className="relative mt-6">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-1 sm:pl-2">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 text-[#e6c166] shadow-lg backdrop-blur">
+                                <ChevronLeft className="h-5 w-5" />
+                            </div>
+                        </div>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pr-1 sm:pr-2">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 text-[#e6c166] shadow-lg backdrop-blur">
+                                <ChevronRight className="h-5 w-5" />
+                            </div>
+                        </div>
+
+                        <div className="overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory">
+                            <div className="flex min-w-max gap-4 pl-12 pr-4 sm:pl-14">
+                                {galleryItems.map((item, index) => {
+                                    const card = (
+                                        <article className="w-[280px] shrink-0 snap-start sm:w-[340px]">
+                                            <div className={`${CARD_SURFACE} overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:border-[#e6c166]/60`}>
+                                                <img
+                                                    src={item.imageUrl}
+                                                    alt={item.title || `${section.title} ${index + 1}`}
+                                                    className="h-60 w-full object-cover"
+                                                    loading="lazy"
+                                                />
+                                                {(item.title || item.description) ? (
+                                                    <div className="p-4">
+                                                        {item.title ? <h3 className="text-base font-semibold">{item.title}</h3> : null}
+                                                        {item.description ? <p className="mt-1 text-sm text-white/75 line-clamp-2">{item.description}</p> : null}
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        </article>
+                                    );
+
+                                    if (item.weblink) {
+                                        return (
+                                            <a key={item._id} href={item.weblink} target="_blank" rel="noreferrer" className="block">
+                                                {card}
+                                            </a>
+                                        );
+                                    }
+
+                                    return <div key={item._id}>{card}</div>;
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (section.type === 'cta') {
+        return (
+            <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
+                <div className={`${SECTION_CONTAINER} ${CARD_SURFACE} px-6 py-12 text-center sm:px-10`}>
+                    <h2 className="text-3xl font-bold sm:text-4xl">{section.title}</h2>
+                    {section.content ? <p className="mx-auto mt-3 max-w-2xl text-base text-white/85 sm:text-lg">{section.content}</p> : null}
+                    <div className="mt-8">
+                        <Link
+                            href="/#contact"
+                            className="inline-flex items-center rounded-lg bg-[#e6c166] px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-[#d7b156]"
+                        >
+                            Get a Free Quote
+                        </Link>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (isFaqSection(section)) {
+        const faqs = parseFaqText(section.content ?? '');
+        return (
+            <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
+                <div className="mx-auto max-w-4xl">
+                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{section.title}</h2>
+                    <div className="mt-6 space-y-4">
+                        {faqs.map((faq, index) => (
+                            <div key={`${section.id}-${index}`} className={`${CARD_SURFACE} p-5`}>
+                                <h3 className="text-lg font-medium">{faq.question}</h3>
+                                <p className="mt-2 text-sm leading-relaxed text-white/85">{faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (section.type === 'text') {
+        return (
+            <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
+                <div className="mx-auto max-w-4xl">
+                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{section.title}</h2>
+                    {section.content ? <p className="mt-4 text-base leading-relaxed text-white/85 sm:text-lg">{section.content}</p> : null}
+                </div>
+            </section>
+        );
+    }
+
+    return (
+        <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
+            <div className="mx-auto max-w-5xl">
+                <div className="mb-2 inline-flex rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-white/80">
+                    {formatTypeLabel(section.type)}
+                </div>
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{section.title}</h2>
+                {section.content ? <p className="mt-4 whitespace-pre-line text-base leading-relaxed text-white/85 sm:text-lg">{section.content}</p> : null}
+                {(section.images ?? []).length > 0 ? (
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {(section.images ?? []).map((image, index) => (
+                            <div key={`${section.id}-unknown-${index}`} className={`${CARD_SURFACE} overflow-hidden`}>
+                                <img src={image} alt={`${section.title} ${index + 1}`} className="h-56 w-full object-cover" loading="lazy" />
+                            </div>
+                        ))}
+                    </div>
+                ) : null}
+            </div>
+        </section>
+    );
+};
+
+const getContentPage = cache(async () => {
+    const client = await clientPromise;
+    const db = client.db('cs-ecommerce');
+
+    const doc = (await db.collection('content_pages').findOne({ slug: 'web-design' })) as ContentPageDoc | null;
+
+    if (doc) {
+        return doc;
+    }
+
+    const fallbackDoc = (await db.collection('content_pages').findOne({ slug: 'web-development' })) as ContentPageDoc | null;
+
+    return fallbackDoc;
+});
+
+const getWebDevPackages = cache(async () => {
+    const client = await clientPromise;
+    const db = client.db('cs-ecommerce');
+
+    const packages = (await db
+        .collection('packages')
+        .find({ subcategory_id: 'basic_website_dev', is_active: true })
+        .sort({ price: 1 })
+        .toArray()) as unknown as PackageDoc[];
+
+    return packages;
+});
+
+const getWebDevPortfolio = cache(async () => getPortfolioByService('web-development'));
 
 export const metadata: Metadata = {
   title: 'Web Development Services Melbourne | Custom Websites',
@@ -13,86 +310,74 @@ export const metadata: Metadata = {
   },
 };
 
-// Define your specific data for the Business Card Design page
-const webDevelopmentContent : CategoryPageContent = {
-    pageTitle: 'Business Website Development',
-    headerDescription: '✨ Your online presence starts here.',
-    headerImage: '/ServiceImages/web.jpeg', // A relevant image for the header
-    aboutDescription: "A website is the digital storefront of your business which is simple, professional, and built to make a strong first impression. Whether you're a small business owner, a freelancer, or a personal brand, this package gives you a clean, mobile-friendly website that communicates your story without unnecessary complexity. Perfect for startups, local businesses, and individuals who want to establish credibility online.",
-    benefits: [
-        "Modern, responsive design that works on all devices",
-        "Pages like Home, About, Services, and Contact",
-        "Easy navigation for your visitors",
-        "SEO-friendly structure to appear on Google",
-        "A foundation you can grow later into a larger site"
-    ],
-    pricingPlans: [
-        {
-            title: 'Basic',
-            price: '$550',
-            features: [
-                { text: 'Up to 4 pages', type: 'feature' },
-                { text: 'Responsive design (mobile-friendly)', type: 'feature' },
-                { text: 'Chat & call buttons Integration', type: 'feature' },
-                { text: 'Basic SEO setup (meta tags, sitemap)', type: 'feature' },
-                { text: 'Contact form integration - 1', type: 'feature' },
-                { text: 'Delivery depends on the requirements', type: 'feature' },
-            ],
-        },
-        {
-            title: 'Standard',
-            price: '$650',
-            features: [
-                { text: 'Up to 7 pages', type: 'feature' },
-                { text: 'Responsive design (mobile-friendly)', type: 'feature' },
-                { text: 'Chat & call buttons Integration', type: 'feature' },
-                { text: 'Basic SEO setup (meta tags, sitemap)', type: 'feature' },
-                { text: 'Contact form integration - 1', type: 'feature' },
-                { text: 'Social media integration', type: 'feature' },
-                { text: 'Delivery depends on the requirements', type: 'feature' },
-            ],
-        },
-        {
-            title: 'Premium',
-            price: '$890',
-            features: [
-                { text: 'Up to 12 pages', type: 'feature' },
-                { text: 'Responsive design (mobile-friendly)', type: 'feature' },
-                { text: 'Chat & call buttons Integration', type: 'feature' },
-                { text: 'Basic SEO setup (meta tags, sitemap)', type: 'feature' },
-                { text: 'Contact form integration - 2', type: 'feature' },
-                { text: 'Advanced animations & custom UI', type: 'feature' },
-                { text: 'Delivery depends on the requirements', type: 'feature' },
-            ],
-        },
-    ],
-    portfolioImages: [
-        { image: "/web-dev/web_dev1.jpg", name: "", title: "" },
-        { image: "/web-dev/web_dev2.jpg", name: "", title: "" },
-        { image: "/web-dev/web_dev3.jpg", name: "", title: "" },
-        { image: "/web-dev/web_dev4.jpg", name: "", title: "" },
-        { image: "/web-dev/web_dev5.jpg", name: "", title: "" },
-    ],
-    faqs: [
-        {
-            question: "How long does it take to build a basic website?",
-            answer: "A basic site usually takes 1 - 3 weeks, depending on the number of pages and design complexity."
-        },
-        {
-            question: "Can I update the content on my website myself?",
-            answer: "Yes! We build websites with a user friendly CMS (like WordPress or custom admin panels) so you can easily update text, images, or blogs."
-        },
-        {
-            question: "Can I expand the website later?",
-            answer: "Yes, we design your website to be scalable  you can always add more pages, features, or even convert it into an e-commerce site later."
-        }        
-    ],
-    callToActionTitle: "Ready to elevate your business with a perfect website?",
-    callToActionDescription: ""
+const Page = async () => {
+    const doc = await getContentPage();
+    const packages = await getWebDevPackages();
+    const portfolioItems = await getWebDevPortfolio();
+    const pageDoc = doc ?? DEFAULT_PAGE;
+    const orderedSections = getOrderedSections(pageDoc.sections);
+    const bodySections = orderedSections.slice(1);
+    const hero = heroFromSections(pageDoc);
+
+    return (
+        <main className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2229_0%,_#111318_45%,_#0a0c10_100%)] text-white">
+            <section className="relative overflow-hidden border-b border-white/10 px-4 py-24 sm:px-6 sm:py-28 lg:px-8">
+                <div className="pointer-events-none absolute inset-0 opacity-30 [background:linear-gradient(120deg,rgba(230,193,102,0.16)_0%,rgba(230,193,102,0.02)_40%,transparent_70%)]" />
+                <div className="relative mx-auto max-w-6xl">
+                    <span className="inline-flex rounded-full border border-[#e6c166]/40 bg-[#e6c166]/10 px-4 py-1 text-xs font-medium tracking-wide text-[#efd38f]">Web Development Service</span>
+                    <h1 className="mt-4 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">{hero.title}</h1>
+                    <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/85 sm:text-lg">{hero.subtitle}</p>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                        <Link href="/#contact" className="rounded-lg bg-[#e6c166] px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-[#d7b156]">
+                            Start Your Project
+                        </Link>
+                        <Link href="/projects" className="rounded-lg border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold transition-colors hover:bg-white/10">
+                            Explore Projects
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {packages.length > 0 ? (
+                <section className={`${SECTION_SPACING} border-b border-white/10`}>
+                    <div className={SECTION_CONTAINER}>
+                        <div className="flex flex-wrap items-end justify-between gap-4">
+                            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Website Pricing</h2>
+                            <p className="text-sm text-white/70">Subcategory: basic_website_dev</p>
+                        </div>
+
+                        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            {packages.map((pkg) => (
+                                <article key={pkg._id} className={`${CARD_SURFACE} flex flex-col p-6`}>
+                                    <div className="flex items-start justify-between gap-4">
+                                        <h3 className="text-2xl font-semibold">{pkg.name}</h3>
+                                        <p className="text-3xl font-black text-[#e6c166]">${pkg.price}</p>
+                                    </div>
+
+                                    {pkg.overview ? <p className="mt-3 text-sm leading-relaxed text-white/80">{pkg.overview}</p> : null}
+
+                                    <ul className="mt-5 space-y-2 text-sm text-white/90">
+                                        {(pkg.ui_features ?? []).map((feature, index) => (
+                                            <li key={`${pkg._id}-feature-${index}`} className="flex gap-2">
+                                                <span className="text-[#e9c468]">•</span>
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    <AddPackageToCartButton id={String(pkg._id)} name={pkg.name} price={pkg.price} subcategoryId={pkg.subcategory_id} />
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            ) : null}
+
+            {bodySections.map((section) => renderSection(section, portfolioItems))}
+
+            <FooterNew/>
+        </main>
+    );
 };
 
-const page = () => {
-    return <CategoryPageTemplate content={webDevelopmentContent} />;
-};
-
-export default page;
+export default Page;

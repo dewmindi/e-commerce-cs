@@ -13,6 +13,7 @@ import { Textarea } from './ui/textarea'
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import FooterNew from '@/components/FooterNew';
 import { useCart } from '@/app/context/CartContext';
+import Link from 'next/link';
 
 // Define the types for your data structures to ensure type safety
 interface Benefit {
@@ -158,13 +159,6 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                     {/* --- Header Section --- */}
                     <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#211f0b] text-background py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
                         <div className="absolute inset-0 z-0 opacity-20">
-                            {/* <Image
-                                src={content.headerImage}
-                                alt={`${content.pageTitle} Background`}
-                                layout="fill"
-                                objectFit="cover"
-                                className="scale-105"
-                            /> */}
                         </div>
                         <div className="max-w-4xl mx-auto text-center relative pt-20">
                             <h2 className="text-4xl sm:text-4xl font-extrabold mb-2 drop-shadow-md">
@@ -386,7 +380,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
             </AnimatePresence>
 
             {/* --- Call to Action Section --- */}
-            {/* <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#ada661] py-16 px-4 sm:px-6 lg:px-8 text-center text-white">
+            <section className="bg-gradient-to-r from-[#bb8d03fc] to-[#ada661] py-16 px-4 sm:px-6 lg:px-8 text-center text-white">
                 <div className="max-w-4xl mx-auto">
                     <h2 className="text-3xl sm:text-4xl font-bold mb-4 ">{content.callToActionTitle}</h2>
                     <p className="text-lg mb-8 opacity-90 leading-tight">
@@ -398,7 +392,7 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({ content }) 
                         </Button>
                     </Link>
                 </div>
-            </section> */}
+            </section>
             <FooterNew />
         </div>
     );
