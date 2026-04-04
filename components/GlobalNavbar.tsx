@@ -193,7 +193,7 @@ const GlobalNavbar = () => {
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-white/20 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-xl flex items-center justify-center shrink-0 cursor-pointer"
+            className="bg-white/5 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-xl flex items-center justify-center shrink-0 cursor-pointer"
             onClick={() => router.push('/')}
           >
             <Image 
@@ -226,7 +226,7 @@ const GlobalNavbar = () => {
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-xl flex items-center relative gap-2 shrink-0 h-[60px]"
+            className="bg-white/5 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-xl flex items-center relative gap-2 shrink-0 h-[60px]"
             ref={cartRef}
           >
             <button className="text-white hover:text-[#bb8d03fc] transition-colors relative flex items-center justify-center w-10 h-10 group" onClick={() => setIsCartOpen(!isCartOpen)}>

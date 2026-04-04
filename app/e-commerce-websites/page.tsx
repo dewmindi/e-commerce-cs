@@ -60,7 +60,6 @@ const ecomWebDevContent: CategoryPageContent = {
                 { text: 'Up to 60 products', type: 'feature' },
                 { text: 'Shopping cart & checkout', type: 'feature' },
                 { text: 'Payment gateway integration', type: 'feature' },
-                { text: 'Basic product filter & search', type: 'feature' },
                 { text: 'Mobile-friendly design', type: 'feature' },
                 { text: 'Advanced product filters & search', type: 'feature' },
                 { text: 'Discount codes & coupons', type: 'feature' },

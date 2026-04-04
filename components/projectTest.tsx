@@ -6,7 +6,6 @@ import Image from 'next/image'; // For optimized images
 import { motion } from 'framer-motion'; // For smooth animations/transitions
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
 interface Project {
   id: string;
@@ -374,7 +373,6 @@ const ProjectsPage = () => {
 
       {/* Footer (Optional, if you have a consistent site footer) */}
       {/* <Footer /> */}
-      <Footer />
     </div>
   );
 };

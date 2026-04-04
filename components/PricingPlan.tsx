@@ -42,6 +42,7 @@ const pricingPlans = [
           { text: "Raster Based File Sets", highlight: false },
           { text: "Vector Based File Sets", highlight: false },
           { text: "3D Mock Ups - 2", highlight: false },
+          { text: "Other Mock Ups - 3", highlight: false },
           { text: "Source File", highlight: false },
         ]
       },
@@ -63,6 +64,7 @@ const pricingPlans = [
           { text: "Raster Based File Sets", highlight: false },
           { text: "Vector Based File Sets", highlight: false },
           { text: "3D Mock Ups - 2", highlight: false },
+          { text: "Other Mock Ups - 3", highlight: false },
           { text: "Source File", highlight: false },
         ]
       },
