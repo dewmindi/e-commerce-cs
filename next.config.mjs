@@ -68,6 +68,18 @@ const nextConfig = {
   // ✅ Enable compression (better performance)
   compress: true,
 
+  // ✅ Canonical domain: redirect www → non-www (301 permanent)
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.csgraphicmeta.com.au" }],
+        destination: "https://csgraphicmeta.com.au/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   // ✅ Security headers (VERY important)
   async headers() {
     return [
@@ -89,6 +101,16 @@ const nextConfig = {
           {
             key: "X-XSS-Protection",
             value: "1; mode=block",
+          },
+        ],
+      },
+      // ✅ Prevent search engines from indexing font/static-media files
+      {
+        source: "/_next/static/media/(.*)",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
           },
         ],
       },
