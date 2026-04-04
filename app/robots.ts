@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
           "/checkout/",
           "/success/",
           "/api/",
-          "/_next/",
+          "/_next/static/media/",  // block font/media files from being indexed
         ],
       },
     ],
