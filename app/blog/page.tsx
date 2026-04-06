@@ -39,6 +39,8 @@ interface BlogPost {
   title: string;
   slug: string;
   keyword: string;
+  sourceUrl?: string;
+  contentHtml: string;
   metaDescription: string;
   imageKitUrl: string;
   createdAt: string;
@@ -102,6 +104,8 @@ export default async function BlogListingPage({
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
   const { posts, total, totalPages } = await getPosts(page);
 
+  // console.log(posts);
+
   return (
     <div className="min-h-screen bg-[#0b0f16] text-gray-300">
 
@@ -148,9 +152,12 @@ export default async function BlogListingPage({
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post, index) => (
-                <BlogCard key={post._id} post={post} priority={index < 3} />
-              ))}
+              {posts
+                .filter((post) => post.sourceUrl === undefined)
+                .map((post, index) => (
+                  <BlogCard key={post._id} post={post} priority={index < 3} />
+                ))
+              }
             </div>
 
             {/* Pagination */}
