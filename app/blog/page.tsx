@@ -192,6 +192,11 @@ export default async function BlogListingPage({
 function BlogCard({ post, priority }: { post: BlogPost; priority: boolean }) {
   const imageUrl = post.imageKitUrl || null;
 
+  const tagText =
+    post?.keyword && post.keyword.trim().length > 0
+      ? toTitleCase(post.keyword.split(" ").slice(0, 3).join(" "))
+      : "Uncategorized";
+
   return (
     <article className="group flex flex-col bg-[#111827] rounded-2xl overflow-hidden border border-gray-800 hover:border-[#bb8d03]/60 transition-all duration-300 hover:shadow-[0_0_30px_rgba(187,141,3,0.1)]">
       {/* Feature image */}
@@ -222,7 +227,7 @@ function BlogCard({ post, priority }: { post: BlogPost; priority: boolean }) {
         <div className="flex items-center gap-1.5 mb-3">
           <Tag className="w-3 h-3 text-[#bb8d03]" />
           <span className="text-xs text-[#bb8d03] font-medium tracking-wide uppercase">
-            {toTitleCase(post.keyword.split(" ").slice(0, 3).join(" "))}
+            {tagText}
           </span>
         </div>
 
