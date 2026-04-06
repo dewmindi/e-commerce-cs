@@ -13,21 +13,26 @@ export async function GET(req: NextRequest) {
     const limit = Math.min(24, Math.max(1, parseInt(searchParams.get("limit") ?? "9", 10)));
     const skip = (page - 1) * limit;
 
+    const source = searchParams.get("source");
+
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
     const col = db.collection("blog_posts");
 
+    const filter: Record<string, unknown> = { published: true };
+    if (source) {
+      const escaped = source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      filter.sourceUrl = { $regex: escaped, $options: "i" };
+    }
+
     const [posts, total] = await Promise.all([
       col
-        .find(
-          { published: true },
-          { projection: { contentHtml: 0 } } // exclude heavy content for listing
-        )
+        .find(filter, { projection: { contentHtml: 0 } }) // exclude heavy content for listing
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .toArray(),
-      col.countDocuments({ published: true }),
+      col.countDocuments(filter),
     ]);
 
     return NextResponse.json({

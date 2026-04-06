@@ -104,7 +104,7 @@ export default async function BlogListingPage({
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
   const { posts, total, totalPages } = await getPosts(page);
 
-  // console.log(posts);
+  console.log(posts);
 
   return (
     <div className="min-h-screen bg-[#0b0f16] text-gray-300">
