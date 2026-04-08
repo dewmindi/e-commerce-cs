@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import clientPromise from '@/lib/mongodb';
+import prisma from '@/lib/prisma';
 import { cache } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -28,13 +28,13 @@ type ContentPageDoc = {
 };
 
 type PackageDoc = {
-    _id: string;
-    subcategory_id: string;
+    id: string;
+    subcategoryId: string;
     name: string;
     price: number;
     overview?: string;
-    ui_features?: string[];
-    is_active?: boolean;
+    features?: unknown;
+    active?: boolean;
 };
 
 const DEFAULT_PAGE: ContentPageDoc = {
@@ -130,14 +130,12 @@ const renderSection = (section: ContentSection, portfolioItems: PortfolioItem[] 
             portfolioItems.length > 0
                 ? portfolioItems
                 : (section.images ?? []).map((image, index) => ({
-                      _id: `${section.id}-${index}`,
+                      id: `${section.id}-${index}`,
                       service: 'web-development',
                       title: section.title,
-                      description: '',
-                      imageUrl: image,
+                      description: '' as string | null,                      imageUrl: image,
                       weblink: null,
                   }));
-
         return (
             <section key={section.id} className={`${SECTION_SPACING} border-t border-white/5`}>
                 <div className={SECTION_CONTAINER}>
@@ -181,13 +179,13 @@ const renderSection = (section: ContentSection, portfolioItems: PortfolioItem[] 
 
                                     if (item.weblink) {
                                         return (
-                                            <a key={item._id} href={item.weblink} target="_blank" rel="noreferrer" className="block">
+                                            <a key={item.id} href={item.weblink} target="_blank" rel="noreferrer" className="block">
                                                 {card}
                                             </a>
                                         );
                                     }
 
-                                    return <div key={item._id}>{card}</div>;
+                                    return <div key={item.id}>{card}</div>;
                                 })}
                             </div>
                         </div>
@@ -269,31 +267,46 @@ const renderSection = (section: ContentSection, portfolioItems: PortfolioItem[] 
 };
 
 const getContentPage = cache(async () => {
-    const client = await clientPromise;
-    const db = client.db('cs-ecommerce');
-
-    const doc = (await db.collection('content_pages').findOne({ slug: 'web-design' })) as ContentPageDoc | null;
-
-    if (doc) {
-        return doc;
+    const webDesignDoc = await prisma.contentPage.findFirst({ where: { slug: 'web-design' } });
+    if (webDesignDoc) {
+        return {
+            slug: webDesignDoc.slug,
+            title: webDesignDoc.title,
+            sections: webDesignDoc.sections as ContentSection[],
+            metaTitle: webDesignDoc.metaTitle ?? undefined,
+            metaDescription: webDesignDoc.metaDescription ?? undefined,
+        } as ContentPageDoc;
     }
 
-    const fallbackDoc = (await db.collection('content_pages').findOne({ slug: 'web-development' })) as ContentPageDoc | null;
-
-    return fallbackDoc;
+    const webDevDoc = await prisma.contentPage.findFirst({ where: { slug: 'web-development' } });
+    if (!webDevDoc) return null;
+    return {
+        slug: webDevDoc.slug,
+        title: webDevDoc.title,
+        sections: webDevDoc.sections as ContentSection[],
+        metaTitle: webDevDoc.metaTitle ?? undefined,
+        metaDescription: webDevDoc.metaDescription ?? undefined,
+    } as ContentPageDoc;
 });
 
-const getWebDevPackages = cache(async () => {
-    const client = await clientPromise;
-    const db = client.db('cs-ecommerce');
+const getWebDevPackages = cache(async (): Promise<PackageDoc[]> => {
+    const subcategory = await prisma.subcategory.findFirst({ where: { slug: 'basic_website_dev' } });
+    if (!subcategory) return [];
 
-    const packages = (await db
-        .collection('packages')
-        .find({ subcategory_id: 'basic_website_dev', is_active: true })
-        .sort({ price: 1 })
-        .toArray()) as unknown as PackageDoc[];
+    const rows = await prisma.package.findMany({
+        where: { subcategoryId: subcategory.id, active: true },
+        orderBy: { price: 'asc' },
+    });
 
-    return packages;
+    return rows.map((p) => ({
+        id: p.id,
+        subcategoryId: p.subcategoryId,
+        name: p.name,
+        price: Number(p.price),
+        overview: p.overview ?? undefined,
+        features: p.features,
+        active: p.active,
+    }));
 });
 
 const getWebDevPortfolio = cache(async () => getPortfolioByService('web-development'));
@@ -347,8 +360,14 @@ const Page = async () => {
                         </div>
 
                         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            {packages.map((pkg) => (
-                                <article key={pkg._id} className={`${CARD_SURFACE} flex flex-col p-6`}>
+                            {packages.map((pkg) => {
+                                const uiFeatures: string[] = Array.isArray(pkg.features)
+                                    ? (pkg.features as unknown[]).map((f: unknown) =>
+                                          typeof f === 'string' ? f : ((f as Record<string, unknown>)?.name as string) ?? ''
+                                      ).filter(Boolean)
+                                    : [];
+                                return (
+                                <article key={pkg.id} className={`${CARD_SURFACE} flex flex-col p-6`}>
                                     <div className="flex items-start justify-between gap-4">
                                         <h3 className="text-2xl font-semibold">{pkg.name}</h3>
                                         <p className="text-3xl font-black text-[#e6c166]">${pkg.price}</p>
@@ -357,17 +376,18 @@ const Page = async () => {
                                     {pkg.overview ? <p className="mt-3 text-sm leading-relaxed text-white/80">{pkg.overview}</p> : null}
 
                                     <ul className="mt-5 space-y-2 text-sm text-white/90">
-                                        {(pkg.ui_features ?? []).map((feature, index) => (
-                                            <li key={`${pkg._id}-feature-${index}`} className="flex gap-2">
+                                        {uiFeatures.map((feature, index) => (
+                                            <li key={`${pkg.id}-feature-${index}`} className="flex gap-2">
                                                 <span className="text-[#e9c468]">•</span>
                                                 <span>{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
 
-                                    <AddPackageToCartButton id={String(pkg._id)} name={pkg.name} price={pkg.price} subcategoryId={pkg.subcategory_id} />
+                                    <AddPackageToCartButton id={pkg.id} name={pkg.name} price={pkg.price} subcategoryId={pkg.subcategoryId} />
                                 </article>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </section>

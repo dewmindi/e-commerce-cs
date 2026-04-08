@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import FooterNew from "@/components/FooterNew";
-import clientPromise from "@/lib/mongodb-products";
+import prisma from "@/lib/prisma";
 import { Calendar, ArrowRight, Tag } from "lucide-react";
 
 // --------------------------------------------------------------------------
@@ -51,27 +51,39 @@ interface BlogPost {
 // --------------------------------------------------------------------------
 async function getPosts(page: number, limit = 9) {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-    const col = db.collection("blog_posts");
-
     const skip = (page - 1) * limit;
     const [rawPosts, total] = await Promise.all([
-      col
-        .find({ published: true }, { projection: { contentHtml: 0 } })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .toArray(),
-      col.countDocuments({ published: true }),
+      prisma.blogPost.findMany({
+        where: { published: true },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          keyword: true,
+          sourceUrl: true,
+          metaDescription: true,
+          seoDescription: true,
+          featuredImageUrl: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.blogPost.count({ where: { published: true } }),
     ]);
 
-    // Serialise ObjectId → string
-    const posts = rawPosts.map((p) => ({
-      ...p,
-      _id: p._id.toString(),
-      createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
-    })) as BlogPost[];
+    const posts: BlogPost[] = rawPosts.map((p) => ({
+      _id: p.id,
+      title: p.title,
+      slug: p.slug,
+      keyword: p.keyword ?? "",
+      sourceUrl: p.sourceUrl ?? undefined,
+      contentHtml: "",
+      metaDescription: p.metaDescription ?? p.seoDescription ?? "",
+      imageKitUrl: p.featuredImageUrl ?? "",
+      createdAt: p.createdAt.toISOString(),
+    }));
 
     return { posts, total, totalPages: Math.ceil(total / limit) };
   } catch (err) {

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import FooterNew from "@/components/FooterNew";
-import clientPromise from "@/lib/mongodb-products";
+import prisma from "@/lib/prisma";
 import { Calendar, Tag, ArrowLeft, Share2 } from "lucide-react";
 
 // --------------------------------------------------------------------------
@@ -26,15 +26,19 @@ interface BlogPost {
 // --------------------------------------------------------------------------
 async function getPost(slug: string): Promise<BlogPost | null> {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-    const raw = await db.collection("blog_posts").findOne({ slug, published: true });
+    const raw = await prisma.blogPost.findFirst({ where: { slug, published: true } });
     if (!raw) return null;
     return {
-      ...raw,
-      _id: raw._id.toString(),
-      createdAt: raw.createdAt?.toISOString?.() ?? raw.createdAt,
-    } as BlogPost;
+      _id: raw.id,
+      title: raw.title,
+      slug: raw.slug,
+      keyword: raw.keyword ?? "",
+      contentHtml: raw.content,
+      metaDescription: raw.metaDescription ?? raw.seoDescription ?? "",
+      imageKitUrl: raw.featuredImageUrl ?? "",
+      createdAt: raw.createdAt.toISOString(),
+      published: raw.published,
+    };
   } catch (err) {
     console.error("[blog/slug] getPost error:", err);
     return null;
@@ -51,32 +55,27 @@ interface RelatedPost {
 
 async function getRelatedPosts(keyword: string, currentSlug: string, limit = 3): Promise<RelatedPost[]> {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
     if (!keyword || keyword.trim().length === 0) return [];
-    const words = keyword.split(" ").slice(0, 2).join("|");
-    const rawPosts = await db
-      .collection("blog_posts")
-      .find(
-        {
-          published: true,
-          slug: { $ne: currentSlug },
-          $or: [
-            { keyword: { $regex: words, $options: "i" } },
-            { title: { $regex: words, $options: "i" } },
-          ],
-        },
-        { projection: { contentHtml: 0 } }
-      )
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .toArray();
+    const word = keyword.split(" ").slice(0, 2).join(" ");
+    const rawPosts = await prisma.blogPost.findMany({
+      where: {
+        published: true,
+        slug: { not: currentSlug },
+        OR: [
+          { keyword: { contains: word, mode: "insensitive" } },
+          { title: { contains: word, mode: "insensitive" } },
+        ],
+      },
+      select: { id: true, title: true, slug: true, featuredImageUrl: true, createdAt: true },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
     return rawPosts.map((p) => ({
-      _id: p._id.toString(),
-      title: (p.title as string) ?? "",
-      slug: (p.slug as string) ?? "",
-      imageKitUrl: (p.imageKitUrl as string) ?? "",
-      createdAt: p.createdAt?.toISOString?.() ?? p.createdAt,
+      _id: p.id,
+      title: p.title,
+      slug: p.slug,
+      imageKitUrl: p.featuredImageUrl ?? "",
+      createdAt: p.createdAt.toISOString(),
     }));
   } catch (err) {
     console.error("[blog/slug] getRelatedPosts error:", err);
@@ -89,13 +88,11 @@ async function getRelatedPosts(keyword: string, currentSlug: string, limit = 3):
 // --------------------------------------------------------------------------
 export async function generateStaticParams() {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-    const posts = await db
-      .collection("blog_posts")
-      .find({ published: true }, { projection: { slug: 1 } })
-      .toArray();
-    return posts.map((p) => ({ slug: p.slug as string }));
+    const posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      select: { slug: true },
+    });
+    return posts.map((p) => ({ slug: p.slug }));
   } catch {
     return [];
   }

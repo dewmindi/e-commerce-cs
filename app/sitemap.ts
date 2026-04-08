@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import clientPromise from "@/lib/mongodb-products";
+import prisma from "@/lib/prisma";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ?? "https://csgraphicmeta.com.au";
@@ -32,13 +32,11 @@ const staticRoutes: MetadataRoute.Sitemap = [
 
 async function getBlogSitemapEntries(): Promise<MetadataRoute.Sitemap> {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-    const posts = await db
-      .collection("blog_posts")
-      .find({ published: true }, { projection: { slug: 1, updatedAt: 1, createdAt: 1 } })
-      .sort({ createdAt: -1 })
-      .toArray();
+    const posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true, createdAt: true },
+      orderBy: { createdAt: "desc" },
+    });
 
     return posts.map((post) => ({
       url: `${BASE_URL}/blog/${post.slug}`,

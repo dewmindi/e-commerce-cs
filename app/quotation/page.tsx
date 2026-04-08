@@ -2,19 +2,40 @@
 
 import QuoteBuilderClient from "./quote-builder-client";
 import { Category, PackageFromDB, Subcategory } from "@/types/quoate";
-import clientPromise from "@/lib/mongodb";
+import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 async function getQuoteData() {
-  const client = await clientPromise;
-  const db = client.db("cs-ecommerce");
-
-  const [categories, subcategories, packages] = await Promise.all([
-    db.collection("categories").find({}).toArray() as unknown as Promise<Category[]>,
-    db.collection("subcategories").find({}).toArray() as unknown as Promise<Subcategory[]>,
-    db.collection("packages").find({}).toArray() as unknown as Promise<PackageFromDB[]>,
+  const [catRows, subRows, pkgRows] = await Promise.all([
+    prisma.category.findMany({ orderBy: { order: "asc" } }),
+    prisma.subcategory.findMany({ orderBy: { order: "asc" } }),
+    prisma.package.findMany({ where: { active: true } }),
   ]);
+
+  const categories: Category[] = catRows.map((c) => ({
+    _id: c.id,
+    name: c.name,
+    description: c.description ?? undefined,
+  }));
+
+  const subcategories: Subcategory[] = subRows.map((s) => ({
+    _id: s.id,
+    category_id: s.categoryId,
+    name: s.name,
+    description: s.description ?? undefined,
+  }));
+
+  const packages: PackageFromDB[] = pkgRows.map((p) => ({
+    _id: p.id,
+    subcategory_id: p.subcategoryId,
+    name: p.name,
+    price: Number(p.price),
+    overview: p.overview ?? undefined,
+    features: p.features as any,
+    is_active: p.active,
+    popular: false,
+  }));
 
   return { categories, subcategories, packages };
 }
