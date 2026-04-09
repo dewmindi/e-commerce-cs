@@ -26,14 +26,14 @@ async function getQuoteData() {
     description: s.description ?? undefined,
   }));
 
-  const packages: PackageFromDB[] = pkgRows.map((p: { id: string; subServiceId: string; name: string; price: { toNumber(): number } | number; description: string | null; features: unknown; quotationFeatures: unknown; active: boolean; popular: boolean }) => ({
+  const packages: PackageFromDB[] = pkgRows.map((p) => ({
     _id: p.id,
     subcategory_id: p.subServiceId,
     name: p.name,
     price: Number(p.price),
     overview: p.description ?? undefined,
     features: p.features as any,
-    quotation: p.quotationFeatures as any,
+    quotation: (p as any).quotationFeatures as any,
     is_active: p.active,
     popular: p.popular,
   }));
