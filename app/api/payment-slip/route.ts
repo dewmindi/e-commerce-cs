@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import OrderModel from "@/models/Order";
+import prisma from "@/lib/prisma";
 import { buildPaymentSlipPDF } from "@/lib/pdf";
 
 export const runtime = "nodejs";
@@ -14,28 +13,32 @@ export async function GET(req: Request) {
 
     if (!orderId && !sessionId) return NextResponse.json({ error: "Missing orderId or sessionId" }, { status: 400 });
 
-    await connectDB();
-    
-    let order;
+    let order = null;
     if (orderId) {
-      order = await OrderModel.findOne({ orderId }).lean();
+      order = await prisma.stripeOrder.findFirst({ where: { orderId } });
     }
-    
+
     if (!order && sessionId) {
       // Fallback: try finding by Stripe Session ID
-      order = await OrderModel.findOne({ stripeSessionId: sessionId }).lean();
+      order = await prisma.stripeOrder.findFirst({ where: { stripeSessionId: sessionId } });
     }
 
     if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
 
-    // const pdf = await buildPaymentSlipPDF(order); // <-- await here
-    const pdf = await buildPaymentSlipPDF(order);
+    // Map Prisma field names so buildPaymentSlipPDF receives what it expects
+    const orderData = {
+      ...order,
+      customerEmail: order.email,
+      amount: Number(order.amount),
+    };
+
+    const pdf = await buildPaymentSlipPDF(orderData);
 
     return new Response(pdf as any, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="PaymentSlip_${orderId}.pdf"`,
+        "Content-Disposition": `attachment; filename="PaymentSlip_${order.orderId}.pdf"`,
       },
     });
   } catch (err: any) {

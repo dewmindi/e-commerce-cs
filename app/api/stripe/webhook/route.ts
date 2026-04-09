@@ -1,8 +1,7 @@
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import Order from "@/models/Order";
+import prisma from "@/lib/prisma";
 import {
   sendCustomerEmail,
   sendAdminEmail,
@@ -62,11 +61,9 @@ export async function POST(req: Request) {
 async function handlePaymentSuccess(event: Stripe.Event) {
   const intent = event.data.object as Stripe.PaymentIntent;
 
-  await connectDB();
-
-  // Idempotency (DB-level + Event-level)
-  const existing = await Order.findOne({
-    stripePaymentIntentId: intent.id,
+  // Idempotency check
+  const existing = await prisma.stripeOrder.findUnique({
+    where: { stripePaymentIntentId: intent.id },
   });
 
   if (existing) {
@@ -117,9 +114,10 @@ async function handlePaymentSuccess(event: Stripe.Event) {
   let dbError = null;
 
   try {
-    await Order.create(orderData);
+    await prisma.stripeOrder.create({ data: orderData });
   } catch (err: any) {
-    if (err.code !== 11000) dbError = err;
+    // P2002 = unique constraint violation (duplicate webhook delivery)
+    if (err?.code !== "P2002") dbError = err;
   }
 
   // Always send emails after successful payment
@@ -152,11 +150,8 @@ async function handlePaymentSuccess(event: Stripe.Event) {
 async function handlePaymentFailure(event: Stripe.Event) {
   const intent = event.data.object as Stripe.PaymentIntent;
 
-  await connectDB();
-
-  const existing = await Order.findOne({
-    stripePaymentIntentId: intent.id,
-    status: "failed",
+  const existing = await prisma.stripeOrder.findFirst({
+    where: { stripePaymentIntentId: intent.id, status: "failed" },
   });
 
   if (existing) return;
@@ -187,9 +182,9 @@ async function handlePaymentFailure(event: Stripe.Event) {
   let dbError = null;
 
   try {
-    await Order.create(failedOrder);
+    await prisma.stripeOrder.create({ data: failedOrder });
   } catch (err: any) {
-    if (err.code !== 11000) dbError = err;
+    if (err?.code !== "P2002") dbError = err;
   }
 
   try {

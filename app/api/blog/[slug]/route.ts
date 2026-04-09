@@ -1,10 +1,31 @@
 /**
  * GET /api/blog/[slug]
- * Returns a single published blog post including its full HTML content.
+ * Returns a single published blog post including its full content.
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb-products";
+import prisma from "@/lib/prisma";
+
+const blogPostSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  content: true,
+  excerpt: true,
+  seoTitle: true,
+  seoDescription: true,
+  seoKeywords: true,
+  keyword: true,
+  metaDescription: true,
+  sourceUrl: true,
+  featuredImageUrl: true,
+  featuredImageWidth: true,
+  featuredImageHeight: true,
+  status: true,
+  published: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
 
 export async function GET(
   _req: NextRequest,
@@ -17,11 +38,10 @@ export async function GET(
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-    const post = await db
-      .collection("blog_posts")
-      .findOne({ slug, published: true });
+    const post = await prisma.blogPost.findUnique({
+      where: { slug, published: true },
+      select: blogPostSelect,
+    });
 
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });

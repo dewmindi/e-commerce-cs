@@ -1,27 +1,19 @@
-
-import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const categoryId = searchParams.get("category_id");
 
   try {
-    const client = await clientPromise;
-    const db = client.db("cs-ecommerce");
-
-    const filter = categoryId ? { category_id: categoryId } : {};
-
-    const subcategories = await db.collection("subcategories").find(filter).toArray();
-
-    console.log("SUB",subcategories);
-    console.log("CLIENT:", client.constructor.name);
-
-    
-
+    const where = categoryId ? { categoryId } : {};
+    const subcategories = await prisma.subcategory.findMany({
+      where,
+      orderBy: { order: "asc" },
+    });
     return NextResponse.json(subcategories);
   } catch (error) {
-        const message = error instanceof Error ? error.message : "Unknown error";
-        return NextResponse.json({ error: message }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

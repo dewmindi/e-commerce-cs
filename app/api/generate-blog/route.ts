@@ -13,8 +13,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
-import ImageKit from "@imagekit/nodejs";
-import clientPromise from "@/lib/mongodb-products";
+import prisma from "@/lib/prisma";
+import { uploadBlogImage, deleteBlogImage } from "@/lib/supabase-storage";
 
 // Extend the serverless function timeout for long-running AI workflows
 export const maxDuration = 300;
@@ -179,14 +179,9 @@ export async function POST(req: NextRequest) {
     // -----------------------------------------------------------------------
     // 4. Duplicate check (early – by keyword slug)
     // -----------------------------------------------------------------------
-    const mongoClient = await clientPromise;
-    const db = mongoClient.db(
-      process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce"
-    );
-    const collection = db.collection("blog_posts");
-
-    const earlyDuplicate = await collection.findOne({
-      $or: [{ slug: preliminarySlug }, { keyword }],
+    const earlyDuplicate = await prisma.blogPost.findFirst({
+      where: { OR: [{ slug: preliminarySlug }, { keyword }] },
+      select: { id: true },
     });
 
     if (earlyDuplicate) {
@@ -298,7 +293,10 @@ STRICT FORMATTING RULES (follow exactly):
     // 7. Second duplicate check (using title-derived slug)
     // -----------------------------------------------------------------------
     if (finalSlug !== preliminarySlug) {
-      const slugDuplicate = await collection.findOne({ slug: finalSlug });
+      const slugDuplicate = await prisma.blogPost.findFirst({
+        where: { slug: finalSlug },
+        select: { id: true },
+      });
       if (slugDuplicate) {
         return NextResponse.json(
           {
@@ -312,9 +310,9 @@ STRICT FORMATTING RULES (follow exactly):
     }
 
     // -----------------------------------------------------------------------
-    // 9. Upload image to ImageKit.io (imgResult already resolved in parallel)
+    // 9. Upload image to Supabase Storage (imgResult already resolved in parallel)
     // -----------------------------------------------------------------------
-    let imageKitUrl = "";
+    let uploadedImage: { url: string; storagePath: string } | null = null;
 
     try {
       const parts = imgResult?.candidates?.[0]?.content?.parts ?? [];
@@ -329,59 +327,41 @@ STRICT FORMATTING RULES (follow exactly):
         }
       }
 
-      // -------------------------------------------------------------------
-      // Upload to ImageKit.io with SEO-friendly filename
-      //    @imagekit/nodejs v7: constructor only needs privateKey;
-      //    upload is accessed via imagekit.files.upload()
-      // -------------------------------------------------------------------
       if (base64Data) {
-        const imagekit = new ImageKit({
-          privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-        });
-
-        // Construct a URL-friendly filename from the blog title (Image SEO)
-        const seoFilename =
-          toSlug(title).substring(0, 100) +
-          (mimeType === "image/jpeg" ? ".jpg" : ".png");
-
-        const uploadResponse = await imagekit.files.upload({
-          file: `data:${mimeType};base64,${base64Data}`,
-          fileName: seoFilename,
-          folder: "/blog/featured-images",
-          useUniqueFileName: false,
-          overwriteFile: true,
-        });
-
-        // Append ImageKit URL transformation parameters:
-        //   q-80   → compress to 80% quality
-        //   f-auto → serve in best format (WebP/AVIF) per browser
-        if (uploadResponse.url) {
-          imageKitUrl = `${uploadResponse.url}?tr=q-80,f-auto`;
-        }
+        const buffer = Buffer.from(base64Data, "base64");
+        uploadedImage = await uploadBlogImage(buffer, finalSlug, mimeType);
       }
     } catch (imgError) {
       // Image generation / upload is non-blocking – log and continue
       console.error(
-        "[generate-blog] Image generation or ImageKit upload failed:",
+        "[generate-blog] Image generation or Supabase upload failed:",
         imgError
       );
     }
 
     // -----------------------------------------------------------------------
-    // 10. Save post to MongoDB
+    // 10. Save post to database
     // -----------------------------------------------------------------------
-    const postDoc = {
-      title,
-      slug: finalSlug,
-      keyword,
-      contentHtml,
-      metaDescription,
-      imageKitUrl,
-      published: true,
-      createdAt: new Date(),
-    };
-
-    await collection.insertOne(postDoc);
+    let postDoc;
+    try {
+      postDoc = await prisma.blogPost.create({
+        data: {
+          title,
+          slug: finalSlug,
+          keyword,
+          content: contentHtml,
+          metaDescription,
+          featuredImageUrl: uploadedImage?.url ?? null,
+          published: true,
+        },
+      });
+    } catch (dbError) {
+      // Clean up the uploaded image if DB insert fails
+      if (uploadedImage) {
+        await deleteBlogImage(uploadedImage.storagePath).catch(() => {});
+      }
+      throw dbError;
+    }
 
     // -----------------------------------------------------------------------
     // 11. Respond

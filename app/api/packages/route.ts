@@ -1,19 +1,20 @@
-import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const subcategoryId = searchParams.get("subcategory_id");
 
   try {
-    const client = await clientPromise;
-    const db = client.db("cs-ecommerce");
+    const where = subcategoryId
+      ? { subcategoryId, active: true }
+      : { active: true };
 
-    const filter = subcategoryId ? { subcategory_id: subcategoryId } : {};
-
-    const packages = await db.collection("packages").find(filter).toArray();
-
-   
+    const packages = await prisma.package.findMany({
+      where,
+      include: { subcategory: { include: { category: true } } },
+      orderBy: { name: "asc" },
+    });
 
     return NextResponse.json(packages);
   } catch (error) {

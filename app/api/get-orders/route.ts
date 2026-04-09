@@ -1,26 +1,21 @@
-import { NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
-import OrderModel from '@/models/Order';
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   try {
-    await connectDB();
-
-    // Optionally, you can add query params to filter orders
     const { searchParams } = new URL(req.url);
-    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const limit = Math.min(200, parseInt(searchParams.get("limit") ?? "50", 10));
 
-    const orders = await OrderModel.find()
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .lean();
+    const orders = await prisma.stripeOrder.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
 
     return NextResponse.json({ success: true, data: orders });
-  } catch (err: any) {
-    console.error('get-orders error:', err);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  } catch (err) {
+    console.error("get-orders error:", err);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

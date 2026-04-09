@@ -1,10 +1,10 @@
 /**
- * GET /api/blog?page=1&limit=9
- * Returns paginated list of published blog posts (no contentHtml to keep payload small).
+ * GET /api/blog?page=1&limit=9&source=...
+ * Returns paginated list of published blog posts (no content to keep payload small).
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb-products";
+import prisma from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,27 +12,38 @@ export async function GET(req: NextRequest) {
     const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
     const limit = Math.min(24, Math.max(1, parseInt(searchParams.get("limit") ?? "9", 10)));
     const skip = (page - 1) * limit;
-
     const source = searchParams.get("source");
 
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB_PRODUCTS || "cs-ecommerce");
-    const col = db.collection("blog_posts");
+    const where = {
+      published: true,
+      status: "published" as const,
+      ...(source ? { sourceUrl: { contains: source, mode: "insensitive" as const } } : {}),
+    };
 
-    const filter: Record<string, unknown> = { published: true };
-    if (source) {
-      const escaped = source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      filter.sourceUrl = { $regex: escaped, $options: "i" };
-    }
-
-    const [posts, total] = await Promise.all([
-      col
-        .find(filter, { projection: { contentHtml: 0 } }) // exclude heavy content for listing
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .toArray(),
-      col.countDocuments(filter),
+    const [posts, total] = await prisma.$transaction([
+      prisma.blogPost.findMany({
+        where,
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          seoDescription: true,
+          seoKeywords: true,
+          keyword: true,
+          featuredImageUrl: true,
+          featuredImageWidth: true,
+          featuredImageHeight: true,
+          status: true,
+          published: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.blogPost.count({ where }),
     ]);
 
     return NextResponse.json({
