@@ -68,7 +68,7 @@ export default function CSGraphicsMetaWebsite() {
       <FeaturedProjects />
       <PricingPlan />
       <FrequentlyQuestion />
-      <GoogleReviews />
+      {/* <GoogleReviews /> */}
       <ContactUs />
       <Achievements />
       <FooterNew />

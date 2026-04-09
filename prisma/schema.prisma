@@ -338,10 +338,10 @@ model ServicePackage {
   name         String
   price        Decimal    @db.Decimal(10, 2)
   description  String?
-  deliveryDays Int?
-  revisions    Int?
   /// JSON: Array<{ text: string; included: boolean }>
   features     Json?
+  /// JSON: { deliverables: string[]; timeline: { week: string; tasks: string }[]; exclusions: string[] }
+  quotationFeatures Json?
   popular      Boolean    @default(false)
   active       Boolean    @default(true)
   subServiceId String
@@ -351,4 +351,102 @@ model ServicePackage {
 
   @@index([subServiceId])
   @@map("service_packages")
+}
+
+// ─── Multi-Tenant Blog Service ────────────────────────────────────────────────
+// Provides automated SEO blog generation as a service for external client sites.
+// Each ManagedSite is a client website; ManagedBlogPost stores every generated blog.
+
+/// A client website enrolled in the automated SEO blog service.
+model ManagedSite {
+  id          String @id @default(cuid())
+  /// Human-readable client/site name (e.g. "Visit Kataragama")
+  name        String
+  /// Primary domain without trailing slash (e.g. "https://www.visitkataragama.com")
+  domain      String @unique
+  /// Short niche description — fed to the AI to generate relevant topics
+  /// e.g. "Sri Lanka tourism, Kataragama temple, Yala safari, wildlife"
+  niche       String
+  /// Country/region for Google Trends geo filter (e.g. "LK", "AU", "US")
+  geoTarget   String @default("US")
+  /// Timezone name for scheduling display (e.g. "Asia/Colombo")
+  timezone    String @default("UTC")
+
+  // ── Publish target ────────────────────────────────────────────────────────
+  /// Full URL of the site's blog-ingest API endpoint
+  /// e.g. "https://www.visitkataragama.com/api/blogs/auto-create"
+  /// Leave blank to store-only (no push delivery)
+  publishEndpoint String?
+  /// Bearer token / webhook secret sent in Authorization header to publishEndpoint
+  publishSecret   String?
+
+  // ── GSC / competitor keyword injection ───────────────────────────────────
+  /// JSON: string[] — top-clicked GSC keywords updated monthly by the admin
+  gscKeywords      Json @default("[]")
+  /// JSON: string[] — competitor SEO keywords to outrank
+  competitorKeywords Json @default("[]")
+  /// JSON: string[] — curated blog scenario objects { id, topic, angle }
+  scenarios        Json @default("[]")
+
+  // ── Schedule ─────────────────────────────────────────────────────────────
+  /// Blogs per day (1–5)
+  postsPerDay Int     @default(3)
+  /// active | paused
+  status      String  @default("active")
+
+  blogPosts   ManagedBlogPost[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@map("managed_sites")
+}
+
+/// A single AI-generated blog post for a ManagedSite.
+model ManagedBlogPost {
+  id      String @id @default(cuid())
+  siteId  String
+  site    ManagedSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  title   String
+  slug    String
+  /// Full HTML content
+  content String  @db.Text
+  excerpt String?
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  // Image — stored in Supabase Storage "managed-blog-images" bucket
+  imageUrl   String?
+  imagePath  String?
+
+  // Publishing status
+  /// draft | published | failed
+  status      String  @default("published")
+  /// Whether successfully delivered to the target site's API
+  delivered   Boolean @default(false)
+  /// HTTP status returned by publishEndpoint (null = store-only)
+  deliveryStatus Int?
+  /// Revalidation attempted
+  revalidated Boolean @default(false)
+
+  // Source / dedup
+  scenarioId  String?
+  sourceHash  String?
+
+  category    String?
+  /// JSON: string[]
+  tags        Json @default("[]")
+
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([siteId, slug])
+  @@index([siteId, status])
+  @@index([siteId, publishedAt(sort: Desc)])
+  @@map("managed_blog_posts")
 }
