@@ -7,34 +7,35 @@ import prisma from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 async function getQuoteData() {
-  const [catRows, subRows, pkgRows] = await Promise.all([
-    prisma.category.findMany({ orderBy: { order: "asc" } }),
-    prisma.subcategory.findMany({ orderBy: { order: "asc" } }),
-    prisma.package.findMany({ where: { active: true } }),
+  const [serviceRows, subServiceRows, pkgRows] = await Promise.all([
+    prisma.service.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+    prisma.subService.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+    prisma.servicePackage.findMany({ where: { active: true } }),
   ]);
 
-  const categories: Category[] = catRows.map((c) => ({
+  const categories: Category[] = serviceRows.map((c: { id: string; name: string; description: string | null }) => ({
     _id: c.id,
     name: c.name,
     description: c.description ?? undefined,
   }));
 
-  const subcategories: Subcategory[] = subRows.map((s) => ({
+  const subcategories: Subcategory[] = subServiceRows.map((s: { id: string; serviceId: string; name: string; description: string | null }) => ({
     _id: s.id,
-    category_id: s.categoryId,
+    category_id: s.serviceId,
     name: s.name,
     description: s.description ?? undefined,
   }));
 
-  const packages: PackageFromDB[] = pkgRows.map((p) => ({
+  const packages: PackageFromDB[] = pkgRows.map((p: { id: string; subServiceId: string; name: string; price: { toNumber(): number } | number; description: string | null; features: unknown; quotationFeatures: unknown; active: boolean; popular: boolean }) => ({
     _id: p.id,
-    subcategory_id: p.subcategoryId,
+    subcategory_id: p.subServiceId,
     name: p.name,
     price: Number(p.price),
-    overview: p.overview ?? undefined,
+    overview: p.description ?? undefined,
     features: p.features as any,
+    quotation: p.quotationFeatures as any,
     is_active: p.active,
-    popular: false,
+    popular: p.popular,
   }));
 
   return { categories, subcategories, packages };
