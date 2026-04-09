@@ -21,12 +21,28 @@ interface BlogPost {
   published: boolean;
 }
 
+const blogPostSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  keyword: true,
+  content: true,
+  metaDescription: true,
+  seoDescription: true,
+  featuredImageUrl: true,
+  createdAt: true,
+  published: true,
+} as const;
+
 // --------------------------------------------------------------------------
 // Data helpers
 // --------------------------------------------------------------------------
 async function getPost(slug: string): Promise<BlogPost | null> {
   try {
-    const raw = await prisma.blogPost.findFirst({ where: { slug, published: true } });
+    const raw = await prisma.blogPost.findFirst({
+      where: { slug, published: true },
+      select: blogPostSelect,
+    });
     if (!raw) return null;
     return {
       _id: raw.id,
@@ -70,7 +86,13 @@ async function getRelatedPosts(keyword: string, currentSlug: string, limit = 3):
       orderBy: { createdAt: "desc" },
       take: limit,
     });
-    return rawPosts.map((p) => ({
+    return rawPosts.map((p: {
+      id: string;
+      title: string;
+      slug: string;
+      featuredImageUrl: string | null;
+      createdAt: Date;
+    }) => ({
       _id: p.id,
       title: p.title,
       slug: p.slug,
@@ -92,7 +114,7 @@ export async function generateStaticParams() {
       where: { published: true },
       select: { slug: true },
     });
-    return posts.map((p) => ({ slug: p.slug }));
+    return posts.map((p: { slug: string }) => ({ slug: p.slug }));
   } catch {
     return [];
   }

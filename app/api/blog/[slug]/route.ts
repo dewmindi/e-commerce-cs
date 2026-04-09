@@ -6,6 +6,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+const blogPostSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  content: true,
+  excerpt: true,
+  seoTitle: true,
+  seoDescription: true,
+  seoKeywords: true,
+  keyword: true,
+  metaDescription: true,
+  sourceUrl: true,
+  featuredImageUrl: true,
+  featuredImageWidth: true,
+  featuredImageHeight: true,
+  status: true,
+  published: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
@@ -19,6 +40,7 @@ export async function GET(
 
     const post = await prisma.blogPost.findUnique({
       where: { slug, published: true },
+      select: blogPostSelect,
     });
 
     if (!post) {

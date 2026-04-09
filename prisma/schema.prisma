@@ -118,12 +118,12 @@ model ServiceOrder {
 /// Unified blog posts table — covers both the e-commerce simple blog
 /// and the Admin auto-blog pipeline with full SEO / featured-image fields.
 model BlogPost {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
+  id      String  @id @default(cuid())
+  title   String
+  slug    String  @unique
   /// Full HTML / Markdown content
-  content     String   @db.Text
-  excerpt     String?
+  content String  @db.Text
+  excerpt String?
 
   // SEO
   seoTitle        String?
@@ -139,10 +139,22 @@ model BlogPost {
   /// MD5 of sourceUrl — dedup guard (sparse, allows NULL)
   sourceHash String?  @unique
 
-  // Featured image — stored in Supabase Storage bucket "blog-images"
+  // ── Featured image — all stored in Supabase Storage "blog-image" bucket ──
+  /// Primary public URL (original or WebP — used by frontend <img src>)
   featuredImageUrl    String?
-  featuredImageFileId String?
+  /// Storage path for deletion  e.g. "featured/my-post-title.webp"
+  featuredImagePath   String?
+  /// WebP variant public URL    (served to modern browsers)
+  featuredImageWebp   String?
+  /// WebP storage path for deletion
+  featuredImageWebpPath String?
+  /// AVIF variant public URL    (best compression — Chrome/Firefox/Safari 16+)
+  featuredImageAvif   String?
+  /// AVIF storage path for deletion
+  featuredImageAvifPath String?
+  /// Intrinsic width  — set in HTML width attr to prevent CLS
   featuredImageWidth  Int?
+  /// Intrinsic height — set in HTML height attr to prevent CLS
   featuredImageHeight Int?
 
   /// published | draft
@@ -159,15 +171,15 @@ model BlogPost {
 // ─── Reviews ────────────────────────────────────────────────────────────────
 
 model Review {
-  id         String   @id @default(cuid())
-  name       String
-  rating     Int      @default(5)
-  comment    String
-  service    String?
-  avatarUrl  String?
-  approved   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  rating    Int      @default(5)
+  comment   String
+  service   String?
+  avatarUrl String?
+  approved  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("reviews")
 }
@@ -287,4 +299,56 @@ model AdminOtp {
 
   @@index([email])
   @@map("admin_otps")
+}
+
+// ─── Services Catalog (redesigned packages system) ───────────────────────────
+
+model Service {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  slug        String       @unique
+  description String?
+  icon        String?
+  active      Boolean      @default(true)
+  subServices SubService[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("services")
+}
+
+model SubService {
+  id          String           @id @default(cuid())
+  name        String
+  slug        String           @unique
+  description String?
+  active      Boolean          @default(true)
+  serviceId   String
+  service     Service          @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  packages    ServicePackage[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([serviceId])
+  @@map("sub_services")
+}
+
+model ServicePackage {
+  id           String     @id @default(cuid())
+  name         String
+  price        Decimal    @db.Decimal(10, 2)
+  description  String?
+  deliveryDays Int?
+  revisions    Int?
+  /// JSON: Array<{ text: string; included: boolean }>
+  features     Json?
+  popular      Boolean    @default(false)
+  active       Boolean    @default(true)
+  subServiceId String
+  subService   SubService @relation(fields: [subServiceId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([subServiceId])
+  @@map("service_packages")
 }

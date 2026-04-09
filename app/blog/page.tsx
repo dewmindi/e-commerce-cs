@@ -73,7 +73,17 @@ async function getPosts(page: number, limit = 9) {
       prisma.blogPost.count({ where: { published: true } }),
     ]);
 
-    const posts: BlogPost[] = rawPosts.map((p) => ({
+    const posts: BlogPost[] = rawPosts.map((p: {
+      id: string;
+      title: string;
+      slug: string;
+      keyword: string | null;
+      sourceUrl: string | null;
+      metaDescription: string | null;
+      seoDescription: string | null;
+      featuredImageUrl: string | null;
+      createdAt: Date;
+    }) => ({
       _id: p.id,
       title: p.title,
       slug: p.slug,
