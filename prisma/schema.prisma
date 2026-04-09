@@ -340,7 +340,7 @@ model ServicePackage {
   description  String?
   /// JSON: Array<{ text: string; included: boolean }>
   features     Json?
-  /// JSON: string[] (quotation-only features not shown in package cards)
+  /// JSON: { deliverables: string[]; timeline: { week: string; tasks: string }[]; exclusions: string[] }
   quotationFeatures Json?
   popular      Boolean    @default(false)
   active       Boolean    @default(true)

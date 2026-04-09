@@ -65,7 +65,7 @@ const PackagesSidebar: React.FC<PackagesSidebarProps> = ({
                 className={`transition-all duration-200 border rounded-xl overflow-hidden ${
                   isSelected
                     ? "border-[#a87f03] ring-1 ring-[#a87f03]"
-                    : "border-gray-200 bg-gray-50 lg:hover:border-gray-400"
+                    : "border-gray-200 bg-[#0f0f0f]  lg:hover:border-gray-400"
                 } ${!isSelected ? "hidden lg:block" : "block"}`} 
                 /* Note: On mobile, we only show the expanded active card to save space */
                 onClick={() => setSelectedCategory(cat._id)}
@@ -73,7 +73,7 @@ const PackagesSidebar: React.FC<PackagesSidebarProps> = ({
                 <div className="p-4 cursor-pointer">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className={`font-bold ${isSelected ? "text-[#a87f03]" : "text-gray-900"}`}>
+                      <h3 className={`font-bold ${isSelected ? "text-[#a87f03]" : "text-white"}`}>
                         {cat.name}
                       </h3>
                       <p className="text-xs text-gray-500 mt-1 line-clamp-1">{cat.description}</p>

@@ -21,6 +21,9 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [sendToEmail, setSendToEmail] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [emailError, setEmailError] = useState("");
 
   const handleAddToCart = () => {
     selectedProducts.forEach((plan) => {
@@ -441,69 +444,105 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
       {/* Customer Info Form */}
       {showForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-96">
-            <h2 className="text-lg font-bold mb-4">Enter Your Details</h2>
+          <div className="bg-[#000000]  border border-white/50 rounded-[2.5rem] p-6 md:p-8 overflow-hidden relative group/summary  shadow-lg w-96">
+            <h2 className="text-lg font-bold mb-4 text-white">Enter Your Details</h2>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (sendToEmail && !emailRegex.test(email)) {
+                  setEmailError("Please enter a valid email address to send the quotation.");
+                  return;
+                }
+                setEmailError("");
                 setShowForm(false);
                 downloadQuotation(customerName, contactNumber, email, address);
+                if (sendToEmail) {
+                  setEmailStatus("sending");
+                  try {
+                    const quoteRef = generateInvoiceNumber();
+                    const quoteDate = new Date().toLocaleDateString("en-AU");
+                    const totalPrice = selectedProducts.reduce((sum, p) => sum + p.price, 0);
+                    const res = await fetch("/api/send-quotation-email", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ customerName, contactNumber, email, address, quoteRef, quoteDate, totalPrice, selectedProducts }),
+                    });
+                    setEmailStatus(res.ok ? "success" : "error");
+                  } catch {
+                    setEmailStatus("error");
+                  }
+                  setTimeout(() => setEmailStatus("idle"), 5000);
+                }
               }}
             >
               <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Name / Business Name <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-medium mb-1 text-gray-100">Name / Business Name <span className="text-red-500">*</span></label>
                 <input
                   required
                   type="text"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full bg-black border rounded-2xl px-3 py-2"
                   placeholder="Your Name"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Contact Number <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-medium mb-1 text-gray-100">Contact Number <span className="text-red-500">*</span></label>
                 <input
                   required
                   type="text"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full bg-black border rounded-2xl px-3 py-2"
                   placeholder="Contact Number"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Email <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-medium mb-1 text-gray-100">Email <span className="text-red-500">*</span></label>
                 <input
                   required
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border  bg-black rounded-2xl px-3 py-2"
                   placeholder="Email"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Address</label>
+                <label className="block text-sm font-medium mb-1 text-gray-100">Address</label>
                 <input
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border bg-black rounded-2xl px-3 py-2"
                   placeholder="Address"
                 />
               </div>
 
+              <div className="mb-4">
+                <label className="flex items-center gap-2 text-sm text-gray-100 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={sendToEmail}
+                    onChange={(e) => { setSendToEmail(e.target.checked); setEmailError(""); }}
+                    className="accent-[#a87f03] w-4 h-4"
+                  />
+                  Send quotation to customer email
+                </label>
+                {emailError && <p className="mt-1 text-xs text-red-400">{emailError}</p>}
+              </div>
+
               <div className="flex justify-end space-x-3">
                 <button
-                  className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                  className="px-4 py-2 rounded-2xl bg-gray-300 hover:bg-gray-400 "
                   onClick={() => setShowForm(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded bg-[#a87f03] text-white hover:bg-black"
+                  className="px-4 py-2 rounded-2xl bg-[#a87f03] text-black hover:bg-gray-400"
                 >
                   Download PDF
                 </button>
@@ -511,6 +550,17 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
             </form>
           </div>
         </div>
+      )}
+
+      {/* Email status banner */}
+      {emailStatus === "sending" && (
+        <p className="text-center text-yellow-400 text-sm mt-3 animate-pulse">Sending quotation email…</p>
+      )}
+      {emailStatus === "success" && (
+        <p className="text-center text-green-400 text-sm mt-3">Quotation sent to {email}</p>
+      )}
+      {emailStatus === "error" && (
+        <p className="text-center text-red-400 text-sm mt-3">Failed to send email. Please try again.</p>
       )}
     </>
   );

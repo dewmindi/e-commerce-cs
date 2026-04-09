@@ -16,6 +16,18 @@ function normalizeUiFeatures(p: PackageFromDB): string[] {
 
   if (!Array.isArray(p.features)) return [];
 
+  // New format: Array<{ text: string; included: boolean }>
+  const first = p.features[0];
+  if (first && typeof first === "object" && "included" in first) {
+    return p.features
+      .filter((item): item is { text: string; included: boolean } =>
+        !!item && typeof item === "object" && (item as any).included === true
+      )
+      .map((item) => (item as { text: string }).text)
+      .filter((t) => typeof t === "string" && t.trim().length > 0);
+  }
+
+  // Legacy format: Array<{ title/name, items: { text, highlight }[] }>
   const legacyFeatures: string[] = [];
   for (const section of p.features) {
     if (!section || typeof section !== "object") continue;
@@ -162,3 +174,5 @@ export default function QuoteBuilderClient({
     </div>
   );
 }
+
+// "

@@ -18,8 +18,7 @@ jobs:
         with:
           node-version: 22.21.1
 
-      - name: Install Dependencies (CI Check)
-        run: npm install
+
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.0
