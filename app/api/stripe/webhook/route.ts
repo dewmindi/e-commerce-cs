@@ -16,7 +16,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const sig = (await headers()).get("stripe-signature");
+  // const sig = (await headers()).get("stripe-signature");
+  const sig = req.headers.get("stripe-signature");
 
   if (!sig) return new NextResponse("Missing signature", { status: 400 });
 
