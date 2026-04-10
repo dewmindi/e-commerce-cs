@@ -422,7 +422,7 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
 
   return (
     <>
-      <div className="flex justify-end items-center mt-8 pt-4 border-t border-gray-200">
+      <div className="flex justify-end items-center mt-8 pt-4 border-t border-gray-200 mb-24 lg:mb-0">
         <span className="mr-6 text-xl font-bold text-white">AUD {totalPrice.toLocaleString()}</span>
 
         <button
