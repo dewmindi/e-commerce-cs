@@ -443,10 +443,15 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
 
       {/* Customer Info Form */}
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-[#000000]  border border-white/50 rounded-[2.5rem] p-6 md:p-8 overflow-hidden relative group/summary  shadow-lg w-96">
-            <h2 className="text-lg font-bold mb-4 text-white">Enter Your Details</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 backdrop-blur-md px-4">
+          <div className="relative group/summary w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-[#0f172a] via-[#081120] to-[#020617] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.45)] md:p-8">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(168,127,3,0.18),transparent_42%)]" />
+            <h2 className="relative mb-2 text-lg font-bold text-white md:text-xl">Enter Your Details</h2>
+            <p className="relative mb-6 text-sm text-slate-300">
+              Complete the fields below so we can prepare your quotation PDF.
+            </p>
             <form
+              className="relative"
               onSubmit={async (e) => {
                 e.preventDefault();
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -477,72 +482,72 @@ const QuoteButtons: React.FC<ButtonsProps> = ({ totalPrice, selectedProducts }) 
               }}
             >
               <div className="mb-3">
-                <label className="block text-sm font-medium mb-1 text-gray-100">Name / Business Name <span className="text-red-500">*</span></label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Name / Business Name <span className="text-amber-400">*</span></label>
                 <input
                   required
                   type="text"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-black border rounded-2xl px-3 py-2"
+                  className="w-full rounded-2xl border border-white/10 bg-slate-950/85 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-[#a87f03] focus:ring-2 focus:ring-[#a87f03]/30"
                   placeholder="Your Name"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1 text-gray-100">Contact Number <span className="text-red-500">*</span></label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Contact Number <span className="text-amber-400">*</span></label>
                 <input
                   required
                   type="text"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className="w-full bg-black border rounded-2xl px-3 py-2"
+                  className="w-full rounded-2xl border border-white/10 bg-slate-950/85 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-[#a87f03] focus:ring-2 focus:ring-[#a87f03]/30"
                   placeholder="Contact Number"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1 text-gray-100">Email <span className="text-red-500">*</span></label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Email <span className="text-amber-400">*</span></label>
                 <input
                   required
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border  bg-black rounded-2xl px-3 py-2"
+                  className="w-full rounded-2xl border border-white/10 bg-slate-950/85 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-[#a87f03] focus:ring-2 focus:ring-[#a87f03]/30"
                   placeholder="Email"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1 text-gray-100">Address</label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Address</label>
                 <input
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full border bg-black rounded-2xl px-3 py-2"
+                  className="w-full rounded-2xl border border-white/10 bg-slate-950/85 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-[#a87f03] focus:ring-2 focus:ring-[#a87f03]/30"
                   placeholder="Address"
                 />
               </div>
 
               <div className="mb-4">
-                <label className="flex items-center gap-2 text-sm text-gray-100 cursor-pointer select-none">
+                <label className="flex cursor-pointer select-none items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100">
                   <input
                     type="checkbox"
                     checked={sendToEmail}
                     onChange={(e) => { setSendToEmail(e.target.checked); setEmailError(""); }}
-                    className="accent-[#a87f03] w-4 h-4"
+                    className="h-4 w-4 accent-[#a87f03]"
                   />
                   Send quotation to customer email
                 </label>
-                {emailError && <p className="mt-1 text-xs text-red-400">{emailError}</p>}
+                {emailError && <p className="mt-2 text-xs text-rose-400">{emailError}</p>}
               </div>
 
               <div className="flex justify-end space-x-3">
                 <button
-                  className="px-4 py-2 rounded-2xl bg-gray-300 hover:bg-gray-400 "
+                  className="rounded-2xl border border-white/10 bg-white/10 px-4 py-2.5 text-slate-100 transition hover:bg-white/15"
                   onClick={() => setShowForm(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-2xl bg-[#a87f03] text-black hover:bg-gray-400"
+                  className="rounded-2xl bg-[#a87f03] px-4 py-2.5 font-semibold text-black transition hover:bg-[#c59a15]"
                 >
                   Download PDF
                 </button>
