@@ -94,6 +94,13 @@ export default function QuoteBuilderClient({
       .map(mapPackageToProduct);
   }, [selectedSubcategoryId, packages]);
 
+  const handleCategoryChange = (catId: PackageCategory | null) => {
+    setSelectedCategory(catId);
+    setSelectedProducts([]);
+    const firstSub = subcategories.find((s) => s.category_id === catId);
+    setSelectedSubcategoryId(firstSub?._id ?? null);
+  };
+
   const selectProduct = (product: Product) => {
     if (!selectedCategory) return;
 
@@ -115,10 +122,9 @@ export default function QuoteBuilderClient({
     };
 
     setSelectedProducts((prev) => {
-      const filtered = prev.filter(
-        (p) => p.subcategoryId !== subcategory._id
-      );
-      return [...filtered, newSelection];
+      const sameCategory = prev.filter((p) => p.categoryId === selectedCategory);
+      const withoutThisSub = sameCategory.filter((p) => p.subcategoryId !== subcategory._id);
+      return [...withoutThisSub, newSelection];
     });
   };
 
@@ -139,7 +145,7 @@ export default function QuoteBuilderClient({
           <PackagesSidebar
             categories={categories}
             selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
+            setSelectedCategory={handleCategoryChange}
             selectedProducts={selectedProducts}
             removeSelectedProduct={removeSelectedProduct}
           />

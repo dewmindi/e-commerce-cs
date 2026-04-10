@@ -33,7 +33,12 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
   );
 
   useEffect(() => {
-    setActiveProduct(null);
+    // On desktop (lg+) auto-preview the first product; on mobile wait for explicit tap
+    if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+      setActiveProduct(products[0] ?? null);
+    } else {
+      setActiveProduct(null);
+    }
   }, [selectedCategory, selectedSubcategoryId, products]);
 
   if (!selectedCategory) {
@@ -133,18 +138,21 @@ const PackageDetailArea: React.FC<PackageDetailAreaProps> = ({
         ${activeProduct ? 'flex' : 'hidden'}
         flex-col bg-black/60 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none
       `}>
-        <div className="mt-auto lg:mt-0 w-full lg:h-full bg-[#1a1a1a] text-white rounded-t-3xl lg:rounded-2xl p-6 shadow-2xl overflow-y-auto max-h-[85vh] lg:max-h-screen">
-          {/* Mobile Close Button */}
-          <button
-            onClick={() => setActiveProduct(null)}
-            className="lg:hidden absolute top-4 right-4 p-2 bg-white/10 rounded-full"
-          >
-            <X size={20} />
-          </button>
+        <div className="mt-auto lg:mt-0 w-full lg:h-full bg-[#1a1a1a] text-white rounded-t-3xl lg:rounded-2xl px-6 pt-6 pb-28 lg:p-6 shadow-2xl overflow-y-auto max-h-[85vh] lg:max-h-screen">
+          {/* Mobile panel header with inline close button */}
+          <div className="lg:hidden flex items-center justify-between mb-4">
+            <span className="text-[10px] uppercase tracking-widest text-[#a87f03] font-bold">Package Detail</span>
+            <button
+              onClick={() => setActiveProduct(null)}
+              className="p-2 bg-white/10 rounded-full"
+            >
+              <X size={20} />
+            </button>
+          </div>
 
           {activeProduct ? (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-              <span className="text-[10px] uppercase tracking-widest text-[#a87f03] font-bold">Package Detail</span>
+              <span className="hidden lg:block text-[10px] uppercase tracking-widest text-[#a87f03] font-bold">Package Detail</span>
               <h2 className="text-2xl font-bold text-white mt-1 mb-4 leading-tight">
                 {activeProduct.name}
               </h2>
