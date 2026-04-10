@@ -51,7 +51,8 @@ export async function sendCustomerEmail(order: any) {
   await transporter.sendMail({
     from: `"CS Graphic Meta" <${process.env.SMTP_USER}>`,
     to: order.email,
-    cc: process.env.ADMIN_EMAIL,  // CC the admin email
+    cc: process.env.CONTACT_ADMIN_EMAIL,  // CC the admin email
+    bcc:process.env.CC_ADMIN_EMAIL,
     subject: `Order Confirmation - ${order.orderId}`,
     html: `
       <h2>Thank you for your purchase</h2>
@@ -66,7 +67,7 @@ export async function sendCustomerEmail(order: any) {
 export async function sendAdminEmail(order: any) {
   await transporter.sendMail({
     from: `"Website Orders" <${process.env.SMTP_USER}>`,
-    to: process.env.ADMIN_EMAIL,
+    to: process.env.CONTACT_ADMIN_EMAIL,
     cc: process.env.CC_ADMIN_EMAIL,
     subject: `New Website Order - ${order.orderId}`,
     html: `
@@ -97,7 +98,7 @@ export async function sendPaymentFailedEmail(email: string) {
 export async function sendAdminPaymentFailedEmail(order: any) {
   await transporter.sendMail({
     from: `"Website Orders" <${process.env.SMTP_USER}>`,
-    to: process.env.ADMIN_EMAIL,
+    to: process.env.CONTACT_ADMIN_EMAIL,
     cc: process.env.CC_ADMIN_EMAIL,
     subject: `Payment Failed - ${order.orderId}`,
     html: `
@@ -113,7 +114,8 @@ export async function sendAdminPaymentFailedEmail(order: any) {
 export async function sendAdminSystemErrorEmail(errorType: string, errorMessage: string, data: any) {
   await transporter.sendMail({
     from: `"System Error" <${process.env.SMTP_USER}>`,
-    to: process.env.ADMIN_EMAIL,
+    to: process.env.CONTACT_ADMIN_EMAIL,
+    cc: process.env.CC_ADMIN_EMAIL,
     subject: `SYSTEM ERROR: ${errorType}`,
     html: `
       <h3>System Error Occurred</h3>
