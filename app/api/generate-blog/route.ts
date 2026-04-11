@@ -14,7 +14,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import prisma from "@/lib/prisma";
-import { uploadBlogImage, deleteBlogImage } from "@/lib/supabase-storage";
 
 // Extend the serverless function timeout for long-running AI workflows
 export const maxDuration = 300;
@@ -199,13 +198,11 @@ export async function POST(req: NextRequest) {
     // 5. Initialise Gemini AI client
     // -----------------------------------------------------------------------
     const genAI = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY2!,
+      apiKey: process.env.GEMINI_API_KEY!,
     });
 
     // -----------------------------------------------------------------------
-    // 6 & 8. Generate SEO blog content AND feature image in PARALLEL
-    //         Image uses keyword for the prompt so it doesn't have to wait
-    //         for the text result.
+    // 6. Generate SEO blog content first — image prompt uses the real title
     // -----------------------------------------------------------------------
 
     const contentPrompt = `You are a senior SEO content writer for CS Graphic Meta, a professional Development Agency based in Australia that specialises in Graphic Design, Web Development, and Mobile App Development.
@@ -229,43 +226,10 @@ STRICT FORMATTING RULES (follow exactly):
    b) A <script type="application/ld+json"> block with an FAQPage JSON-LD schema containing at least 3 FAQs.
 9. Do NOT include <html>, <head>, or <body> wrapper tags.`;
 
-    const imagePromptText =
-      `Create a professional, photorealistic 16:9 blog feature image for an article about "${keyword}". ` +
-      `Style: modern, clean, corporate, suitable for a development agency website. ` +
-      `Incorporate subtle visual metaphors related to graphic design, web development, or mobile app development. ` +
-      `No text, watermarks, or overlays in the image.`;
-
-    // Helper: wrap a promise with a hard timeout so a slow image model
-    // can never block the entire response.
-    function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
-      return Promise.race([
-        promise,
-        new Promise<null>((resolve) => setTimeout(() => resolve(null), ms)),
-      ]);
-    }
-
-    // Run text generation and image generation concurrently.
-    // Image generation is capped at 90 s – if it exceeds that we skip the
-    // image rather than timing out the whole request.
-    const [textResult, imgResult] = await Promise.all([
-      genAI.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: contentPrompt,
-      }),
-      withTimeout(
-        genAI.models
-          .generateContent({
-            model: "gemini-2.5-flash-image",
-            contents: imagePromptText,
-            config: { responseModalities: ["IMAGE"] },
-          })
-          .catch((err) => {
-            console.error("[generate-blog] Image generation failed:", err);
-            return null;
-          }),
-        90_000, // 90-second cap for image generation
-      ),
-    ]);
+    const textResult = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: contentPrompt,
+    });
 
     const rawContent: string = textResult.text ?? "";
 
@@ -310,66 +274,33 @@ STRICT FORMATTING RULES (follow exactly):
     }
 
     // -----------------------------------------------------------------------
-    // 9. Upload image to Supabase Storage (imgResult already resolved in parallel)
+    // 8. Save post to database
+    //    Image is generated separately via POST /api/blog/generate-image
     // -----------------------------------------------------------------------
-    let uploadedImage: { url: string; storagePath: string } | null = null;
+    const imageDescription =
+      `Photorealistic 16:9 blog header image for the article: "${title}". ` +
+      `CS Graphic Meta — Australian Graphic Design, Web Development & Mobile App agency. ` +
+      `Clean modern corporate style, vivid natural lighting, no text, no logos, no watermarks.`;
 
-    try {
-      const parts = imgResult?.candidates?.[0]?.content?.parts ?? [];
-      let base64Data: string | null = null;
-      let mimeType = "image/png";
-
-      for (const part of parts) {
-        if (part.inlineData?.data) {
-          base64Data = part.inlineData.data;
-          mimeType = part.inlineData.mimeType ?? "image/png";
-          break;
-        }
-      }
-
-      if (base64Data) {
-        const buffer = Buffer.from(base64Data, "base64");
-        uploadedImage = await uploadBlogImage(buffer, finalSlug, mimeType);
-      }
-    } catch (imgError) {
-      // Image generation / upload is non-blocking – log and continue
-      console.error(
-        "[generate-blog] Image generation or Supabase upload failed:",
-        imgError
-      );
-    }
+    const postDoc = await prisma.blogPost.create({
+      data: {
+        title,
+        slug: finalSlug,
+        keyword,
+        content: contentHtml,
+        metaDescription,
+        featuredImageUrl: null,
+        published: true,
+      },
+    });
 
     // -----------------------------------------------------------------------
-    // 10. Save post to database
-    // -----------------------------------------------------------------------
-    let postDoc;
-    try {
-      postDoc = await prisma.blogPost.create({
-        data: {
-          title,
-          slug: finalSlug,
-          keyword,
-          content: contentHtml,
-          metaDescription,
-          featuredImageUrl: uploadedImage?.url ?? null,
-          published: true,
-        },
-      });
-    } catch (dbError) {
-      // Clean up the uploaded image if DB insert fails
-      if (uploadedImage) {
-        await deleteBlogImage(uploadedImage.storagePath).catch(() => {});
-      }
-      throw dbError;
-    }
-
-    // -----------------------------------------------------------------------
-    // 11. Respond
-    //     Manual → return full post data;  Cron → return lightweight message
+    // 9. Respond
+    //    Manual → return full post data;  Cron → return lightweight message
     // -----------------------------------------------------------------------
     if (isManual) {
       return NextResponse.json(
-        { success: true, post: postDoc },
+        { success: true, post: postDoc, imageDescription },
         { status: 201 }
       );
     }
@@ -378,6 +309,8 @@ STRICT FORMATTING RULES (follow exactly):
       success: true,
       message: `Blog post "${title}" generated and saved successfully.`,
       slug: finalSlug,
+      id: postDoc.id,
+      imageDescription,
     });
   } catch (error: unknown) {
     const message =

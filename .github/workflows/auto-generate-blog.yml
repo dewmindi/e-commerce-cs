@@ -33,7 +33,7 @@ jobs:
   generate:
     name: Generate & Publish Blog Post
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       # ----------------------------------------------------------
@@ -87,7 +87,36 @@ jobs:
           fi
 
       # ----------------------------------------------------------
-      # Step 3: Summary
+      # Step 3: Generate blog header image
+      # ----------------------------------------------------------
+      - name: Generate blog header image
+        run: |
+          POST_ID=$(jq -r '.id // ""' response.json 2>/dev/null || echo "")
+          IMAGE_DESC=$(jq -r '.imageDescription // ""' response.json 2>/dev/null || echo "")
+
+          if [ -z "$POST_ID" ] || [ -z "$IMAGE_DESC" ]; then
+            echo "⚠️  No postId or imageDescription in response — skipping image generation."
+            exit 0
+          fi
+
+          echo "📸 Generating blog header image for post: $POST_ID"
+
+          IMG_STATUS=$(curl -s -o image_response.json -w "%{http_code}" \
+            -X POST "${{ secrets.SITE_URL }}/api/blog/generate-image" \
+            -H "Content-Type: application/json" \
+            --data "$(jq -n --arg postId "$POST_ID" --arg prompt "$IMAGE_DESC" '{postId: $postId, prompt: $prompt}')" \
+            --max-time 300)
+
+          echo "Image generation HTTP status: $IMG_STATUS"
+          if [ "$IMG_STATUS" = "200" ]; then
+            IMG_URL=$(jq -r '.url // ""' image_response.json 2>/dev/null || echo "")
+            echo "✅ Blog header image generated: $IMG_URL"
+          else
+            echo "⚠️  Image generation returned HTTP $IMG_STATUS — blog published without image (non-fatal)."
+          fi
+
+      # ----------------------------------------------------------
+      # Step 4: Summary
       # ----------------------------------------------------------
       - name: Job summary
         if: always()
